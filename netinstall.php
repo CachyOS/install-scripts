@@ -2,75 +2,74 @@
   description: "base system"
   hidden: true
   selected: true
-  critical: true
-	-endeavouros-keyring
-	-endeavouros-mirrorlist
-	-xf86-video-vesa
-	-xorg-server
-	-xorg-xinit
-	-linux-firmware
-	-grub2-theme-endeavouros
-	-firefox
-	-firefox-ublock-origin
-	-xf86-input-libinput
-	-xf86-input-synaptics
-	-xf86-video-amdgpu
-	-xf86-video-ati
-	-xf86-video-fbdev
-	-xf86-video-intel
-	-xf86-video-vesa
-	-xorg-server
-	-xf86-video-nouveau
-	-gvfs
-	-gvfs-mtp
-	-gvfs-afc
-	-gvfs-goa
-	-gvfs-google
-	-gvfs-gphoto2
-	-gvfs-nfs
-	-gvfs-smb
-	-libwnck3
-	-grml-zsh-config
-	-networkmanager
-	-openssh
-	-upower
-	-hwinfo
-	-python
-	-solid
-	-ttf-dejavu
-	-gnu-free-fonts
-	-ttf-liberation
-	-ttf-bitstream-vera
-	-ttf-ubuntu-font-family
-	-noto-fonts
-	-noto-fonts-cjk
-	-ttf-croscore
-	-ttf-carlito
-	-ttf-caladea
-	-terminus-font
-	-alsa-utils
-	-alsa-plugins
-	-alsa-firmware
-	-hardinfo
-	-pavucontrol
-	-ffmpegthumbnailer
-	-poppler-glib
-	-libgsf 
-	-libopenraw
-	-freetype2
-	-gst-libav
-	-gst-plugins-bad
-	-gst-plugins-ugly
-	-kalu
-	-yay
-	-virtualbox-guest-utils
-	-virtualbox-guest-modules-arch
+  critical: false
+    -endeavouros-keyring
+    -endeavouros-mirrorlist
+    -xf86-video-vesa
+    -xorg-server
+    -xorg-xinit
+    -linux-firmware
+    -grub2-theme-endeavouros
+    -firefox
+    -firefox-ublock-origin
+    -xf86-input-libinput
+    -xf86-input-synaptics
+    -xf86-video-amdgpu
+    -xf86-video-ati
+    -xf86-video-fbdev
+    -xf86-video-intel
+    -xf86-video-vesa
+    -xorg-server
+    -xf86-video-nouveau
+    -gvfs
+    -gvfs-mtp
+    -gvfs-afc
+    -gvfs-goa
+    -gvfs-google
+    -gvfs-gphoto2
+    -gvfs-nfs
+    -gvfs-smb
+    -libwnck3
+    -grml-zsh-config
+    -networkmanager
+    -openssh
+    -upower
+    -hwinfo
+    -python
+    -solid
+    -ttf-dejavu
+    -gnu-free-fonts
+    -ttf-liberation
+    -ttf-bitstream-vera
+    -ttf-ubuntu-font-family
+    -noto-fonts
+    -noto-fonts-cjk
+    -ttf-croscore
+    -ttf-carlito
+    -ttf-caladea
+    -terminus-font
+    -alsa-utils
+    -alsa-plugins
+    -alsa-firmware
+    -hardinfo
+    -pavucontrol
+    -ffmpegthumbnailer
+    -poppler-glib
+    -libgsf 
+    -libopenraw
+    -freetype2
+    -gst-libav
+    -gst-plugins-bad
+    -gst-plugins-ugly
+    -kalu
+    -yay
+    -virtualbox-guest-utils
+    -virtualbox-guest-modules-arch
 - name: "XFCE4-Desktop"
   description: "install the xfce4 Desktop"
   hidden: false
   selected: false
   critical: false
-  post-install: /usr/share/endeavour/install/xfce.sh
   packages:
     -adwaita-icon-theme
     -xfce4
@@ -85,7 +84,6 @@
   hidden: false
   selected: false
   critical: false
-  post-install: /usr/share/endeavour/install/mate.sh
   packages:
     -mate
     -mate-extra
@@ -97,7 +95,6 @@
   hidden: false
   selected: false
   critical: false
-  post-install: /usr/share/endeavour/install/kde.sh
   packages:
     -plasma
     -plasma-wayland-session
@@ -110,7 +107,6 @@
   hidden: false
   selected: false
   critical: false
-  post-install: /usr/share/endeavour/install/gnome.sh
   packages:
     -gnome
     -gnome-extra
