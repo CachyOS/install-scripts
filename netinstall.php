@@ -1,6 +1,6 @@
 - name: "EndeavourOS-system-default"
   description: "base system"
-  hidden: true
+  hidden: false
   selected: true
   critical: false
     - endeavouros-keyring
