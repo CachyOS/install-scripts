@@ -1,2 +1,2 @@
 # install-scripts
-scripts needed fo installation process
+scripts needed for installation process
