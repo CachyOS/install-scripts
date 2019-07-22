@@ -12,6 +12,9 @@
     - light-locker
     - lightdm-gtk-greeter-settings
     - galculator
+    - arc-gtk-theme
+    - arc-icon-theme
+    - elementary-icon-theme
 - name: "MATE-Desktop"
   description: "MATE Desktop"
   hidden: false
@@ -23,6 +26,9 @@
     - lightdm
     - light-locker
     - lightdm-gtk-greeter-settings
+    - arc-gtk-theme
+    - arc-icon-theme
+    - elementary-icon-theme
 - name: "KDE-Desktop"
   description: "KDE-Plasma Desktop"
   hidden: false
@@ -35,6 +41,8 @@
     - powerdevil
     - sddm
     - sddm-kcm
+    - arc-kde
+    - kvantum-theme-arc
 - name: "GNOME-Desktop"
   description: "GNOME Desktop"
   hidden: false
@@ -44,3 +52,6 @@
     - gnome
     - gnome-extra
     - gdm
+    - arc-gtk-theme
+    - arc-icon-theme
+    - elementary-icon-theme
