@@ -23,6 +23,7 @@
   packages:
     - mate
     - mate-extra
+    - gnome-mpv
     - lightdm
     - light-locker
     - lightdm-gtk-greeter-settings
@@ -51,6 +52,7 @@
   packages:
     - gnome
     - gnome-extra
+    - gnome-mpv
     - gdm
     - arc-gtk-theme
     - arc-icon-theme
