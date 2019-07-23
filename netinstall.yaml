@@ -124,6 +124,13 @@
     - kvantum-theme-arc    
     - arc-icon-theme
     - sddm
+- name: "Base"
+  description: "A base system without a Desktop"
+  hidden: false
+  selected: false
+  critical: false
+  packages:
+    - base-devel
 - name: "Printing-Support"
   description: "Support for printing (Cups)"
   hidden: false
