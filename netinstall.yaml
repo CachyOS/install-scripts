@@ -1,5 +1,5 @@
 - name: "XFCE4-Desktop"
-  description: "install the xfce4 Desktop"
+  description: "XFCE4 - lightweight desktop fast and low on system resources, visually appealing and user friendly."
   hidden: false
   selected: false
   critical: false
@@ -13,11 +13,12 @@
     - light-locker
     - lightdm-gtk-greeter-settings
     - galculator
+    - blueberry
     - arc-gtk-theme
     - arc-icon-theme
     - elementary-icon-theme
 - name: "MATE-Desktop"
-  description: "MATE Desktop"
+  description: "MATE Desktop - the continuation of GNOME 2"
   hidden: false
   selected: false
   critical: false
@@ -33,7 +34,7 @@
     - arc-icon-theme
     - elementary-icon-theme
 - name: "KDE-Desktop"
-  description: "KDE-Plasma Desktop"
+  description: "KDE-Plasma Desktop - Simple by default, powerful when needed."
   hidden: false
   selected: false
   critical: false
@@ -47,7 +48,7 @@
     - kvantum-theme-arc    
     - arc-icon-theme
 - name: "GNOME-Desktop"
-  description: "GNOME Desktop"
+  description: "GNOME Desktop - designed to put you in control and get things done. "
   hidden: false
   selected: false
   critical: false
@@ -60,6 +61,69 @@
     - arc-gtk-theme
     - arc-icon-theme
     - elementary-icon-theme
+- name: "Cinnamon-Desktop"
+  description: "Cinnamon Desktop - advanced innovative features and a traditional user experience."
+  hidden: false
+  selected: false
+  critical: false
+  post-install: systemctl -f enable lightdm
+  packages:
+    - cinnamon
+    - blueberry
+    - cinnamon-translations
+    - gnome-panel
+    - metacity
+    - gnome-mpv
+    - lightdm
+    - light-locker
+    - lightdm-gtk-greeter-settings
+    - arc-gtk-theme
+    - arc-icon-theme
+    - elementary-icon-theme    
+- name: "Budgie-Desktop"
+  description: "Budgie - I Tawt I Taw A Purdy Desktop"
+  hidden: false
+  selected: false
+  critical: false
+  post-install: systemctl -f enable lightdm
+  packages:
+    - budgie-desktop
+    - gnome
+    - gnome-mpv
+    - lightdm
+    - light-locker
+    - lightdm-gtk-greeter-settings
+    - arc-gtk-theme
+    - arc-icon-theme
+    - elementary-icon-theme
+- name: "Deepin-Desktop"
+  description: "Deepin Desktop - beautiful, easy to use, safe and reliable. "
+  hidden: false
+  selected: false
+  critical: false
+  post-install: systemctl -f enable lightdm
+  packages:
+    - deepin
+    - deepin-extra
+    - gnome-mpv
+    - lightdm
+    - light-locker
+    - lightdm-gtk-greeter-settings
+    - arc-gtk-theme
+    - arc-icon-theme
+    - elementary-icon-theme
+- name: "lxqt-Desktop"
+  description: "LXQT a desktop built on Qt"
+  hidden: false
+  selected: false
+  critical: false
+  post-install: systemctl -f enable sddm
+  packages:
+    - lxqt
+    - arc-kde
+    - kvantum-theme-arc    
+    - arc-icon-theme
+    - sddm
 - name: "Printing-Support"
   description: "Support for printing (Cups)"
   hidden: false
