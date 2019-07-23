@@ -43,10 +43,9 @@
     - plasma-wayland-session
     - kde-applications
     - powerdevil
-    - sddm
-    - sddm-kcm
     - arc-kde
-    - kvantum-theme-arc
+    - kvantum-theme-arc    
+    - arc-icon-theme
 - name: "GNOME-Desktop"
   description: "GNOME Desktop"
   hidden: false
@@ -61,3 +60,23 @@
     - arc-gtk-theme
     - arc-icon-theme
     - elementary-icon-theme
+- name: "Printing-Support"
+  description: "Support for printing (Cups)"
+  hidden: false
+  selected: false
+  critical: false
+  post-install: systemctl enable org.cups.cupsd.socket
+  packages:
+    - cups 
+    - cups-filters 
+    - cups-pdf 
+    - ghostscript 
+    - gsfonts 
+    - foomatic-db-engine
+    - foomatic-db 
+    - foomatic-db-ppds 
+    - foomatic-db-nonfree 
+    - foomatic-db-nonfree-ppds 
+    - gutenprint 
+    - foomatic-db-gutenprint-ppds 
+    - system-config-printer
