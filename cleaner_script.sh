@@ -150,6 +150,8 @@ sed -i "/if/,/fi/"'s/^/#/' /root/.zprofile
 #rm -rf /home/$NEW_USER/.config/xfce4/panel/launcher-17
 #rm -rf /root/.config/xfce4/panel/launcher-17
 
+rm -rf /usr/bin/calamares_switcher
+
 systemctl enable lightdm 2>>/dev/null
 
 }
