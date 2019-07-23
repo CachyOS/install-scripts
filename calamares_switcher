@@ -1,0 +1,47 @@
+#!/bin/bash
+
+	DIALOG=yad
+	INFO="image=gtk-dialog-info"
+	QUESTION="image=gtk-dialog-question"
+	WARNING="image=gtk-dialog-warning"
+	ERROR="image=gtk-dialog-error"
+
+	#buttons
+	BUTTON0="button"
+	BUTTON1="button"
+	BUTTON0NUM=":0"
+	BUTTON1NUM=":1"
+
+
+# Easiest way, as long everything is done just overwrite the file
+
+online_changes(){
+
+sudo cp -praf /usr/share/calamares/settings.conf_online /usr/share/calamares/settings.conf
+
+}
+
+offline_changes(){
+
+sudo cp -praf /usr/share/calamares/settings.conf_offline /usr/share/calamares/settings.conf
+
+}
+
+run_calamares(){
+
+# pkexec /usr/bin/calamares
+sudo /usr/bin/calamares
+
+}
+
+choose_method(){
+
+ANSWER=$(yad --width=460 --height=320 --title="Almost there!" --list --separator="" --column="" --text="Choose an option" "Online install" "Offline install")
+
+    if [[ $ANSWER == "Online install" ]]; then online_changes; run_calamares; fi
+    if [[ $ANSWER == "Offline install" ]]; then offline_changes; run_calamares; fi
+
+}
+# STARTS HERE
+# maybe just source inside the other script?
+choose_method
