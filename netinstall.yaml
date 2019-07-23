@@ -3,6 +3,7 @@
   hidden: false
   selected: false
   critical: false
+  post-install: systemctl -f enable lightdm
   packages:
     - adwaita-icon-theme
     - xfce4
@@ -20,6 +21,7 @@
   hidden: false
   selected: false
   critical: false
+  post-install: systemctl -f enable lightdm
   packages:
     - mate
     - mate-extra
@@ -35,6 +37,7 @@
   hidden: false
   selected: false
   critical: false
+  post-install: systemctl -f enable sddm
   packages:
     - plasma
     - plasma-wayland-session
@@ -49,6 +52,7 @@
   hidden: false
   selected: false
   critical: false
+  post-install: systemctl -f enable gdm
   packages:
     - gnome
     - gnome-extra
