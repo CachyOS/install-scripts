@@ -21,7 +21,7 @@ EndeavourOS_Partition_and_Install() {
       --title="$FUNCNAME" \
       --columns=1 \
       --field='Create Partitions!'"/usr/share/icons/hicolor/48x48/apps/gparted.png"'!'"sudo gparted":fbtn    'sudo gparted' \
-      --field='Install EndeavourOS to disk!'"/usr/share/endeavouros/EndeavourOS-icon.png"'!'"sudo /usr/bin/calamares_switcher":fbtn    '/usr/bin/calamares_switcher' \
+      --field='Install EndeavourOS to disk!'"/usr/share/endeavouros/EndeavourOS-icon-E.png"'!'"sudo /usr/bin/calamares_switcher":fbtn    '/usr/bin/calamares_switcher' \
       &> /dev/null &
 }
 
