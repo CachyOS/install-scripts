@@ -9,14 +9,14 @@
     - xfce4
     - xfce4-goodies
     - xfce4-pulseaudio-plugin
-    - lightdm
-    - light-locker
-    - lightdm-gtk-greeter-settings
     - galculator
     - blueberry
     - arc-gtk-theme
     - arc-icon-theme
     - elementary-icon-theme
+    - lightdm
+    - light-locker
+    - lightdm-gtk-greeter-settings
 - name: "MATE-Desktop"
   description: "MATE Desktop - the continuation of GNOME 2"
   hidden: false
@@ -27,12 +27,12 @@
     - mate
     - mate-extra
     - gnome-mpv
-    - lightdm
-    - light-locker
-    - lightdm-gtk-greeter-settings
     - arc-gtk-theme
     - arc-icon-theme
     - elementary-icon-theme
+    - lightdm
+    - light-locker
+    - lightdm-gtk-greeter-settings
 - name: "KDE-Desktop"
   description: "KDE-Plasma Desktop - Simple by default, powerful when needed."
   hidden: false
@@ -57,7 +57,6 @@
     - gnome
     - gnome-extra
     - gnome-mpv
-    - gdm
     - arc-gtk-theme
     - arc-icon-theme
     - elementary-icon-theme
@@ -74,12 +73,12 @@
     - gnome-panel
     - metacity
     - gnome-mpv
+    - arc-gtk-theme
+    - arc-icon-theme
+    - elementary-icon-theme
     - lightdm
     - light-locker
     - lightdm-gtk-greeter-settings
-    - arc-gtk-theme
-    - arc-icon-theme
-    - elementary-icon-theme    
 - name: "Budgie-Desktop"
   description: "Budgie - I Tawt I Taw A Purdy Desktop"
   hidden: false
@@ -90,12 +89,12 @@
     - budgie-desktop
     - gnome
     - gnome-mpv
-    - lightdm
-    - light-locker
-    - lightdm-gtk-greeter-settings
     - arc-gtk-theme
     - arc-icon-theme
     - elementary-icon-theme
+    - lightdm
+    - light-locker
+    - lightdm-gtk-greeter-settings
 - name: "Deepin-Desktop"
   description: "Deepin Desktop - beautiful, easy to use, safe and reliable. "
   hidden: false
@@ -106,26 +105,30 @@
     - deepin
     - deepin-extra
     - gnome-mpv
-    - lightdm
-    - light-locker
-    - lightdm-gtk-greeter-settings
     - arc-gtk-theme
     - arc-icon-theme
     - elementary-icon-theme
-- name: "lxqt-Desktop"
-  description: "LXQT a desktop built on Qt"
+    - lightdm
+    - light-locker
+    - lightdm-gtk-greeter-settings
+    - name: "i3 Window Manager"
+  description: "i3 tiling window manager, primarily targeted at developers and advanced users. "
   hidden: false
   selected: false
   critical: false
-  post-install: systemctl -f enable sddm
+  post-install: systemctl -f enable lightdm
   packages:
-    - lxqt
-    - arc-kde
-    - kvantum-theme-arc    
-    - arc-icon-theme
-    - sddm
+    - i3-wm
+    - i3-blocks
+    - i3-lock
+    - i3-status
+    - ttf-font-icons
+    - rofi
+    - lightdm
+    - light-locker
+    - lightdm-gtk-greeter-settings
 - name: "Base"
-  description: "A base system without a Desktop"
+  description: "A base system without a Desktop, mainly to install Desktop Environment on you own. "
   hidden: false
   selected: false
   critical: false
@@ -136,7 +139,7 @@
   hidden: false
   selected: false
   critical: false
-  post-install: systemctl enable org.cups.cupsd.socket
+  post-install: systemctl enable org.cups.cupsd.socket && systemctl enable avahi-daemon.service
   packages:
     - cups 
     - cups-filters 
@@ -151,3 +154,5 @@
     - gutenprint 
     - foomatic-db-gutenprint-ppds 
     - system-config-printer
+    - hplip
+    - splix
