@@ -16,6 +16,7 @@
     - elementary-icon-theme
     - lightdm
     - light-locker
+    - lightdm-gtk-greeter
     - lightdm-gtk-greeter-settings
 - name: "MATE-Desktop"
   description: "MATE Desktop - the continuation of GNOME 2"
@@ -32,6 +33,7 @@
     - elementary-icon-theme
     - lightdm
     - light-locker
+    - lightdm-gtk-greeter
     - lightdm-gtk-greeter-settings
 - name: "KDE-Desktop"
   description: "KDE-Plasma Desktop - Simple by default, powerful when needed."
@@ -78,6 +80,7 @@
     - elementary-icon-theme
     - lightdm
     - light-locker
+    - lightdm-gtk-greeter
     - lightdm-gtk-greeter-settings
 - name: "Budgie-Desktop"
   description: "Budgie - I Tawt I Taw A Purdy Desktop"
@@ -94,6 +97,7 @@
     - elementary-icon-theme
     - lightdm
     - light-locker
+    - lightdm-gtk-greeter
     - lightdm-gtk-greeter-settings
 - name: "Deepin-Desktop"
   description: "Deepin Desktop - beautiful, easy to use, safe and reliable. "
@@ -109,6 +113,7 @@
     - arc-icon-theme
     - elementary-icon-theme
     - lightdm
+    - lightdm-gtk-greeter
     - light-locker
     - lightdm-gtk-greeter-settings
     - name: "i3 Window Manager"
@@ -125,6 +130,7 @@
     - ttf-font-icons
     - rofi
     - lightdm
+    - lightdm-gtk-greeter
     - light-locker
     - lightdm-gtk-greeter-settings
 - name: "Base"
