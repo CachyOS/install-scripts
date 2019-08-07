@@ -40,6 +40,7 @@ rm -Rf /etc/udev/rules.d/81-dhcpcd.rules
 do_vbox(){
 
 # Detects if running in vbox
+local xx
 
 lspci | grep -i "virtualbox" >/dev/null
 if [[ $? == 0 ]]
@@ -49,10 +50,10 @@ if [[ $? == 0 ]]
         #systemctl enable vboxservice
         #pacman -Rnsdd virtualbox-host-dkms --noconfirm
     else
-        pacman -Rnsdd virtualbox-guest-utils --noconfirm
-        pacman -Rnsdd virtualbox-guest-modules-arch --noconfirm
-        #pacman -Rnsdd virtualbox-guest-dkms --noconfirm        
-        #rm /usr/lib/modules-load.d/virtualbox-guest-dkms.conf
+        for xx in virtualbox-guest-utils virtualbox-guest-modules-arch virtualbox-guest-dkms ; do
+            test -n "$(pacman -Q $xx 2>/dev/null)" && pacman -Rnsdd $xx --noconfirm
+        done
+        rm -f /usr/lib/modules-load.d/virtualbox-guest-dkms.conf
 fi
 
 }
