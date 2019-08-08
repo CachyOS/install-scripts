@@ -8,7 +8,7 @@
     - adwaita-icon-theme
     - xfce4
     - xfce4-goodies
-    - xfce4-pulseaudio-plugin
+    - network-manager-applet
     - galculator
     - blueberry
     - arc-gtk-theme
@@ -31,6 +31,7 @@
     - arc-gtk-theme
     - arc-icon-theme
     - elementary-icon-theme
+    - network-manager-applet
     - lightdm
     - light-locker
     - lightdm-gtk-greeter
@@ -116,7 +117,7 @@
     - lightdm-gtk-greeter
     - light-locker
     - lightdm-gtk-greeter-settings
-    - name: "i3 Window Manager"
+- name: "i3 Window Manager"
   description: "i3 tiling window manager, primarily targeted at developers and advanced users. "
   hidden: false
   selected: false
@@ -127,8 +128,31 @@
     - i3-blocks
     - i3-lock
     - i3-status
+    - network-manager-applet
+    - arandr
+    - archlinux-xdg-menu
+    - lxappearance-gtk3
     - ttf-font-icons
     - rofi
+    - lightdm
+    - lightdm-gtk-greeter
+    - light-locker
+    - lightdm-gtk-greeter-settings
+- name: "Openbox"
+  description: "Openbox is a highly configurable, next generation window manager with extensive standards support."
+  hidden: false
+  selected: false
+  critical: false
+  post-install: systemctl -f enable lightdm
+  packages:
+    - openbox
+    - obconf
+    - lxappearance-obconf
+    - lxinput
+    - lxrandr
+    - arandr
+    - menumaker
+    - archlinux-xdg-menu
     - lightdm
     - lightdm-gtk-greeter
     - light-locker
@@ -145,7 +169,7 @@
   hidden: false
   selected: false
   critical: false
-  post-install: systemctl enable org.cups.cupsd.socket && systemctl enable avahi-daemon.service
+  post-install: systemctl -f enable org.cups.cupsd.socket avahi-daemon.service
   packages:
     - cups 
     - cups-filters 
@@ -163,9 +187,11 @@
     - hplip
     - splix
 - name: "AUR-Support"
-  description: "Adding support to build packages from AUR (Arch User Repository) **DISCLAIMER:** AUR packages are user produced content. Any use of the provided files is at your own risk. "
+  description: "Adding support to build packages from AUR (Arch User Repository)"
+  description: "**DISCLAIMER:** AUR packages are user produced content. Any use of the provided files is at your own risk!"
   hidden: false
   selected: false
   critical: false
   packages:
-    - yay 
+    - yay
+    - base-devel
