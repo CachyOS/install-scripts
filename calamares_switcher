@@ -52,4 +52,5 @@ ANSWER=$(yad --width=400 --height=100 --center --on-top --title="Please choose a
 }
 # STARTS HERE
 # maybe just source inside the other script?
-choose_method
+#choose_method
+run_calamares
