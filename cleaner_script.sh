@@ -196,5 +196,6 @@ do_clean_archiso
 #do_clean_offline_installer
 do_detect_distro
 do_apply_distro_specific
+rm -rf /usr/bin/calamares_switcher
 rm -rf /usr/bin/cleaner_script.sh
 
