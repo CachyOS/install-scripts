@@ -47,18 +47,15 @@
     - plasma-wayland-session
     - kde-applications
     - powerdevil
-    - arc-kde
-    - kvantum-theme-arc    
-    - arc-icon-theme
 - name: "GNOME-Desktop"
   description: "GNOME Desktop - designed to put you in control and get things done. "
   hidden: false
   selected: false
   critical: false
-  post-install: systemctl -f enable gdm
+  post-install: systemctl -f enable gdm && pacman -R gnome-software
   packages:
     - gnome
-    - gnome-extra
+    - gnome-tweaks
     - gnome-mpv
     - arc-gtk-theme
     - arc-icon-theme
@@ -110,13 +107,6 @@
     - deepin
     - deepin-extra
     - gnome-mpv
-    - arc-gtk-theme
-    - arc-icon-theme
-    - elementary-icon-theme
-    - lightdm
-    - lightdm-gtk-greeter
-    - light-locker
-    - lightdm-gtk-greeter-settings
 - name: "Base"
   description: "A base system without a Desktop, mainly to install Desktop Environment on you own. "
   hidden: false
