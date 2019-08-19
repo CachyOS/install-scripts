@@ -3,6 +3,13 @@
 NEW_USER=$(cat /etc/passwd | grep "/home" |cut -d: -f1 |head -1)
 DISTRO_NAME=""
 
+do_arch_news_latest_headline(){
+    local info=$(mktemp)
+    wget -q -T 10 -O $info https://www.archlinux.org/ && \
+        { grep 'title="View full article:' $info | sed -e 's|&gt;|>|g' -e 's|^.*">[ ]*||' -e 's|</a>$||' | head -n 1 ; }
+    rm -f $info
+}
+
 do_common_systemd(){
 
 # Fix NetworkManager
@@ -145,6 +152,12 @@ sed -i "/if/,/fi/"'s/^/#/' /home/$NEW_USER/.bash_profile
 sed -i "/if/,/fi/"'s/^/#/' /home/$NEW_USER/.zprofile
 sed -i "/if/,/fi/"'s/^/#/' /root/.bash_profile
 sed -i "/if/,/fi/"'s/^/#/' /root/.zprofile
+
+# add a config for 'kalu'
+mkdir -p /etc/skel/.config/kalu
+mkdir -p /home/$NEW_USER/.config/kalu
+do_arch_news_latest_headline >> /etc/skel/.config/kalu/news.conf
+cat /etc/skel/.config/kalu/news.conf >> /home/$NEW_USER/.config/kalu/news.conf
 
 # keeping the code for now commented, to be purged in the future
 # the new config folder is injected at customize_airootfs which makes this unecessary
