@@ -156,6 +156,7 @@ sed -i "/if/,/fi/"'s/^/#/' /root/.zprofile
 # add a config for 'kalu'
 mkdir -p /etc/skel/.config/kalu
 mkdir -p /home/$NEW_USER/.config/kalu
+printf "Last=" >> /etc/skel/.config/kalu/news.conf
 do_arch_news_latest_headline >> /etc/skel/.config/kalu/news.conf
 cat /etc/skel/.config/kalu/news.conf >> /home/$NEW_USER/.config/kalu/news.conf
 
