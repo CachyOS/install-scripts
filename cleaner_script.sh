@@ -4,10 +4,31 @@ NEW_USER=$(cat /etc/passwd | grep "/home" |cut -d: -f1 |head -1)
 DISTRO_NAME=""
 
 do_arch_news_latest_headline(){
+    # gets the latest Arch news headline for 'kalu' config file news.conf
     local info=$(mktemp)
     wget -q -T 10 -O $info https://www.archlinux.org/ && \
         { grep 'title="View full article:' $info | sed -e 's|&gt;|>|g' -e 's|^.*">[ ]*||' -e 's|</a>$||' | head -n 1 ; }
     rm -f $info
+}
+
+do_config_for_app(){
+    # handle configs for apps here; called from distro specific function
+
+    local app="$1"    # name of the app
+
+    case "$app" in
+        kalu)
+            mkdir -p /etc/skel/.config/kalu
+            mkdir -p /home/$NEW_USER/.config/kalu
+            # add "Last=<latest-headline>" to news.conf, but don't overwrite the file
+            printf "Last=" >> /etc/skel/.config/kalu/news.conf
+            do_arch_news_latest_headline >> /etc/skel/.config/kalu/news.conf
+            cat /etc/skel/.config/kalu/news.conf >> /home/$NEW_USER/.config/kalu/news.conf
+            ;;
+        # add other apps here!
+        *)
+            ;;
+    esac
 }
 
 do_common_systemd(){
@@ -153,12 +174,7 @@ sed -i "/if/,/fi/"'s/^/#/' /home/$NEW_USER/.zprofile
 sed -i "/if/,/fi/"'s/^/#/' /root/.bash_profile
 sed -i "/if/,/fi/"'s/^/#/' /root/.zprofile
 
-# add a config for 'kalu'
-mkdir -p /etc/skel/.config/kalu
-mkdir -p /home/$NEW_USER/.config/kalu
-printf "Last=" >> /etc/skel/.config/kalu/news.conf
-do_arch_news_latest_headline >> /etc/skel/.config/kalu/news.conf
-cat /etc/skel/.config/kalu/news.conf >> /home/$NEW_USER/.config/kalu/news.conf
+do_config_for_app kalu
 
 # keeping the code for now commented, to be purged in the future
 # the new config folder is injected at customize_airootfs which makes this unecessary
