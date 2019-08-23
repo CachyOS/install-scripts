@@ -3,6 +3,10 @@
 NEW_USER=$(cat /etc/passwd | grep "/home" |cut -d: -f1 |head -1)
 DISTRO_NAME=""
 
+do_check_internet_connection(){
+    ping -c 1 8.8.8.8 >& /dev/null   # ping Google's address
+}
+
 do_arch_news_latest_headline(){
     # gets the latest Arch news headline for 'kalu' config file news.conf
     local info=$(mktemp)
@@ -24,6 +28,9 @@ do_config_for_app(){
             printf "Last=" >> /etc/skel/.config/kalu/news.conf
             do_arch_news_latest_headline >> /etc/skel/.config/kalu/news.conf
             cat /etc/skel/.config/kalu/news.conf >> /home/$NEW_USER/.config/kalu/news.conf
+            ;;
+        update-mirrorlist)
+            $app -s --logonly || $app -s --logonly -c=all  # use local country only or all countries
             ;;
         # add other apps here!
         *)
@@ -174,7 +181,10 @@ sed -i "/if/,/fi/"'s/^/#/' /home/$NEW_USER/.zprofile
 sed -i "/if/,/fi/"'s/^/#/' /root/.bash_profile
 sed -i "/if/,/fi/"'s/^/#/' /root/.zprofile
 
-do_config_for_app kalu
+do_check_internet_connection && {
+    do_config_for_app update-mirrorlist
+    do_config_for_app kalu
+}
 
 # keeping the code for now commented, to be purged in the future
 # the new config folder is injected at customize_airootfs which makes this unecessary
