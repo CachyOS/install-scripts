@@ -71,6 +71,8 @@
     - blueberry
     - cinnamon-translations
     - gnome-panel
+    - gnome-terminal
+    - xdg-user-dirs-update
     - metacity
     - gnome-mpv
     - arc-gtk-theme
