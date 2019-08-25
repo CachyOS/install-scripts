@@ -273,6 +273,18 @@ GetConfigFromFile()
     test -r $CONFIG_FILE && echo "$(grep -P -v "^[ \t]*#|^[ \t]*$" $CONFIG_FILE)"
 }
 
+GetYourCountryCodeFromIP()
+{
+    # Find your country code using 'dig' and 'geoiplookup'.
+    #
+    # Alternative ways:
+    #     whois $(dig TXT +short o-o.myaddr.l.google.com @ns1.google.com | tr -d '"') | grep ^country: | awk '{print $NF}'
+    #     geoiplookup $(dig TXT +short o-o.myaddr.l.google.com @ns1.google.com | tr -d '"') | awk '{print $4}' | tr -d ','
+    #
+    local IP="$(dig +short myip.opendns.com @resolver1.opendns.com)"
+    geoiplookup "$IP" | awk '{print $4}' | tr -d ','
+}
+
 HandleParameters()
 {
     local arg
@@ -296,10 +308,7 @@ HandleParameters()
 
     # if no countries were given
     if [ -z "${COUNTRIES}" ] ; then
-        # Find your country code using 'dig' and 'whois'.
-        # Alternative: dig TXT +short o-o.myaddr.l.google.com @ns1.google.com | tr -d '"'
-        local code="$(whois $(dig +short myip.opendns.com @resolver1.opendns.com) | grep ^country: | awk '{print $NF}')"
-        # code="AA"
+        local code="$(GetYourCountryCodeFromIP)"
         local country="$(CodeToCountry "$code")"
         case "$country" in
             "")
