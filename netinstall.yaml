@@ -50,7 +50,7 @@
   hidden: false
   selected: false
   critical: false
-  post-install: pacman -R gnome-software --noconfirm
+  post-install: systemctl -f enable gdm
   packages:
     - gnome
     - gnome-tweaks
