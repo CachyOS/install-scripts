@@ -23,12 +23,12 @@ do_config_for_app(){
     case "$app" in
         kalu)
             mkdir -p /etc/skel/.config/kalu
-            mkdir -p /home/$NEW_USER/.config/kalu
+            #mkdir -p /home/$NEW_USER/.config/kalu
             # add "Last=<latest-headline>" to news.conf, but don't overwrite the file
             printf "Last=" >> /etc/skel/.config/kalu/news.conf
             do_arch_news_latest_headline >> /etc/skel/.config/kalu/news.conf
-            cat /etc/skel/.config/kalu/news.conf >> /home/$NEW_USER/.config/kalu/news.conf
-            chown --recursive $NEW_USER:$NEW_USER /home/$NEW_USER/.config        # what if group name is not the same as user name?
+            #cat /etc/skel/.config/kalu/news.conf >> /home/$NEW_USER/.config/kalu/news.conf
+            #chown --recursive $NEW_USER:$NEW_USER /home/$NEW_USER/.config        # what if group name is not the same as user name?
             ;;
         update-mirrorlist)
             $app -s --logonly || $app -s --logonly -c=all  # use local country only or all countries
