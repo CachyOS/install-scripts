@@ -15,7 +15,6 @@
     - arc-icon-theme
     - elementary-icon-theme
     - lightdm
-    - light-locker
     - lightdm-gtk-greeter
     - lightdm-gtk-greeter-settings
 - name: "MATE-Desktop"
@@ -33,7 +32,6 @@
     - elementary-icon-theme
     - network-manager-applet
     - lightdm
-    - light-locker
     - lightdm-gtk-greeter
     - lightdm-gtk-greeter-settings
 - name: "KDE-Desktop"
@@ -79,7 +77,6 @@
     - arc-icon-theme
     - elementary-icon-theme
     - lightdm
-    - light-locker
     - lightdm-gtk-greeter
     - lightdm-gtk-greeter-settings
 - name: "Budgie-Desktop"
@@ -96,7 +93,6 @@
     - arc-icon-theme
     - elementary-icon-theme
     - lightdm
-    - light-locker
     - lightdm-gtk-greeter
     - lightdm-gtk-greeter-settings
 - name: "Deepin-Desktop"
