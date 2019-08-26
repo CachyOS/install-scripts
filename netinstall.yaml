@@ -50,7 +50,9 @@
   hidden: false
   selected: false
   critical: false
-  post-install: "sh -c 'systemctl -f enable gdm && pacman -R gnome-software --noconfirm'"
+  post-install:
+    - systemctl -f enable gdm
+    - pacman -R gnome-software --noconfirm
   packages:
     - gnome
     - gnome-tweaks
