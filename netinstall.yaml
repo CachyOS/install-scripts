@@ -50,8 +50,6 @@
   hidden: false
   selected: false
   critical: false
-  post-install: ["/bin/sh","-c"]
-  args: ["systemctl -f enable gdm; pacman -R gnome-software --noconfirm"]
   packages:
     - gnome
     - gnome-tweaks
