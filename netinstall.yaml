@@ -134,7 +134,7 @@
     - hplip
     - splix
 - name: "AUR-Support"
-  description: "Adding support to build packages from AUR (Arch User Repository) **not recommended!**"
+  description: "Adding support to build packages from AUR (Arch User Repository) NOT RECOMMENDED!*"
   hidden: false
   selected: false
   critical: false
