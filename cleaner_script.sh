@@ -185,7 +185,7 @@ echo "GRUB_DISABLE_SUBMENU=y" >> /etc/default/grub >/dev/null
 do_endeavouros(){
 
 # for some reason installed system uses bash
-chsh -s /usr/bin/zsh
+#chsh -s /usr/bin/zsh
 rm -rf /home/$NEW_USER/.config/qt5ct
 rm -rf /home/$NEW_USER/{.xinitrc,.xsession} 2>>/tmp/.errlog
 rm -rf /root/{.xinitrc,.xsession} 2>>/tmp/.errlog
