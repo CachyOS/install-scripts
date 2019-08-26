@@ -31,7 +31,10 @@ do_config_for_app(){
             #chown --recursive $NEW_USER:$NEW_USER /home/$NEW_USER/.config        # what if group name is not the same as user name?
             ;;
         update-mirrorlist)
-            $app -s --logonly || $app -s --logonly -c=all  # use local country only or all countries
+            test -x /usr/bin/$app && {
+                # remove comment sign (#) after first --logonly to use all countries in case local fails:
+                /usr/bin/$app -s --logonly # || /usr/bin/$app -s --logonly -c=all
+            }
             ;;
         # add other apps here!
         *)
