@@ -273,16 +273,32 @@ GetConfigFromFile()
     test -r $CONFIG_FILE && echo "$(grep -P -v "^[ \t]*#|^[ \t]*$" $CONFIG_FILE)"
 }
 
-GetYourCountryCodeFromIP()
+CCCheck()   # check validity of country code
 {
-    # Find your country code using 'dig' and 'geoiplookup'.
+    # country code should have two capital letters
+    case "$1" in
+        [A-Z][A-Z]) test -n "$(CodeToCountry "$1")" && return 0 ;;
+    esac
+    return 1  # fail
+}
+
+GetYourCountryCode()
+{
+    # Find your country code.
     #
-    # Alternative ways:
+    # Alternative ways using git and geoiplookup or whois:
     #     whois $(dig TXT +short o-o.myaddr.l.google.com @ns1.google.com | tr -d '"') | grep ^country: | awk '{print $NF}'
     #     geoiplookup $(dig TXT +short o-o.myaddr.l.google.com @ns1.google.com | tr -d '"') | awk '{print $4}' | tr -d ','
+    #     geoiplookup $(dig +short myip.opendns.com @resolver1.opendns.com) | awk '{print $4}' | tr -d ','
     #
-    local IP="$(dig +short myip.opendns.com @resolver1.opendns.com)"
-    geoiplookup "$IP" | awk '{print $4}' | tr -d ','
+    local IP="$(locale | grep ^LC_TIME | cut -d '"' -f 2 | sed 's|^.*_\([A-Z][A-Z]\)\..*$|\1|')"
+    CCCheck "$IP" && { echo "$IP" ; return ; }
+
+    IP="$(geoiplookup $(dig TXT +short o-o.myaddr.l.google.com @ns1.google.com | tr -d '"') | awk '{print $4}' | tr -d ',')"
+    CCCheck "$IP" && { echo "$IP" ; return ; }
+
+    IP="$(whois $(dig TXT +short o-o.myaddr.l.google.com @ns1.google.com | tr -d '"') | grep ^country: | awk '{print $NF}')"
+    CCCheck "$IP" && { echo "$IP" ; return ; }
 }
 
 HandleParameters()
@@ -308,7 +324,7 @@ HandleParameters()
 
     # if no countries were given
     if [ -z "${COUNTRIES}" ] ; then
-        local code="$(GetYourCountryCodeFromIP)"
+        local code="$(GetYourCountryCode)"
         local country="$(CodeToCountry "$code")"
         case "$country" in
             "")
