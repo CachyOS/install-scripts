@@ -291,14 +291,34 @@ GetYourCountryCode()
     #     geoiplookup $(dig TXT +short o-o.myaddr.l.google.com @ns1.google.com | tr -d '"') | awk '{print $4}' | tr -d ','
     #     geoiplookup $(dig +short myip.opendns.com @resolver1.opendns.com) | awk '{print $4}' | tr -d ','
     #
-    local IP="$(locale | grep ^LC_TIME | cut -d '"' -f 2 | sed 's|^.*_\([A-Z][A-Z]\)\..*$|\1|')"
-    CCCheck "$IP" && { echo "$IP" ; return ; }
+    local IP code
+    IP="$(dig -4 TXT +short o-o.myaddr.l.google.com @ns1.google.com | tr -d '"')"
 
-    IP="$(geoiplookup $(dig TXT +short o-o.myaddr.l.google.com @ns1.google.com | tr -d '"') | awk '{print $4}' | tr -d ',')"
-    CCCheck "$IP" && { echo "$IP" ; return ; }
+    code="$(geoiplookup "$IP" | sed 's|^.*: \([A-Z][A-Z]\),.*$|\1|')"
+    CCCheck "$code" && {
+        echo "$code" ; return
+    }
+    code="$(whois "$IP" | grep ^country: | awk '{print $NF}')"
+    CCCheck "$code" && {
+        echo "$code" ; return
+    }
 
-    IP="$(whois $(dig TXT +short o-o.myaddr.l.google.com @ns1.google.com | tr -d '"') | grep ^country: | awk '{print $NF}')"
-    CCCheck "$IP" && { echo "$IP" ; return ; }
+    IP="$(dig -6 TXT +short o-o.myaddr.l.google.com @ns1.google.com | tr -d '"')"
+
+    code="$(geoiplookup6 "$IP" | sed 's|^.*: \([A-Z][A-Z]\),.*$|\1|')"
+    CCCheck "$code" && {
+        echo "$code" ; return
+    }
+    code="$(whois "$IP" | grep ^country: | awk '{print $NF}')"
+    CCCheck "$code" && {
+        echo "$code" ; return
+    }
+
+    # net services failed, use local variables, but may be wrong
+    code="$(locale | grep ^LC_TIME | cut -d '"' -f 2 | sed 's|^.*_\([A-Z][A-Z]\)\..*$|\1|')"
+    CCCheck "$code" && {
+        echo "$code" ; return
+    }
 }
 
 HandleParameters()
