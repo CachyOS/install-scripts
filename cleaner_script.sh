@@ -198,7 +198,7 @@ sed -i "/if/,/fi/"'s/^/#/' /root/.zprofile
 do_display_manager
 
 do_check_internet_connection && {
-    do_config_for_app update-mirrorlist
+    #do_config_for_app update-mirrorlist
     do_config_for_app kalu
 }
 
