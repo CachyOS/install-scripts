@@ -36,6 +36,11 @@ GetYourCountryCode() {
         echo "$code" ; return
     }
 
+    code="$(curl ipinfo.io 2>/dev/null | grep '"country":' | sed 's|^.*: "\([A-Z][A-Z]\)",$|\1|')"
+    CCCheck "$code" && {
+        echo "$code" ; return
+    }
+
     # net services failed, use local variables, but may be wrong
     code="$(locale | grep ^LC_TIME | cut -d '"' -f 2 | sed 's|^.*_\([A-Z][A-Z]\)\..*$|\1|')"
     CCCheck "$code" && {
