@@ -1,299 +1,22 @@
 #!/bin/bash
 
-# get mapping between "country codes" and "country names"
-readarray -t COUNTRY_SPECS <<< \
-          "$(wget -q -O- https://www.archlinux.org/mirrorlist | grep "<option value=" | sed -e 's|^.*="||' -e 's|</.*$||' -e 's|">|=|' -e 's|all" selected>|all=|')"
-
-PACMAN_MIRRORLIST=/etc/pacman.d/mirrorlist
-
-# default values:
-COUNTRIES=()
-PROTOCOLS=(https)
-IP_VERSIONS=(4)
-URL="https://www.archlinux.org/mirrorlist/?use_mirror_status=on"
-RANK=yes
-RANK_RESULTS=10
-EXCLUDE_MIRRORS=()
-SAVE=no
-LOG="$(mktemp)"
-LOGONLY=no               # no: echo2 output goes to screen, not to a log file only
-SHOW_BEFORE_SAVING=no
-CONFIG_FILE=/etc/remirror-arch.conf
-
-PROG_NAME="$(basename $0)"
-test "$PROG_NAME" = "bashdb" && PROG_NAME="$(basename "${BASH_SOURCE[0]}")"  # could always be BASH_SOURCE[0]?
-
-RetVal() { echo "$@" ; }
-
-ListCountriesAndCodes()  # show countries and their codes, human readable
-{
-    local xx
-
-    printf "    %-4s %s\n" "code" "country" >&2
-    printf "    %-4s %s\n" "----" "-------" >&2
-    for xx in "${COUNTRY_SPECS[@]}" ; do
-        printf "    %-4s %s\n" "${xx%=*}" "${xx#*=}"
-    done
+CodeToCountry() {  # convert country code to country name
+    echo "$REFLECTOR_COUNTRIES" | grep -w "$1" | sed 's|^\(.*[a-z]\)[ ]*[A-Z][A-Z].*$|\1|'
+}
+CountryToCode() {  # convert name to code; used for checking
+    echo "$REFLECTOR_COUNTRIES" | grep -w "$1" | awk '{print $(NF-1)}'
 }
 
-ListCountriesAndCodesRaw()  # show countries and their codes, closer to machine readable
-{
-    local xx
-
-    for xx in "${COUNTRY_SPECS[@]}" ; do
-        echo2 "${xx}"
-    done
-}
-
-CountryToCode()   # convert country name to country code
-{
-    local country="$1"
-    local xx
-
-    for xx in "${COUNTRY_SPECS[@]}" ; do
-        if [ "${xx#*=}" = "$country" ] ; then
-            RetVal "${xx%=*}"
-            return
-        fi
-    done
-    #echo2 "Warning: country name '$country' didn't match any of the supported names."
-    RetVal ""  # not found
-}
-
-CodeToCountry()  # convert country code to country name
-{
-    local code="$1"
-    local xx
-
-    for xx in "${COUNTRY_SPECS[@]}" ; do
-        if [ "${xx%=*}" = "$code" ] ; then
-            RetVal "${xx#*=}"
-            return
-        fi
-    done
-    #echo2 "Warning: country code '$code' didn't match any of the supported codes."
-    RetVal ""  # not found
-}
-
-ShowValue()
-{
-    local valuename="$1"
-    local xx
-    shift
-    echo2 "$valuename:"
-    for xx in "$@" ; do
-        echo2 "    $xx"
-    done
-}
-
-list2array()
-{
-    local arrayname="$1"
-    local listvalue="$2"  # comma separated list
-
-    while [ -n "$listvalue" ] ; do
-        case "$arrayname" in
-            PROTOCOLS)   PROTOCOLS+=("${listvalue%%,*}") ;;
-            EXCLUDE_MIRRORS)   EXCLUDE_MIRRORS+=("${listvalue%%,*}") ;;
-            COUNTRIES)   COUNTRIES+=("${listvalue%%,*}") ;;
-            IP_VERSIONS) IP_VERSIONS+=("${listvalue%%,*}") ;;
-        esac
-        test "${listvalue#*,}" != "$listvalue" && listvalue="${listvalue#*,}" || listvalue=""
-    done
-}
-
-CreateURL()
-{
-    local xx code
-
-    for xx in "${COUNTRIES[@]}" ; do
-        # country names and codes were already checked, no need to do it here
-        case "${#xx}" in
-            0|1) DIE "internal error: unknown country '$xx'" ;;
-            2) code="$xx" ;;
-            3) code="all" ;;
-            *) code="$(CountryToCode "$xx")" ;;
-        esac
-        URL+="&country=$code"
-    done
-    for xx in "${PROTOCOLS[@]}" ; do
-        URL+="&protocol=$xx"
-    done
-    for xx in "${IP_VERSIONS[@]}" ; do
-        URL+="&ip_version=$xx"
-    done
-
-    if [ 0 -eq 1 ] ; then
-        ShowValue "countries"   "${COUNTRIES[@]}"
-        ShowValue "protocols"   "${PROTOCOLS[@]}"
-        ShowValue "ip_versions" "${IP_VERSIONS[@]}"
-    fi
-    if [ 0 -eq 1 ] ; then
-        ShowValue "url" "$URL"
-    fi
-}
-
-OutputTarget() {
-    case "$LOGONLY" in
-        yes) echo "$LOG" ;;
-        no)  echo "/dev/stderr" ;;
-    esac
-}
-
-echo2() {
-    local target=$(OutputTarget)
-    echo "$@" >> "$target"
-}
-
-printf2() {
-    local target=$(OutputTarget)
-    printf "$@" >> "$target"
-}
-
-DIE()
-{
-    echo2 "Error: $1"
-    Usage
-    Exit 1
-}
-
-WARNF()
-{
-    printf2 "Warning: $1"
-    Usage
-}
-
-ShowOptions()
-{
-    if [ -n "$1" ] ; then
-        RetVal "$@"
-    else
-        RetVal "[none]"
-    fi
-}
-
-GenerateMirrorlist()
-{
-    local tmpfile=$(mktemp)
-    local result
-    local xx
-    local country
-    local cmd
-
-    ShowAction "- fetching Arch mirror info ... "
-    wget -q --timeout=10 -O $tmpfile "$URL" || DIE "fetching Arch mirror info failed"
-    echo2 "done"
-
-    result="$(cat $tmpfile | sed 's|^#Server = |Server = |')"
-    rm -f $tmpfile
-    for xx in "${EXCLUDE_MIRRORS[@]}" ; do
-        result="$(echo "$result" | grep -v "$xx")"
-    done
-
-    ShowAction "- ranking mirrors, may take some time ... "
-    result="$(echo "$result" | rankmirrors --max-time 5 -n $RANK_RESULTS -)"
-    echo2 "done"
-
-    # remove unneeded lines like "## Countryname"
-    for xx in "${COUNTRIES[@]}" ; do
-        case "${#xx}" in
-            0|1) DIE "internal error: unknown country '$xx'" ;;
-            2) country="$(CodeToCountry "$xx")" ;;
-            3) country="All" ;;
-            *) country="$xx" ;;
-        esac
-        result="$(echo "$result" | grep -v "^## $country")"
-    done
-
-    tmpfile=$(mktemp)
-    cat <<EOF > $tmpfile
-$result
-EOF
-
-    case "$SAVE" in
-        yes)
-            echo2 " - saving the new mirrorlist"
-            if [ "$SHOW_BEFORE_SAVING" = "yes" ] ; then
-                xdg-open $tmpfile   # or exo-open
-            fi
-            cmd=" cp $PACMAN_MIRRORLIST $PACMAN_MIRRORLIST.bak ; "
-            cmd+="cp $tmpfile $PACMAN_MIRRORLIST ; "
-            sudo bash -c "$cmd"
-            ;;
-        no)
-            echo2 ""
-            cat $tmpfile >&2
-            ;;
-    esac
-    rm -f $tmpfile
-}
-
-Usage()
-{
-    local target=$(OutputTarget)
-    cat <<EOF >> "$target"
-$PROG_NAME:
-    Generate a mirrorlist for Arch mirrors and
-    show it on the screen (default) or save it
-    to $PACMAN_MIRRORLIST with option -s.
-
-Usage: $PROG_NAME [option(s)]
-Options:
-    -c=LIST       Country names or codes to be used when ranking.
-                  Give 'All' to have all ranked.
-                  Give nothing to have your current country ranked
-                  Check supported country names and code with option -l.
-                  Note: use quotes for contry names containing spaces,
-                  e.g. "United Kingdom".
-    -p=LIST       Protocols (https,http). Default: ${PROTOCOLS[*]}.
-    -x=LIST       Mirrors to be excluded from ranking (partial words).
-    -n=NR         Number of mirrors in the resulting list. Default: $RANK_RESULTS.
-    -i=LIST       IP versions to support (4 and/or 6). Default: ${IP_VERSIONS[*]}.
-    -l            List supported country names and codes and exit.
-    -m            Show current $PACMAN_MIRRORLIST.
-    -s            Save the new mirrorlist to $PACMAN_MIRRORLIST
-                  (the old one is backed up first).
-    -r            Show the results before saving the mirrorlist.
-                  Requires the -s option to be effective.
-    --logonly     Informational output goes to a log file but not to the screen.
-                  This is useful for background services, e.g. in systemd.
-                  Default: output goes to $(test "$LOGONLY" = "no" && echo "the screen" || echo "a log file $LOG").
-where:
-    LIST          a comma separated list of values.
-    NR            a number.
-
-EOF
-}
-
-ShowAction()   { echo2 -n "    $1" ; }   # indent and no newline at end
-ShowActionLn() { echo2 "    $1" ; }      # indent and newline at end
-
-GetConfigFromFile()
-{
-    test -r $CONFIG_FILE && echo "$(grep -P -v "^[ \t]*#|^[ \t]*$" $CONFIG_FILE)"
-}
-
-CCCheck()   # check validity of country code
-{
-    # country code should have two capital letters
+CCCheck() {   # check validity of country code
     case "$1" in
         [A-Z][A-Z]) test -n "$(CodeToCountry "$1")" && return 0 ;;
     esac
     return 1  # fail
 }
-
-GetYourCountryCode()
-{
-    # Find your country code.
-    #
-    # Alternative ways using git and geoiplookup or whois:
-    #     whois $(dig TXT +short o-o.myaddr.l.google.com @ns1.google.com | tr -d '"') | grep ^country: | awk '{print $NF}'
-    #     geoiplookup $(dig TXT +short o-o.myaddr.l.google.com @ns1.google.com | tr -d '"') | awk '{print $4}' | tr -d ','
-    #     geoiplookup $(dig +short myip.opendns.com @resolver1.opendns.com) | awk '{print $4}' | tr -d ','
-    #
+GetYourCountryCode() {
     local IP code
-    IP="$(dig -4 TXT +short o-o.myaddr.l.google.com @ns1.google.com | tr -d '"')"
 
+    IP="$(dig -4 TXT +short o-o.myaddr.l.google.com @ns1.google.com | tr -d '"')"  # ipv4 address
     code="$(geoiplookup "$IP" | sed 's|^.*: \([A-Z][A-Z]\),.*$|\1|')"
     CCCheck "$code" && {
         echo "$code" ; return
@@ -303,8 +26,7 @@ GetYourCountryCode()
         echo "$code" ; return
     }
 
-    IP="$(dig -6 TXT +short o-o.myaddr.l.google.com @ns1.google.com | tr -d '"')"
-
+    IP="$(dig -6 TXT +short o-o.myaddr.l.google.com @ns1.google.com | tr -d '"')"  # ipv6 address
     code="$(geoiplookup6 "$IP" | sed 's|^.*: \([A-Z][A-Z]\),.*$|\1|')"
     CCCheck "$code" && {
         echo "$code" ; return
@@ -320,94 +42,31 @@ GetYourCountryCode()
         echo "$code" ; return
     }
 }
-
-HandleParameters()
-{
-    local arg
-
-    for arg in "${PARAMS_CONF[@]}" "${PARAMS_CL[@]}" ; do
-        case "$arg" in
-            -p=*) list2array PROTOCOLS "${arg:3}" ;;
-            -c=*) list2array COUNTRIES "${arg:3}" ;;
-            -i=*) list2array IP_VERSIONS "${arg:3}" ;;
-            -x=*) list2array EXCLUDE_MIRRORS "${arg:3}" ;;
-            -n=*) RANK_RESULTS="${arg:3}" ;;
-            -m)   less $PACMAN_MIRRORLIST ; Exit 0 ;;
-            -l)   ListCountriesAndCodes ; Exit 0 ;;
-            -s)   SAVE=yes ;;
-            -r)   SHOW_BEFORE_SAVING=yes ;;
-            --logonly)
-                  LOGONLY=yes ;;
-            *)    Usage ; DIE "unsupported parameter '$arg'" ;;
-        esac
-    done
-
-    # if no countries were given
-    if [ -z "${COUNTRIES}" ] ; then
-        local code="$(GetYourCountryCode)"
-        local country="$(CodeToCountry "$code")"
-        case "$country" in
-            "")
-                local msg="Arch mirrorlist service does not support country code '$code'.\n"
-                msg+="Use option -c to specify one or more countries, preferably near you.\n\n"
-                WARNF "$msg"
-                Exit 1
-                ;;
-            *)
-                COUNTRIES=("$code")
-                ShowActionLn "- showing mirrors in $country"
-                ;;
-        esac
-    fi
-
-    # ad hoc tests on given parameters
-    test -z "$(echo "$RANK_RESULTS" | tr -d '0-9')" || DIE "value '$RANK_RESULTS' in option -n was not a number"
-
-    local xx yy name code
-
-    for xx in "${IP_VERSIONS[@]}" ; do
-        case "$xx" in
-            4 | 6) ;;
-            *) DIE "value '$xx' in option -i was not 4 or 6" ;;
-        esac
-    done
-    # accept both country names and country codes!
-    for yy in "${COUNTRIES[@]}" ; do
-        for xx in "${COUNTRY_SPECS[@]}" ; do
-            name="${xx#*=}"
-            code="${xx%=*}"
-            test "$yy" = "$name" && break
-            test "$yy" = "$code" && break
-        done
-        test "$yy" = "$name" && continue
-        test "$yy" = "$code" && continue
-        test "$yy" = "$name" || DIE "country name '$yy' in option -c was not recognized"
-        test "$yy" = "$code" || DIE "country code '$yy' in option -c was not recognized"
-    done
-    for xx in "${PROTOCOLS[@]}" ; do
-        case "$xx" in
-            https | http) ;;
-            *) DIE "value '$xx' in option -p is not supported" ;;
-        esac
-    done
+GetYourCountry() {
+    local code="$(GetYourCountryCode)"
+    local country="$(test -n "$code" && CodeToCountry "$code")"
+    echo "$country"
 }
 
-Exit()
-{
-    # cleanup and exit
-    rm -f $LOG
-    exit "$1"
-}
+Main() {
+    REFLECTOR_COUNTRIES="$(reflector --list-countries)"
+    local this_country="$(GetYourCountry)"
+    local tf=$(mktemp)
+    local mf=/etc/pacman.d/mirrorlist
 
-Main()
-{
-    PARAMS_CL=("$@")
-    PARAMS_CONF=($(GetConfigFromFile))
+    local refopts="-phttps -f10 -l20 --sort age --save $tf"  # common reflector options
 
-    HandleParameters
-    CreateURL
-    GenerateMirrorlist
-    Exit 0
+    test -n "$this_country" && {
+        if [ "$1" = "-P" ] ; then   # testing time option -P: do not add http with this country
+            reflector $refopts -a2 -c "$this_country"
+        else
+            reflector $refopts -a2 -phttp -c "$this_country"   # a country may lack https mirrors
+        fi
+    } || {
+        reflector $refopts -a1
+    }
+    sudo bash -c "cp $tf $mf && chmod 0644 $mf"
+    rm -f $tf
 }
 
 Main "$@"

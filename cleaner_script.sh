@@ -32,8 +32,7 @@ do_config_for_app(){
             ;;
         update-mirrorlist)
             test -x /usr/bin/$app && {
-                # remove comment sign (#) after first --logonly to use all countries in case local fails:
-                /usr/bin/$app -s --logonly # || /usr/bin/$app -s --logonly -c=all
+                /usr/bin/$app
             }
             ;;
         # add other apps here!
