@@ -216,7 +216,7 @@ do_reborn(){
 
 do_clean_offline_installer
 
-systemctl enable lightdm 2>>/dev/null
+#systemctl enable lightdm 2>>/dev/null
 
 }
 
