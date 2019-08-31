@@ -57,6 +57,7 @@ Main() {
     local refopts="-phttps -f10 -l20 --sort age --save $tf"  # common reflector options
 
     test -n "$this_country" && {
+        echo "Detected country: $this_country" >&2
         if [ "$1" = "-P" ] ; then   # testing time option -P: do not add http with this country
             reflector $refopts -a2 -c "$this_country"
         else
