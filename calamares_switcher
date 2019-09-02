@@ -45,10 +45,6 @@ ANSWER=$(yad --width=400 --height=100 --center --on-top --title="Please choose a
     if [[ $ANSWER == "Online (choose your desktop)" ]]; then online_changes; run_calamares; fi
     if [[ $ANSWER == "Offline (install live desktop)" ]]; then offline_changes; run_calamares; fi
 
-#ANSWER=$(yad --width=460 --height=320 --title="Almost there!" --list --separator="" --column="" --text="Choose an option" "Online install" "Offline install")
-#    if [[ $ANSWER == "Online install" ]]; then online_changes; run_calamares; fi
-#    if [[ $ANSWER == "Offline install" ]]; then offline_changes; run_calamares; fi
-
 }
 
 # STARTS HERE
