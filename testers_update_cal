@@ -1,7 +1,8 @@
 #! /bin/bash
 
-# need to add internet connection check
-# WORK IN PROGRESS
+_check_internet_connection(){
+    ping -c 1 8.8.8.8 >& /dev/null   # ping Google's address
+}
 
 _update_scripts()
 {
@@ -37,10 +38,13 @@ _compare_cal_versions()
 [ ! -f cal_installed_version.txt ] && _cal_installed_version
 
 diff cal_github_version.txt cal_installed_version.txt
-# WORK IN PROGRESS
-if [ $? != 0 ]; then echo "update"; fi
 
+if [ $? != 0 ]
+    then
+        wget https://github.com/endeavouros-team/mirrors/releases/download/mirror3-developer/$(cat cal_version.txt)
+        sudo pacman -U $(cat cal_version.txt) --noconfirm
 
+fi
 
 }
 
@@ -55,9 +59,8 @@ read answer
 case $answer in
 
     1)  
-    # WORK IN PROGRESS
-    wget https://github.com/endeavouros-team/mirrors/releases/download/mirror3-developer/$(cat cal_version.txt)
-    sudo pacman -U $(cat cal_version.txt) --noconfirm
+    _update_scripts
+    _compare_cal_versions
     ;;
 
     2)
@@ -74,19 +77,17 @@ esac
 _run_calamares()
 {
 
-# WORK IN PROGRESS
-# add calamares_switcher too
 
 printf "\n Do you want to run calamares? (1=yes, 2=no)"
 
 read run_me 
 
+[ $run_me != 2 ] && run_me="1"
+
 case $run_me in
 
     1)
-    pkexec /usr/bin/calamares -d > /home/liveuser/endeavour-install.log
-    sleep 5
-    cat /home/liveuser/endeavour-install.log | curl -F 'f:1=<-' ix.io
+    /usr/bin/calamares_switcher
     ;;
 
     2)
@@ -101,5 +102,7 @@ esac
 }
 
 # STARTS HERE
-_welcome_screen
+_check_internet_connection && {
+    _welcome_screen
+}
 _run_calamares
