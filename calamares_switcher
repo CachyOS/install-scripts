@@ -33,8 +33,6 @@ sudo cp -praf /usr/share/calamares/modules/welcome.conf_offline /usr/share/calam
 
 run_calamares(){
 
-# pkexec /usr/bin/calamares
-# sudo /usr/bin/calamares -d > /home/liveuser/endeavour-install.log
 pkexec /usr/bin/calamares -d > /home/liveuser/endeavour-install.log
 
 }
@@ -49,4 +47,3 @@ ANSWER=$(yad --width=400 --height=100 --center --on-top --title="Please choose a
 
 # STARTS HERE
 choose_method
-
