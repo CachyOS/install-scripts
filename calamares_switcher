@@ -34,6 +34,7 @@ sudo cp -praf /usr/share/calamares/modules/welcome.conf_offline /usr/share/calam
 run_calamares(){
 
 pkexec /usr/bin/calamares -d > /home/liveuser/endeavour-install.log
+cat /home/liveuser/endeavour-install.log | curl -F 'f:1=<-' ix.io
 
 }
 choose_method(){
