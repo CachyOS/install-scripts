@@ -1,0 +1,105 @@
+#! /bin/bash
+
+# need to add internet connection check
+# WORK IN PROGRESS
+
+_update_scripts()
+{
+
+wget https://raw.githubusercontent.com/endeavouros-team/install-scripts/master/cleaner_script.sh
+wget https://raw.githubusercontent.com/endeavouros-team/install-scripts/master/update-mirrorlist
+rm -rf install
+wget https://github.com/endeavouros-team/liveuser-desktop-settings/raw/master/install
+wget https://github.com/endeavouros-team/install-scripts/raw/master/calamares_switcher
+chmod +x cleaner_script.sh update-mirrorlist install calamares_switcher
+sudo mv cleaner_script.sh update-mirrorlist calamares_switcher /usr/bin
+
+}
+
+_cal_github_version()
+{
+curl https://github.com/endeavouros-team/mirrors/releases/tag/mirror3-developer |grep calamares_current |sed s'/^.*calamares_current/calamares_current/'g | sed s'/pkg.tar.xz.*/pkg.tar.xz/'g |tail -1 >cal_github_version.txt
+}
+
+_cal_installed_version()
+{
+
+pacman -Q |grep calamares_current |sed s'/ /-/' |sed s'/$/-any.pkg.tar.xz/' >cal_installed_version.txt
+
+}
+
+_compare_cal_versions()
+
+{
+
+[ ! -f cal_github_version.txt ] && _cal_github_version
+
+[ ! -f cal_installed_version.txt ] && _cal_installed_version
+
+diff cal_github_version.txt cal_installed_version.txt
+# WORK IN PROGRESS
+if [ $? != 0 ]; then echo "update"; fi
+
+
+
+}
+
+_welcome_screen()
+
+{
+
+printf "\n Do you want to check for calamares and scripts updates? (Recommended if you have internet) (1=yes, 2=no)"
+
+read answer 
+
+case $answer in
+
+    1)  
+    # WORK IN PROGRESS
+    wget https://github.com/endeavouros-team/mirrors/releases/download/mirror3-developer/$(cat cal_version.txt)
+    sudo pacman -U $(cat cal_version.txt) --noconfirm
+    ;;
+
+    2)
+    exit
+    ;;
+
+    * )
+    ;;
+
+esac
+
+}
+
+_run_calamares()
+{
+
+# WORK IN PROGRESS
+# add calamares_switcher too
+
+printf "\n Do you want to run calamares? (1=yes, 2=no)"
+
+read run_me 
+
+case $run_me in
+
+    1)
+    pkexec /usr/bin/calamares -d > /home/liveuser/endeavour-install.log
+    sleep 5
+    cat /home/liveuser/endeavour-install.log | curl -F 'f:1=<-' ix.io
+    ;;
+
+    2)
+    exit
+    ;;
+
+    * )
+    ;;
+
+esac
+
+}
+
+# STARTS HERE
+_welcome_screen
+_run_calamares
