@@ -50,7 +50,7 @@ ANSWER=$(yad --width=400 --height=100 --center --on-top --title="Please choose a
 #    if [[ $ANSWER == "Offline install" ]]; then offline_changes; run_calamares; fi
 
 }
+
 # STARTS HERE
-# maybe just source inside the other script?
-#choose_method
-run_calamares
+choose_method
+
