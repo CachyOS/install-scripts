@@ -52,9 +52,11 @@ _welcome_screen()
 
 {
 
-printf "\n Do you want to check for calamares and scripts updates? (Recommended if you have internet) (1=yes, 2=no)"
+printf "\n Do you want to check for calamares and scripts updates? (Recommended if you have internet) (1=yes, 2=no / Default 1)"
 
 read answer 
+
+[ $answer != 2 ] && answer="1"
 
 case $answer in
 
@@ -78,7 +80,7 @@ _run_calamares()
 {
 
 
-printf "\n Do you want to run calamares? (1=yes, 2=no)"
+printf "\n Do you want to run calamares? (1=yes, 2=no / Default 1)"
 
 read run_me 
 
