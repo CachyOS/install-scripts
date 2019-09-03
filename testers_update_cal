@@ -61,7 +61,9 @@ read answer
 case $answer in
 
     1)  
+    clear
     _update_scripts
+    clear
     _compare_cal_versions
     ;;
 
@@ -107,4 +109,5 @@ esac
 _check_internet_connection && {
     _welcome_screen
 }
+clear
 _run_calamares
