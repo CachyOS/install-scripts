@@ -1,5 +1,7 @@
 #! /bin/bash
 
+BGreen='\033[1;32m'       # Green
+
 _check_internet_connection(){
     ping -c 1 8.8.8.8 >& /dev/null   # ping Google's address
 }
@@ -103,6 +105,7 @@ esac
 }
 
 # STARTS HERE
+$BGreen
 _check_internet_connection && {
     clear
     _welcome_screen
