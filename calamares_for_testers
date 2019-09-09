@@ -104,6 +104,7 @@ esac
 
 # STARTS HERE
 _check_internet_connection && {
+    clear
     _welcome_screen
 }
 clear
