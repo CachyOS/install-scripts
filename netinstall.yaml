@@ -71,6 +71,8 @@
     - xdg-user-dirs-update
     - gnome-mpv
     - arc-gtk-theme
+    - xdg-user-dirs-gtk
+    - xdg-user-dirs
     - arc-icon-theme
     - elementary-icon-theme
     - lightdm
