@@ -31,6 +31,8 @@
     - arc-icon-theme
     - elementary-icon-theme
     - network-manager-applet
+    - xdg-user-dirs-gtk
+    - xdg-user-dirs
     - lightdm
     - lightdm-gtk-greeter
     - lightdm-gtk-greeter-settings
@@ -43,8 +45,11 @@
   packages:
     - plasma
     - plasma-wayland-session
+    - discover
     - kde-applications
     - powerdevil
+    - xdg-user-dirs
+    - packagekit-qt5
 - name: "GNOME-Desktop"
   description: "GNOME Desktop - designed to put you in control and get things done. "
   hidden: false
@@ -52,6 +57,7 @@
   critical: false
   packages:
     - gnome
+    - gnome-extra
     - gnome-tweaks
     - gnome-mpv
     - arc-gtk-theme
@@ -75,6 +81,8 @@
     - xdg-user-dirs
     - arc-icon-theme
     - elementary-icon-theme
+    - file-roller
+    - evince
     - lightdm
     - lightdm-gtk-greeter
     - lightdm-gtk-greeter-settings
