@@ -81,8 +81,6 @@
     - xdg-user-dirs
     - arc-icon-theme
     - elementary-icon-theme
-    - file-roller
-    - evince
     - lightdm
     - lightdm-gtk-greeter
     - lightdm-gtk-greeter-settings
