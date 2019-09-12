@@ -26,7 +26,7 @@
   packages:
     - mate
     - mate-extra
-    - gnome-mpv
+    - celluloid
     - arc-gtk-theme
     - arc-icon-theme
     - elementary-icon-theme
@@ -59,7 +59,7 @@
     - gnome
     - gnome-extra
     - gnome-tweaks
-    - gnome-mpv
+    - celluloid
     - arc-gtk-theme
     - arc-icon-theme
     - elementary-icon-theme
@@ -75,7 +75,7 @@
     - cinnamon-translations
     - gnome-terminal
     - xdg-user-dirs-update
-    - gnome-mpv
+    - celluloid
     - arc-gtk-theme
     - xdg-user-dirs-gtk
     - xdg-user-dirs
@@ -93,7 +93,7 @@
   packages:
     - budgie-desktop
     - gnome
-    - gnome-mpv
+    - celluloid
     - arc-gtk-theme
     - arc-icon-theme
     - elementary-icon-theme
@@ -109,7 +109,7 @@
   packages:
     - deepin
     - deepin-extra
-    - gnome-mpv
+    - celluloid
 - name: "Base"
   description: "A base system without a Desktop, mainly to install Desktop Environment on you own. "
   hidden: false
