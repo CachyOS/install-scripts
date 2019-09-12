@@ -79,6 +79,8 @@
     - arc-gtk-theme
     - xdg-user-dirs-gtk
     - xdg-user-dirs
+    - x-apps
+    - file-roller
     - arc-icon-theme
     - elementary-icon-theme
     - lightdm
