@@ -218,6 +218,7 @@ do_clean_offline_installer
 
 #systemctl enable lightdm 2>>/dev/null
 
+chmod 750 /root
 }
 
 do_detect_distro(){
