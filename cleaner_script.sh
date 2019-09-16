@@ -106,11 +106,11 @@ pacman -Rsc gnome-boxes --noconfirm
 
 }
 
-do_clean_offline_installer(){
+do_portergos(){
+
 
 # cli installer
 rm -rf /vomi 2>>/tmp/.errlog
-#rm -rf ${BYPASS} 2>>/tmp/.errlog
 rm -rf /source 2>>/tmp/.errlog
 rm -rf /src 2>>/tmp/.errlog
 rmdir /bypass 2>>/tmp/.errlog
@@ -118,21 +118,11 @@ rmdir /src 2>>/tmp/.errlog
 rmdir /source 2>>/tmp/.errlog
 rm -rf /offline_installer
 
-# calamares installer
-# not ready yet
 pacman -Rns calamares_offline --noconfirm
-
-}
-
-do_portergos(){
 
 do_clean_offline_installer
 
-export DISPLAY=:0.0
-dbus-launch dconf load / < /etc/skel/dconf.conf
-sudo -H -u $NEW_USER bash -c 'dbus-launch dconf load / < /etc/skel/dconf.conf'
-rm /home/$NEW_USER/dconf.conf
-rm /etc/skel/dconf.conf
+do_display_manager
 
 #conky and installer icons
 sed -i "/\${font sans:bold:size=8}INSTALLERS \${hr 2}/d" /home/$NEW_USER/.conky/i3_shortcuts/Gotham
@@ -168,23 +158,10 @@ sed -i "/if/,/fi/"'s/^/#/' /home/$NEW_USER/.zprofile
 sed -i "/if/,/fi/"'s/^/#/' /root/.bash_profile
 sed -i "/if/,/fi/"'s/^/#/' /root/.zprofile
 
-# Journal
-#sed -i 's/volatile/auto/g' /etc/systemd/journald.conf 2>>/tmp/.errlog
-
-systemctl enable sddm 2>>/dev/null
-
-# Grub still needs polishing. Looking for a solution when using calamares for multiple distros
-sed -i "s/menuentry 'Arch Linux' - /menuentry 'Arch Linux' - LTS/"g /boot/grub/grub.cfg 2>/dev/null
-
-# Split advanced options at grub menu
-echo "GRUB_DISABLE_SUBMENU=y" >> /etc/default/grub >/dev/null
-
 }
 
 do_endeavouros(){
 
-# for some reason installed system uses bash
-#chsh -s /usr/bin/zsh
 rm -rf /home/$NEW_USER/.config/qt5ct
 rm -rf /home/$NEW_USER/{.xinitrc,.xsession} 2>>/tmp/.errlog
 rm -rf /root/{.xinitrc,.xsession} 2>>/tmp/.errlog
@@ -201,24 +178,7 @@ do_check_internet_connection && {
     do_config_for_app kalu
 }
 
-# keeping the code for now commented, to be purged in the future
-# the new config folder is injected at customize_airootfs which makes this unecessary
-#rm -rf /home/$NEW_USER/.config/xfce4/panel/launcher-17
-#rm -rf /root/.config/xfce4/panel/launcher-17
-
-rm -rf /usr/bin/calamares_switcher
-
-systemctl enable lightdm 2>>/dev/null
-
 chmod 750 /root
-}
-
-do_reborn(){
-
-do_clean_offline_installer
-
-#systemctl enable lightdm 2>>/dev/null
-
 }
 
 do_detect_distro(){
@@ -230,16 +190,12 @@ cat /etc/os-release |head -n 1 | grep "EndeavourOS"
 cat /etc/os-release |head -n 1 | grep "Portergos"
 [[ $? == 0 ]] && DISTRO_NAME="Portergos"
 
-cat /etc/os-release |head -n 1 | grep "Reborn"
-[[ $? == 0 ]] && DISTRO_NAME="Reborn"
-
 }
 
 do_apply_distro_specific(){
 
 [[ $DISTRO_NAME == "EndeavourOS" ]] && do_endeavouros
 [[ $DISTRO_NAME == "Portergos" ]] && do_portergos
-[[ $DISTRO_NAME == "Reborn" ]] && do_reborn
 
 }
 
@@ -249,7 +205,6 @@ do_apply_distro_specific(){
 
 do_common_systemd
 do_clean_archiso
-#do_clean_offline_installer
 do_detect_distro
 do_apply_distro_specific
 rm -rf /usr/bin/calamares_switcher
