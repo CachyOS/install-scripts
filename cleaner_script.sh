@@ -54,8 +54,6 @@ systemctl disable pacman-init.service choose-mirror.service
 # Journal
 sed -i 's/volatile/auto/g' /etc/systemd/journald.conf 2>>/tmp/.errlog
 
-# Login manager should be set specifically
-
 }
 
 do_clean_archiso(){
@@ -118,7 +116,7 @@ rmdir /src 2>>/tmp/.errlog
 rmdir /source 2>>/tmp/.errlog
 rm -rf /offline_installer
 
-pacman -Rns calamares_offline --noconfirm
+pacman -Rns calamares_current --noconfirm
 
 do_clean_offline_installer
 
@@ -142,7 +140,7 @@ sed -i "/super + i/,/installer/"'d' /home/$NEW_USER/.config/sxhkd/sxhkdrc
 sed -i "/super + i/,/installer/"'d' /root/.config/sxhkd/sxhkdrc
 
 # Clean specific installer stuff
-#rm -rf /offline_installer
+rm -rf /offline_installer
 rm -rf /etc/skel/.local/share/applications/offline_installer.desktop
 rm -rf /home/$NEW_USER/.local/share/applications/offline_installer.desktop
 
