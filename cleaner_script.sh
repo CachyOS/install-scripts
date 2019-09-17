@@ -23,12 +23,8 @@ do_config_for_app(){
     case "$app" in
         kalu)
             mkdir -p /etc/skel/.config/kalu
-            #mkdir -p /home/$NEW_USER/.config/kalu
-            # add "Last=<latest-headline>" to news.conf, but don't overwrite the file
             printf "Last=" >> /etc/skel/.config/kalu/news.conf
             do_arch_news_latest_headline >> /etc/skel/.config/kalu/news.conf
-            #cat /etc/skel/.config/kalu/news.conf >> /home/$NEW_USER/.config/kalu/news.conf
-            #chown --recursive $NEW_USER:$NEW_USER /home/$NEW_USER/.config        # what if group name is not the same as user name?
             ;;
         update-mirrorlist)
             test -x /usr/bin/$app && {
@@ -43,7 +39,6 @@ do_config_for_app(){
 
 do_common_systemd(){
 
-# Fix NetworkManager
 systemctl enable NetworkManager -f 2>>/tmp/.errlog
 systemctl disable multi-user.target 2>>/dev/null
 systemctl enable vboxservice 2>>/dev/null
@@ -58,7 +53,6 @@ sed -i 's/volatile/auto/g' /etc/systemd/journald.conf 2>>/tmp/.errlog
 
 do_clean_archiso(){
 
-# clean out archiso files from install 
 rm -f /etc/sudoers.d/g_wheel 2>>/tmp/.errlog
 rm -f /var/lib/NetworkManager/NetworkManager.state 2>>/tmp/.errlog
 sed -i 's/.*pam_wheel\.so/#&/' /etc/pam.d/su 2>>/tmp/.errlog
@@ -82,9 +76,6 @@ lspci | grep -i "virtualbox" >/dev/null
 if [[ $? == 0 ]]
     then
         :      
-        # Depends on which vbox package we're installing  
-        #systemctl enable vboxservice
-        #pacman -Rnsdd virtualbox-host-dkms --noconfirm
     else
         for xx in virtualbox-guest-utils virtualbox-guest-modules-arch virtualbox-guest-dkms ; do
             test -n "$(pacman -Q $xx 2>/dev/null)" && pacman -Rnsdd $xx --noconfirm
@@ -101,60 +92,6 @@ systemctl -f enable lightdm
 systemctl -f enable sddm
 pacman -R gnome-software --noconfirm
 pacman -Rsc gnome-boxes --noconfirm
-
-}
-
-do_portergos(){
-
-
-# cli installer
-rm -rf /vomi 2>>/tmp/.errlog
-rm -rf /source 2>>/tmp/.errlog
-rm -rf /src 2>>/tmp/.errlog
-rmdir /bypass 2>>/tmp/.errlog
-rmdir /src 2>>/tmp/.errlog
-rmdir /source 2>>/tmp/.errlog
-rm -rf /offline_installer
-
-pacman -Rns calamares_current --noconfirm
-
-do_clean_offline_installer
-
-do_display_manager
-
-#conky and installer icons
-sed -i "/\${font sans:bold:size=8}INSTALLERS \${hr 2}/d" /home/$NEW_USER/.conky/i3_shortcuts/Gotham
-sed -i "/mod+i\${goto 120}= Portergos installer/d" /home/$NEW_USER/.conky/i3_shortcuts/Gotham
-sed -i "/\${font sans:bold:size=8}INSTALLERS \${hr 2}/d" /home/$NEW_USER/.conky/xfce_shortcuts/Gotham
-sed -i "/mod+i\${goto 120}= Portergos installer/d" /home/$NEW_USER/.conky/xfce_shortcuts/Gotham
-sed -i "/<Filename>offline_installer.desktop<\/Filename>/d" /home/$NEW_USER/.config/menus/xfce-applications.menu
-
-sed -i "/\${font sans:bold:size=8}INSTALLERS \${hr 2}/d" /root/.conky/i3_shortcuts/Gotham
-sed -i "/mod+i\${goto 120}= Portergos installer/d" /root/.conky/xfce_shortcuts/Gotham
-sed -i "/\${font sans:bold:size=8}INSTALLERS \${hr 2}/d" /root/.conky/i3_shortcuts/Gotham
-sed -i "/mod+i\${goto 120}= Portergos installer/d" /root/.conky/xfce_shortcuts/Gotham
-sed -i "/<Filename>offline_installer.desktop<\/Filename>/d" /root/.config/menus/xfce-applications.menu
-
-#.config/sxhkd
-sed -i "/super + i/,/installer/"'d' /home/$NEW_USER/.config/sxhkd/sxhkdrc
-sed -i "/super + i/,/installer/"'d' /root/.config/sxhkd/sxhkdrc
-
-# Clean specific installer stuff
-rm -rf /offline_installer
-rm -rf /etc/skel/.local/share/applications/offline_installer.desktop
-rm -rf /home/$NEW_USER/.local/share/applications/offline_installer.desktop
-
-rm -rf /home/$NEW_USER/{.xinitrc,.xsession} 2>>/tmp/.errlog
-rm -rf /home/$NEW_USER/.portergos_configs/{.xinitrc_i3,.xinitrc_xfce4,.xinitrc_openbox,.welcome_screen} 2>>/tmp/.errlog
-rm -rf /root/{.xinitrc,.xsession} 2>>/tmp/.errlog
-rm -rf /root/.portergos_configs/{.xinitrc_i3,.xinitrc_xfce4,.xinitrc_openbox,.welcome_screen} 2>>/tmp/.errlog
-rm -rf /etc/skel/{.xinitrc,.xsession} 2>>/tmp/.errlog
-rm -rf /etc/skel/.portergos_configs/{.xinitrc_i3,.xinitrc_xfce4,.xinitrc_openbox,.welcome_screen} 2>>/tmp/.errlog
-
-sed -i "/if/,/fi/"'s/^/#/' /home/$NEW_USER/.bash_profile
-sed -i "/if/,/fi/"'s/^/#/' /home/$NEW_USER/.zprofile
-sed -i "/if/,/fi/"'s/^/#/' /root/.bash_profile
-sed -i "/if/,/fi/"'s/^/#/' /root/.zprofile
 
 }
 
@@ -179,23 +116,7 @@ do_check_internet_connection && {
 chmod 750 /root
 }
 
-do_detect_distro(){
-# Not elegant, but works
 
-cat /etc/os-release |head -n 1 | grep "EndeavourOS"
-[[ $? == 0 ]] && DISTRO_NAME="EndeavourOS"
-
-cat /etc/os-release |head -n 1 | grep "Portergos"
-[[ $? == 0 ]] && DISTRO_NAME="Portergos"
-
-}
-
-do_apply_distro_specific(){
-
-[[ $DISTRO_NAME == "EndeavourOS" ]] && do_endeavouros
-[[ $DISTRO_NAME == "Portergos" ]] && do_portergos
-
-}
 
 ########################################
 ########## SCRIPT STARTS HERE ##########
@@ -203,8 +124,7 @@ do_apply_distro_specific(){
 
 do_common_systemd
 do_clean_archiso
-do_detect_distro
-do_apply_distro_specific
+do_endeavouros
 rm -rf /usr/bin/calamares_switcher
 rm -rf /usr/bin/cleaner_script.sh
 
