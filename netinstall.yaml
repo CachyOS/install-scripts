@@ -73,6 +73,13 @@
     - lightdm
     - lightdm-gtk-greeter
     - lightdm-gtk-greeter-settings
+    - nemo-fileroller 	
+    - nemo-image-converter
+    - nemo-preview
+    - nemo-seahorse	
+    - nemo-share
+    - gnome-screenshot
+    - gnome-calculator
 - name: "Budgie-Desktop"
   description: "Budgie - I Tawt I Taw A Purdy Desktop"
   hidden: false
