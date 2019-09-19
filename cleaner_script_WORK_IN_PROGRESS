@@ -77,10 +77,8 @@ sddm
 
 _systemd_disable=(
 
-NetworkManager
-vboxservice
-org.cups.cupsd
-avahi-daemon
+multi-user.target
+pacman-init
 
 )
 
