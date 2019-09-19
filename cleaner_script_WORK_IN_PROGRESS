@@ -62,19 +62,49 @@ _config_for_app(){
     esac
 }
 
+
+_systemd_enable=(
+
+NetworkManager
+vboxservice
+org.cups.cupsd
+avahi-daemon
+gdm
+lightdm
+sddm
+
+)
+
+_systemd_disable=(
+
+NetworkManager
+vboxservice
+org.cups.cupsd
+avahi-daemon
+
+)
+
 _common_systemd(){
 
-systemctl enable NetworkManager -f
-systemctl disable multi-user.target
-systemctl enable vboxservice
-systemctl enable org.cups.cupsd.service
-systemctl enable avahi-daemon.service
-systemctl disable pacman-init.service
+
+local xx
+for xx in ${_systemd_enable[*]}; do systemctl enable -f $xx; done
+
+local yy
+for yy in ${_systemd_disable[*]}; do systemctl disable -f $yy; done
+
+}
+
+
+
+_sed_stuff(){
 
 # Journal
 sed -i 's/volatile/auto/g' /etc/systemd/journald.conf 2>>/tmp/.errlog
+sed -i 's/.*pam_wheel\.so/#&/' /etc/pam.d/su
 
 }
+
 
 _files_to_remove=(
 
@@ -100,7 +130,7 @@ _clean_archiso(){
 local xx
 
 for xx in ${_files_to_remove[*]}; do rm -rf $xx; done
-sed -i 's/.*pam_wheel\.so/#&/' /etc/pam.d/su
+
 find /usr/lib/initcpio -name archiso* -type f -exec rm '{}' \;
 
 }
@@ -126,9 +156,7 @@ fi
 
 _display_manager(){
 # no problem if any of them fails
-systemctl -f enable gdm
-systemctl -f enable lightdm
-systemctl -f enable sddm
+
 pacman -R gnome-software --noconfirm
 pacman -Rsc gnome-boxes --noconfirm
 
@@ -142,7 +170,7 @@ sed -i "/if/,/fi/"'s/^/#/' /home/$NEW_USER/.zprofile
 sed -i "/if/,/fi/"'s/^/#/' /root/.bash_profile
 sed -i "/if/,/fi/"'s/^/#/' /root/.zprofile
 
-_display_manager
+#_display_manager
 
 _check_internet_connection && {
     #_config_for_app update-mirrorlist
