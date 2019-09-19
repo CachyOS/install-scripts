@@ -2,6 +2,8 @@
 
 NEW_USER=$(cat /etc/passwd | grep "/home" |cut -d: -f1 |head -1)
 
+# Any failed command will just be skiped, error message may pop up but won't crash the install process
+
 # Necessary for off/online
 #_check_internet_connection
 #_arch_news_latest_headline
@@ -62,37 +64,44 @@ _config_for_app(){
 
 _common_systemd(){
 
-systemctl enable NetworkManager -f 2>>/tmp/.errlog
-systemctl disable multi-user.target 2>>/dev/null
-systemctl enable vboxservice 2>>/dev/null
-systemctl enable org.cups.cupsd.service 2>>/dev/null
-systemctl enable avahi-daemon.service 2>>/dev/null
-systemctl disable pacman-init.service choose-mirror.service
+systemctl enable NetworkManager -f
+systemctl disable multi-user.target
+systemctl enable vboxservice
+systemctl enable org.cups.cupsd.service
+systemctl enable avahi-daemon.service
+systemctl disable pacman-init.service
 
 # Journal
 sed -i 's/volatile/auto/g' /etc/systemd/journald.conf 2>>/tmp/.errlog
 
 }
 
+_files_to_remove=(
+
+/etc/sudoers.d/g_wheel
+/var/lib/NetworkManager/NetworkManager.state
+/etc/systemd/system/{choose-mirror.service,pacman-init.service,etc-pacman.d-gnupg.mount,getty@tty1.service.d}
+/etc/systemd/scripts/choose-mirror
+/etc/systemd/system/getty@tty1.service.d/autologin.conf
+/root/{.automated_script.sh,.zlogin}
+/etc/mkinitcpio-archiso.conf
+/etc/initcpio
+/etc/udev/rules.d/81-dhcpcd.rules
+/usr/bin/{calamares_switcher,cleaner_script.sh}
+/home/$NEW_USER/.config/qt5ct
+/home/$NEW_USER/{.xinitrc,.xsession}
+/root/{.xinitrc,.xsession}
+/etc/skel/{.xinitrc,.xsession}
+
+)
+
 _clean_archiso(){
 
-rm -f /etc/sudoers.d/g_wheel 2>>/tmp/.errlog
-rm -f /var/lib/NetworkManager/NetworkManager.state 2>>/tmp/.errlog
-sed -i 's/.*pam_wheel\.so/#&/' /etc/pam.d/su 2>>/tmp/.errlog
+local xx
+
+for xx in ${_files_to_remove[*]}; do rm -rf $xx; done
+sed -i 's/.*pam_wheel\.so/#&/' /etc/pam.d/su
 find /usr/lib/initcpio -name archiso* -type f -exec rm '{}' \;
-rm -Rf /etc/systemd/system/{choose-mirror.service,pacman-init.service,etc-pacman.d-gnupg.mount,getty@tty1.service.d}
-rm -Rf /etc/systemd/scripts/choose-mirror
-rm -f /etc/systemd/system/getty@tty1.service.d/autologin.conf
-rm -f /root/{.automated_script.sh,.zlogin}
-rm -f /etc/mkinitcpio-archiso.conf
-rm -Rf /etc/initcpio
-rm -Rf /etc/udev/rules.d/81-dhcpcd.rules
-
-}
-
-_clean_install_scripts(){
-
-rm -rf /usr/bin/{calamares_switcher,cleaner_script.sh}
 
 }
 
@@ -127,10 +136,7 @@ pacman -Rsc gnome-boxes --noconfirm
 
 _endeavouros(){
 
-rm -rf /home/$NEW_USER/.config/qt5ct
-rm -rf /home/$NEW_USER/{.xinitrc,.xsession} 2>>/tmp/.errlog
-rm -rf /root/{.xinitrc,.xsession} 2>>/tmp/.errlog
-rm -rf /etc/skel/{.xinitrc,.xsession} 2>>/tmp/.errlog
+
 sed -i "/if/,/fi/"'s/^/#/' /home/$NEW_USER/.bash_profile
 sed -i "/if/,/fi/"'s/^/#/' /home/$NEW_USER/.zprofile
 sed -i "/if/,/fi/"'s/^/#/' /root/.bash_profile
@@ -143,7 +149,6 @@ _check_internet_connection && {
     _config_for_app kalu
 }
 
-chmod 750 /root
 }
 
 
@@ -155,4 +160,3 @@ chmod 750 /root
 _common_systemd
 _clean_archiso
 _endeavouros
-_clean_install_scripts
