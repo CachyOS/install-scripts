@@ -165,6 +165,7 @@ pacman -Rsc gnome-boxes --noconfirm
 
 _endeavouros(){
 
+# what happens if we just delete the files, are they auto-created?
 
 sed -i "/if/,/fi/"'s/^/#/' /home/$NEW_USER/.bash_profile
 sed -i "/if/,/fi/"'s/^/#/' /root/.bash_profile
