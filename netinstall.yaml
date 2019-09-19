@@ -38,11 +38,11 @@
   packages:
     - plasma
     - plasma-wayland-session
-    - discover
     - kde-applications
-    - powerdevil
     - xdg-user-dirs
     - packagekit-qt5
+    - elisa
+    - kdeconnect
 - name: "GNOME-Desktop"
   description: "GNOME Desktop - designed to put you in control and get things done. "
   hidden: false
