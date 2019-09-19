@@ -5,15 +5,11 @@
   critical: false
   post-install: systemctl -f enable lightdm
   packages:
-    - adwaita-icon-theme
     - xfce4
     - xfce4-goodies
     - network-manager-applet
     - galculator
     - blueberry
-    - arc-gtk-theme
-    - arc-icon-theme
-    - elementary-icon-theme
     - lightdm
     - lightdm-gtk-greeter
     - lightdm-gtk-greeter-settings
@@ -27,9 +23,6 @@
     - mate
     - mate-extra
     - celluloid
-    - arc-gtk-theme
-    - arc-icon-theme
-    - elementary-icon-theme
     - network-manager-applet
     - xdg-user-dirs-gtk
     - xdg-user-dirs
@@ -60,9 +53,6 @@
     - gnome-extra
     - gnome-tweaks
     - celluloid
-    - arc-gtk-theme
-    - arc-icon-theme
-    - elementary-icon-theme
 - name: "Cinnamon-Desktop"
   description: "Cinnamon Desktop - advanced innovative features and a traditional user experience."
   hidden: false
@@ -76,13 +66,10 @@
     - gnome-terminal
     - xdg-user-dirs-update
     - celluloid
-    - arc-gtk-theme
     - xdg-user-dirs-gtk
     - xdg-user-dirs
     - x-apps
     - file-roller
-    - arc-icon-theme
-    - elementary-icon-theme
     - lightdm
     - lightdm-gtk-greeter
     - lightdm-gtk-greeter-settings
@@ -96,9 +83,6 @@
     - budgie-desktop
     - gnome
     - celluloid
-    - arc-gtk-theme
-    - arc-icon-theme
-    - elementary-icon-theme
     - lightdm
     - lightdm-gtk-greeter
     - lightdm-gtk-greeter-settings
