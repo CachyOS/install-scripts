@@ -72,6 +72,9 @@ avahi-daemon
 gdm
 lightdm
 sddm
+# auto-remirror # is the right name?
+# printer stuff
+# bluetooth???
 
 )
 
@@ -164,9 +167,7 @@ _endeavouros(){
 
 
 sed -i "/if/,/fi/"'s/^/#/' /home/$NEW_USER/.bash_profile
-sed -i "/if/,/fi/"'s/^/#/' /home/$NEW_USER/.zprofile
 sed -i "/if/,/fi/"'s/^/#/' /root/.bash_profile
-sed -i "/if/,/fi/"'s/^/#/' /root/.zprofile
 
 #_display_manager
 
