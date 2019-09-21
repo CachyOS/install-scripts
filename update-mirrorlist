@@ -52,7 +52,12 @@ GetYourCountry() {
     local country="$(test -n "$code" && CodeToCountry "$code")"
     echo "$country"
 }
-
+CWantsHttp() {
+    case "$1" in
+        Finland) echo no ;;
+        *)       echo yes ;;
+    esac
+}
 Main() {
     REFLECTOR_COUNTRIES="$(reflector --list-countries)"
     local this_country="$(GetYourCountry)"
@@ -62,8 +67,9 @@ Main() {
     local refopts="-phttps -f10 -l20 --sort age --save $tf"  # common reflector options
 
     test -n "$this_country" && {
-        echo "Detected country: $this_country" >&2
-        if [ "$1" = "-P" ] ; then   # testing time option -P: do not add http with this country
+        echo "Detected country: '$this_country'" >&2
+        # testing time option -P: do not add http with this country
+        if [ "$1" = "-P" ] || [ "$(CWantsHttp "$this_country")" = "no" ] ; then
             reflector $refopts -a2 -c "$this_country"
         else
             reflector $refopts -a2 -phttp -c "$this_country"   # a country may lack https mirrors
