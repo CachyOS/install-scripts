@@ -72,9 +72,6 @@ avahi-daemon
 gdm
 lightdm
 sddm
-# auto-remirror # is the right name?
-# printer stuff
-# bluetooth???
 
 )
 
