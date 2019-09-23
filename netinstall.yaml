@@ -62,7 +62,6 @@
     - iwd
     - linux-atm
     - ndisc6
-    - nmap
     - ppp
     - pptpclient
     - vpnc
