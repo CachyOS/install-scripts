@@ -8,17 +8,6 @@ INSTALL_OPTION=""
 # Net-install creates the file /tmp/run_once in live environment (need to be transfered to installed system) so it can be used to detect install option
 
 
-_implement_me_please(){
-
-# Check if package is installed
-# hardware detection
-# DE, broadcom, nvidia detector etc
-:
-#pacman -Qq xfce4-session
-
-}
-
-
 _check_internet_connection(){
     ping -c 1 8.8.8.8 >& /dev/null   # ping Google's address
 }
