@@ -54,28 +54,13 @@ _config_for_app(){
 }
 
 
-# Just a storage
-_systemd_enable=(
 
-NetworkManager
-vboxservice
-org.cups.cupsd
-avahi-daemon
-gdm
-lightdm
-sddm
-
-)
-
-# Just a storage
-_systemd_disable=(
-
-multi-user.target
-pacman-init
-
-)
 
 _common_systemd(){
+
+_systemd_enable=(NetworkManager vboxservice org.cups.cupsd avahi-daemon gdm lightdm sddm)
+
+_systemd_disable=(multi-user.target pacman-init)
 
 local xx
 for xx in ${_systemd_enable[*]}; do systemctl enable -f $xx; done
@@ -95,7 +80,6 @@ sed -i 's/.*pam_wheel\.so/#&/' /etc/pam.d/su
 
 # Just a storage
 _files_to_remove=(
-
 /etc/sudoers.d/g_wheel
 /var/lib/NetworkManager/NetworkManager.state
 /etc/systemd/system/{choose-mirror.service,pacman-init.service,etc-pacman.d-gnupg.mount,getty@tty1.service.d}
@@ -110,7 +94,6 @@ _files_to_remove=(
 /home/$NEW_USER/{.xinitrc,.xsession}
 /root/{.xinitrc,.xsession}
 /etc/skel/{.xinitrc,.xsession}
-
 )
 
 _clean_archiso(){
