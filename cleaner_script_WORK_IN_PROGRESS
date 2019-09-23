@@ -53,13 +53,10 @@ _config_for_app(){
     esac
 }
 
-
-
-
 _common_systemd(){
-
+# ARRAY
 _systemd_enable=(NetworkManager vboxservice org.cups.cupsd avahi-daemon gdm lightdm sddm)
-
+# ARRAY
 _systemd_disable=(multi-user.target pacman-init)
 
 local xx
@@ -78,7 +75,9 @@ sed -i 's/.*pam_wheel\.so/#&/' /etc/pam.d/su
 
 }
 
-# Just a storage
+_clean_archiso(){
+
+# ARRAY
 _files_to_remove=(
 /etc/sudoers.d/g_wheel
 /var/lib/NetworkManager/NetworkManager.state
@@ -95,8 +94,6 @@ _files_to_remove=(
 /root/{.xinitrc,.xsession}
 /etc/skel/{.xinitrc,.xsession}
 )
-
-_clean_archiso(){
 
 local xx
 
