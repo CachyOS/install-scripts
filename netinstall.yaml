@@ -238,7 +238,6 @@
     - rofi
     - lightdm
     - lightdm-gtk-greeter
-    - light-locker
     - lightdm-gtk-greeter-settings
 - name: "Openbox"
   description: "Openbox is a highly configurable, next generation window manager with extensive standards support."
@@ -257,7 +256,6 @@
     - archlinux-xdg-menu
     - lightdm
     - lightdm-gtk-greeter
-    - light-locker
     - lightdm-gtk-greeter-settings
 - name: "Printing-Support"
   description: "Support for printing (Cups)"
