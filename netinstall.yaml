@@ -1,0 +1,289 @@
+- name: "Base-devel + Common packages"
+  description: "Recommended. Don't change unless you know what you're doing. Base-devel group and some other commom utilities (generic)"
+  hidden: false
+  selected: true
+  critical: false
+  packages:
+    - base-devel
+    - linux-headers
+    - linux-firmware
+    - xf86-video-vesa
+    - xorg-server
+    - xorg-xinit
+    - xf86-input-libinput
+    - xf86-input-synaptics
+    - xf86-video-amdgpu
+    - xf86-video-ati
+    - xf86-video-fbdev
+    - xf86-video-intel
+    - xf86-video-vesa
+    - xorg-xkill
+    - xdg-user-dirs
+    - xdg-user-dirs-gtk
+    - gvfs
+    - gvfs-mtp
+    - gvfs-afc
+    - gvfs-goa
+    - gvfs-google
+    - gvfs-gphoto2
+    - gvfs-nfs
+    - gvfs-smb
+    - smartmontools
+    - libwnck3
+    - b43-fwcutter
+    - broadcom-wl-dkms
+    - dnsutils
+    - intel-ucode
+    - ipw2100-fw
+    - ipw2200-fw
+    - modemmanager
+    - netctl
+    - net-tools
+    - ntfs-3g
+    - nvidia-installer-dkms
+    - networkmanager
+    - networkmanager-openvpn
+    - nss-mdns
+    - usb_modeswitch
+    - whois
+    - wireless_tools
+    - dhclient
+    - dnsmasq
+    - ethtool
+    - openconnect
+    - openssh
+    - openvpn
+    - rp-pppoe
+    - wireless-regdb
+    - wireless_tools
+    - wpa_supplicant
+    - wvdial
+    - gnu-netcat
+    - iwd
+    - linux-atm
+    - ndisc6
+    - nmap
+    - ppp
+    - pptpclient
+    - vpnc
+    - xl2tpd
+    - dialog
+    - dnsmasq
+    - openssh
+    - upower
+    - hwinfo
+    - python
+    - solid
+    - mlocate
+    - ttf-dejavu
+    - gnu-free-fonts
+    - ttf-liberation
+    - ttf-bitstream-vera
+    - ttf-ubuntu-font-family
+    - cantarell-fonts
+    - noto-fonts
+    - noto-fonts-cjk
+    - ttf-croscore
+    - ttf-carlito
+    - ttf-caladea
+    - firefox
+    - alsa-utils
+    - alsa-plugins
+    - alsa-firmware
+    - hardinfo
+    - glances
+    - htop
+    - screenfetch
+    - pavucontrol
+    - ffmpegthumbnailer
+    - poppler-glib
+    - libgsf 
+    - libopenraw
+    - freetype2
+    - gst-libav
+    - gst-plugins-bad
+    - gst-plugins-ugly
+    - mplayer
+    - libdvdcss
+    - systemd-ui
+    - efibootmgr
+    - lsb-release
+    - dosfstools
+    - mtools
+    - openssh
+    - intel-ucode
+    - amd-ucode
+    - os-prober
+    - wget
+    - welcome
+- name: "Accessibility Tools"
+  description: "Screen reader and mouse tweak"
+  hidden: false
+  selected: false
+  critical: false
+  packages:
+    - orca
+    - mousetweaks
+- name: "XFCE4-Desktop"
+  description: "XFCE4 - lightweight desktop fast and low on system resources, visually appealing and user friendly."
+  hidden: false
+  selected: false
+  critical: false
+  packages:
+    - xfce4
+    - xfce4-goodies
+    - file-roller
+    - network-manager-applet
+    - leafpad
+    - galculator
+    - blueberry
+    - lightdm
+    - lightdm-gtk-greeter
+    - lightdm-gtk-greeter-settings
+- name: "MATE-Desktop"
+  description: "MATE Desktop - the continuation of GNOME 2"
+  hidden: false
+  selected: false
+  critical: false
+  packages:
+    - mate
+    - mate-extra
+    - celluloid
+    - network-manager-applet
+    - lightdm
+    - lightdm-gtk-greeter
+    - lightdm-gtk-greeter-settings
+- name: "KDE-Desktop"
+  description: "KDE-Plasma Desktop - Simple by default, powerful when needed."
+  hidden: false
+  selected: false
+  critical: false
+  packages:
+    - plasma
+    - plasma-wayland-session
+    - kde-applications
+    - packagekit-qt5
+    - elisa
+    - kdeconnect
+- name: "GNOME-Desktop"
+  description: "GNOME Desktop - designed to put you in control and get things done. "
+  hidden: true
+  selected: false
+  critical: false
+  packages:
+    - gnome
+    - gnome-extra
+    - celluloid
+- name: "Cinnamon-Desktop"
+  description: "Cinnamon Desktop - advanced innovative features and a traditional user experience."
+  hidden: false
+  selected: false
+  critical: false
+  packages:
+    - cinnamon
+    - blueberry
+    - cinnamon-translations
+    - gnome-terminal
+    - xdg-user-dirs-update
+    - celluloid
+    - x-apps
+    - file-roller
+    - lightdm
+    - lightdm-gtk-greeter
+    - lightdm-gtk-greeter-settings
+    - nemo-fileroller 	
+    - nemo-image-converter
+    - nemo-preview
+    - nemo-seahorse	
+    - nemo-share
+    - gnome-screenshot
+    - gnome-calculator
+- name: "Budgie-Desktop"
+  description: "Budgie - I Tawt I Taw A Purdy Desktop"
+  hidden: true
+  selected: false
+  critical: false
+  packages:
+    - budgie-desktop
+    - gnome
+    - celluloid
+    - lightdm
+    - lightdm-gtk-greeter
+    - lightdm-gtk-greeter-settings
+- name: "Deepin-Desktop"
+  description: "Deepin Desktop - beautiful, easy to use, safe and reliable. "
+  hidden: true
+  selected: false
+  critical: false
+  packages:
+    - deepin
+    - deepin-extra
+    - celluloid
+- name: "i3 Window Manager"
+  description: "i3 tiling window manager, primarily targeted at developers and advanced users. "
+  hidden: true
+  selected: false
+  critical: false
+  post-install: systemctl -f enable lightdm
+  packages:
+    - i3-wm
+    - i3-blocks
+    - i3-lock
+    - i3-status
+    - network-manager-applet
+    - arandr
+    - archlinux-xdg-menu
+    - lxappearance-gtk3
+    - ttf-font-icons
+    - rofi
+    - lightdm
+    - lightdm-gtk-greeter
+    - light-locker
+    - lightdm-gtk-greeter-settings
+- name: "Openbox"
+  description: "Openbox is a highly configurable, next generation window manager with extensive standards support."
+  hidden: true
+  selected: false
+  critical: false
+  post-install: systemctl -f enable lightdm
+  packages:
+    - openbox
+    - obconf
+    - lxappearance-obconf
+    - lxinput
+    - lxrandr
+    - arandr
+    - menumaker
+    - archlinux-xdg-menu
+    - lightdm
+    - lightdm-gtk-greeter
+    - light-locker
+    - lightdm-gtk-greeter-settings
+- name: "Printing-Support"
+  description: "Support for printing (Cups)"
+  hidden: false
+  selected: false
+  critical: false
+  packages:
+    - cups 
+    - cups-filters 
+    - cups-pdf 
+    - ghostscript 
+    - gsfonts 
+    - foomatic-db-engine
+    - foomatic-db 
+    - foomatic-db-ppds 
+    - foomatic-db-nonfree 
+    - foomatic-db-nonfree-ppds 
+    - gutenprint 
+    - foomatic-db-gutenprint-ppds 
+    - system-config-printer
+    - hplip
+    - splix
+- name: "AUR-Support"
+  description: "Add support to build packages from AUR (Arch User Repository)"
+  hidden: false
+  selected: false
+  critical: false
+  packages:
+    - yay
