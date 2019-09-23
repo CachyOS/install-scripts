@@ -53,6 +53,23 @@ _config_for_app(){
     esac
 }
 
+_vbox(){
+
+# Detects if running in vbox
+local xx
+
+lspci | grep -i "virtualbox" >/dev/null
+if [[ $? == 0 ]]
+    then
+        :      
+    else
+        for xx in virtualbox-guest-utils virtualbox-guest-modules-arch virtualbox-guest-dkms ; do
+            test -n "$(pacman -Q $xx 2>/dev/null)" && pacman -Rnsdd $xx --noconfirm
+        done
+        rm -f /usr/lib/modules-load.d/virtualbox-guest-dkms.conf
+fi
+
+}
 _common_systemd(){
 # ARRAY
 _systemd_enable=(NetworkManager vboxservice org.cups.cupsd avahi-daemon gdm lightdm sddm)
@@ -145,29 +162,5 @@ if [ ! d = "/tmp/run_once" ]; then INSTALL_OPTION="OFFLINE_MODE"; else INSTALL_O
 _check_install_mode
 _common_systemd
 _endeavouros
+_vbox
 rm -rf /usr/bin/{calamares_switcher,cleaner_script.sh}
-
-
-
-########################################
-################### OLD ################
-########################################
-
-# VBOX is done in calamares, but can be changed
-_vbox(){
-
-# Detects if running in vbox
-local xx
-
-lspci | grep -i "virtualbox" >/dev/null
-if [[ $? == 0 ]]
-    then
-        :      
-    else
-        for xx in virtualbox-guest-utils virtualbox-guest-modules-arch virtualbox-guest-dkms ; do
-            test -n "$(pacman -Q $xx 2>/dev/null)" && pacman -Rnsdd $xx --noconfirm
-        done
-        rm -f /usr/lib/modules-load.d/virtualbox-guest-dkms.conf
-fi
-
-}
