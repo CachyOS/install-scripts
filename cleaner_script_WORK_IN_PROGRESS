@@ -1,32 +1,23 @@
 #!/bin/bash
 
 NEW_USER=$(cat /etc/passwd | grep "/home" |cut -d: -f1 |head -1)
+INSTALL_OPTION=""
 
 # Any failed command will just be skiped, error message may pop up but won't crash the install process
 
-# Necessary for off/online
-#_check_internet_connection
-#_arch_news_latest_headline
-#_config_for_app
-#_common_systemd
-#_clean_install_scripts
-#_display_manager
-#_endeavouros
+# Net-install creates the file /tmp/run_once in live environment (need to be transfered to installed system) so it can be used to detect install option
 
 
-# Offline
-#_clean_archiso
-
-# Online
-
-
-#_vbox ????? should we purge calamares code?
-
-# if [ ! -d $_reponame ]
-# Check if using online install
+_implement_me_please(){
 
 # Check if package is installed
+# hardware detection
 # DE, broadcom, nvidia detector etc
+:
+#pacman -Qq xfce4-session
+
+}
+
 
 _check_internet_connection(){
     ping -c 1 8.8.8.8 >& /dev/null   # ping Google's address
@@ -63,6 +54,7 @@ _config_for_app(){
 }
 
 
+# Just a storage
 _systemd_enable=(
 
 NetworkManager
@@ -75,6 +67,7 @@ sddm
 
 )
 
+# Just a storage
 _systemd_disable=(
 
 multi-user.target
@@ -84,7 +77,6 @@ pacman-init
 
 _common_systemd(){
 
-
 local xx
 for xx in ${_systemd_enable[*]}; do systemctl enable -f $xx; done
 
@@ -92,8 +84,6 @@ local yy
 for yy in ${_systemd_disable[*]}; do systemctl disable -f $yy; done
 
 }
-
-
 
 _sed_stuff(){
 
@@ -103,7 +93,7 @@ sed -i 's/.*pam_wheel\.so/#&/' /etc/pam.d/su
 
 }
 
-
+# Just a storage
 _files_to_remove=(
 
 /etc/sudoers.d/g_wheel
@@ -133,7 +123,57 @@ find /usr/lib/initcpio -name archiso* -type f -exec rm '{}' \;
 
 }
 
+_endeavouros(){
 
+sed -i "/if/,/fi/"'s/^/#/' /home/$NEW_USER/.bash_profile
+sed -i "/if/,/fi/"'s/^/#/' /root/.bash_profile
+
+pacman -R gnome-software --noconfirm
+pacman -Rsc gnome-boxes --noconfirm
+
+_check_internet_connection && {
+    #_config_for_app update-mirrorlist # calamares does it for offline/online install
+    _config_for_app kalu
+}
+
+}
+
+_check_install_mode(){
+
+if [ ! d = "/tmp/run_once" ]; then INSTALL_OPTION="OFFLINE_MODE"; else INSTALL_OPTION="ONLINE_MODE"; fi
+
+    case "$INSTALL_OPTION" in
+        OFFLINE_MODE)
+                _clean_archiso
+                _files_to_remove
+                _sed_stuff
+            ;;
+
+        ONLINE_MODE)
+                _implement_me_please
+                # for now all systemd are enabled - can be specific offline/online in the future
+            ;;
+        *)
+            ;;
+    esac
+}
+
+########################################
+########## SCRIPT STARTS HERE ##########
+########################################
+
+_check_install_mode
+_common_systemd
+_endeavouros
+rm -rf /usr/bin/{calamares_switcher,cleaner_script.sh}
+
+
+
+########################################
+################### OLD ################
+########################################
+
+# VBOX is done in calamares, but can be changed
 _vbox(){
 
 # Detects if running in vbox
@@ -151,37 +191,3 @@ if [[ $? == 0 ]]
 fi
 
 }
-
-_display_manager(){
-# no problem if any of them fails
-
-pacman -R gnome-software --noconfirm
-pacman -Rsc gnome-boxes --noconfirm
-
-}
-
-_endeavouros(){
-
-# what happens if we just delete the files, are they auto-created?
-
-sed -i "/if/,/fi/"'s/^/#/' /home/$NEW_USER/.bash_profile
-sed -i "/if/,/fi/"'s/^/#/' /root/.bash_profile
-
-#_display_manager
-
-_check_internet_connection && {
-    #_config_for_app update-mirrorlist
-    _config_for_app kalu
-}
-
-}
-
-
-
-########################################
-########## SCRIPT STARTS HERE ##########
-########################################
-
-_common_systemd
-_clean_archiso
-_endeavouros
