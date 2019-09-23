@@ -221,21 +221,23 @@
     - celluloid
 - name: "i3 Window Manager"
   description: "i3 tiling window manager, primarily targeted at developers and advanced users. "
-  hidden: false
+  hidden: true
   selected: false
   critical: false
   post-install: systemctl -f enable lightdm
   packages:
     - i3-wm
-    - i3-blocks
-    - i3-lock
-    - i3-status
+    - i3blocks
+    - i3lock
+    - i3status
     - network-manager-applet
     - arandr
     - archlinux-xdg-menu
     - lxappearance-gtk3
     - ttf-font-icons
     - rofi
+    - dmenu
+    - terminator
     - lightdm
     - lightdm-gtk-greeter
     - lightdm-gtk-greeter-settings
