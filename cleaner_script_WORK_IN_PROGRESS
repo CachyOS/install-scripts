@@ -45,14 +45,23 @@ _config_for_app(){
 _vbox(){
 
 # Detects if running in vbox
+
+_vbox_packages=(virtualbox-guest-utils virtualbox-guest-modules-arch)
+
 local xx
 
 lspci | grep -i "virtualbox" >/dev/null
 if [[ $? == 0 ]]
     then
-        :      
+        if [ -d /tmp/run_once ]
+            then
+                for xx in ${_vbox_packages[*]}
+                    do pacman -S $xx --noconfirm
+                done
+        fi   
+        : 
     else
-        for xx in virtualbox-guest-utils virtualbox-guest-modules-arch virtualbox-guest-dkms ; do
+        for xx in ${_vbox_packages[*]} ; do
             test -n "$(pacman -Q $xx 2>/dev/null)" && pacman -Rnsdd $xx --noconfirm
         done
         rm -f /usr/lib/modules-load.d/virtualbox-guest-dkms.conf
