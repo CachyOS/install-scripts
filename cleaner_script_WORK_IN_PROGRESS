@@ -44,20 +44,20 @@ _config_for_app(){
 
 _vbox(){
 
-# Detects if running in vbox
+    # Detects if running in vbox
 
-_vbox_packages=(virtualbox-guest-utils virtualbox-guest-modules-arch)
+    local _vbox_packages=(virtualbox-guest-utils virtualbox-guest-modules-arch)   
+    local xx
 
-local xx
-
-lspci | grep -i "virtualbox" >/dev/null
-if [[ $? == 0 ]]
+    lspci | grep -i "virtualbox" >/dev/null
+    if [[ $? == 0 ]]                                  # manuel: is this test reversed???
     then
-        if [ -d /tmp/run_once ]
-            then
-                for xx in ${_vbox_packages[*]}
-                    do pacman -S $xx --noconfirm
-                done
+        # If using net-install detect VBox and install the packages
+        if [ -f /tmp/run_once ]                  
+        then
+            for xx in ${_vbox_packages[*]}
+            do pacman -S $xx --noconfirm
+            done
         fi   
         : 
     else
@@ -65,88 +65,90 @@ if [[ $? == 0 ]]
             test -n "$(pacman -Q $xx 2>/dev/null)" && pacman -Rnsdd $xx --noconfirm
         done
         rm -f /usr/lib/modules-load.d/virtualbox-guest-dkms.conf
-fi
-
+    fi
 }
+
 _common_systemd(){
-# ARRAY
-_systemd_enable=(NetworkManager vboxservice org.cups.cupsd avahi-daemon gdm lightdm sddm)
-# ARRAY
-_systemd_disable=(multi-user.target pacman-init)
+    local _systemd_enable=(NetworkManager vboxservice org.cups.cupsd avahi-daemon gdm lightdm sddm)   
+    local _systemd_disable=(multi-user.target pacman-init)           
 
-local xx
-for xx in ${_systemd_enable[*]}; do systemctl enable -f $xx; done
+    local xx
+    for xx in ${_systemd_enable[*]}; do systemctl enable -f $xx; done
 
-local yy
-for yy in ${_systemd_disable[*]}; do systemctl disable -f $yy; done
-
+    local yy
+    for yy in ${_systemd_disable[*]}; do systemctl disable -f $yy; done
 }
 
 _sed_stuff(){
 
-# Journal
-sed -i 's/volatile/auto/g' /etc/systemd/journald.conf 2>>/tmp/.errlog
-sed -i 's/.*pam_wheel\.so/#&/' /etc/pam.d/su
-
+    # Journal for offline. Turn volatile (for iso) into a real system.
+    sed -i 's/volatile/auto/g' /etc/systemd/journald.conf 2>>/tmp/.errlog
+    sed -i 's/.*pam_wheel\.so/#&/' /etc/pam.d/su
 }
 
 _clean_archiso(){
 
-# ARRAY
-_files_to_remove=(
-/etc/sudoers.d/g_wheel
-/var/lib/NetworkManager/NetworkManager.state
-/etc/systemd/system/{choose-mirror.service,pacman-init.service,etc-pacman.d-gnupg.mount,getty@tty1.service.d}
-/etc/systemd/scripts/choose-mirror
-/etc/systemd/system/getty@tty1.service.d/autologin.conf
-/root/{.automated_script.sh,.zlogin}
-/etc/mkinitcpio-archiso.conf
-/etc/initcpio
-/etc/udev/rules.d/81-dhcpcd.rules
-/usr/bin/{calamares_switcher,cleaner_script.sh}
-/home/$NEW_USER/.config/qt5ct
-/home/$NEW_USER/{.xinitrc,.xsession}
-/root/{.xinitrc,.xsession}
-/etc/skel/{.xinitrc,.xsession}
-)
+    local _files_to_remove=(                               
+        /etc/sudoers.d/g_wheel
+        /var/lib/NetworkManager/NetworkManager.state
+        /etc/systemd/system/{choose-mirror.service,pacman-init.service,etc-pacman.d-gnupg.mount,getty@tty1.service.d}
+        /etc/systemd/scripts/choose-mirror
+        /etc/systemd/system/getty@tty1.service.d/autologin.conf
+        /root/{.automated_script.sh,.zlogin}
+        /etc/mkinitcpio-archiso.conf
+        /etc/initcpio
+        /etc/udev/rules.d/81-dhcpcd.rules
+        /usr/bin/{calamares_switcher,cleaner_script.sh}
+        /home/$NEW_USER/.config/qt5ct
+        /home/$NEW_USER/{.xinitrc,.xsession}
+        /root/{.xinitrc,.xsession}
+        /etc/skel/{.xinitrc,.xsession}
+    )
 
-local xx
+    local xx
 
-for xx in ${_files_to_remove[*]}; do rm -rf $xx; done
+    for xx in ${_files_to_remove[*]}; do rm -rf $xx; done
 
-find /usr/lib/initcpio -name archiso* -type f -exec rm '{}' \;
+    find /usr/lib/initcpio -name archiso* -type f -exec rm '{}' \;
 
 }
 
 _endeavouros(){
 
-sed -i "/if/,/fi/"'s/^/#/' /home/$NEW_USER/.bash_profile
-sed -i "/if/,/fi/"'s/^/#/' /root/.bash_profile
+    sed -i "/if/,/fi/"'s/^/#/' /home/$NEW_USER/.bash_profile
+    sed -i "/if/,/fi/"'s/^/#/' /root/.bash_profile
 
-pacman -R gnome-software --noconfirm
-pacman -Rsc gnome-boxes --noconfirm
+    pacman -R gnome-software --noconfirm
+    pacman -Rsc gnome-boxes --noconfirm
 
-_check_internet_connection && {
-    #_config_for_app update-mirrorlist # calamares does it for offline/online install
-    _config_for_app kalu
-}
+    _check_internet_connection && {
+        #_config_for_app update-mirrorlist # calamares does it for online install. For offline welcome screen at first boot
+        _config_for_app kalu
+    }
 
 }
 
 _check_install_mode(){
 
-if [ ! d = "/tmp/run_once" ]; then INSTALL_OPTION="OFFLINE_MODE"; else INSTALL_OPTION="ONLINE_MODE"; fi
+    if [ -f /tmp/run_once ] ; then
+        INSTALL_OPTION="ONLINE_MODE"
+    else
+        INSTALL_OPTION="OFFLINE_MODE"
+    fi
+
+    # manuel: is some other code using variable INSTALL_OPTION? If not, it could be a local variable here. 
+    # fernando: Not sure yet :) The plan is to detect if using offline/online install and act accordingly. I guess can be local since this function will call the others anyway
 
     case "$INSTALL_OPTION" in
         OFFLINE_MODE)
                 _clean_archiso
-                _files_to_remove
                 _sed_stuff
             ;;
 
         ONLINE_MODE)
-                _implement_me_please
-                # for now all systemd are enabled - can be specific offline/online in the future
+                # not implemented yet. For now run functions at "SCRIPT STARTS HERE"
+                :
+                # all systemd are enabled - can be specific offline/online in the future
             ;;
         *)
             ;;
