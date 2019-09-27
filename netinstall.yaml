@@ -5,6 +5,7 @@
   critical: false
   packages:
     - base-devel
+    - yay
     - linux-headers
     - linux-firmware
     - pacman-contrib
@@ -280,10 +281,3 @@
     - system-config-printer
     - hplip
     - splix
-- name: "AUR-Support"
-  description: "Add support to build packages from AUR (Arch User Repository)"
-  hidden: false
-  selected: false
-  critical: false
-  packages:
-    - yay
