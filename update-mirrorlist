@@ -63,7 +63,7 @@ Main() {
     local this_country="$(GetYourCountry)"
     local tf=$(mktemp)
     local mf=/etc/pacman.d/mirrorlist
-    local result=OK
+    local result=0
 
     local refopts="-phttps -f10 -l20 --sort age --save $tf"  # common reflector options
 
@@ -71,24 +71,24 @@ Main() {
         echo "Detected country: '$this_country'" >&2
         # testing time option -P: do not add http with this country
         if [ "$1" = "-P" ] || [ "$(CWantsHttp "$this_country")" = "no" ] ; then
-            reflector $refopts -a2 -c "$this_country" 2/dev/null || result=FAIL
+            reflector $refopts -a2 -c "$this_country" 2/dev/null
+            result=$?
         else
-            reflector $refopts -a2 -phttp -c "$this_country" 2/dev/null || result=FAIL   # a country may lack https mirrors
+            # a country may lack https mirrors
+            reflector $refopts -a8 -phttp -c "$this_country" 2/dev/null
+            result=$?
         fi
     } || {
-        reflector $refopts -a1 2/dev/null || result=FAIL
+        reflector $refopts -a1 2/dev/null
+        result=$?
     }
 
-    if [ "$result" = "FAIL" ] ; then
-        # Add "worldwide" mirrors as fallbacks.
-        cat <<EOF > $tf
-## Worldwide
-Server = https://mirrors.evowise.com/archlinux/\$repo/os/\$arch
-Server = https://mirror.rackspace.com/archlinux/\$repo/os/\$arch
-EOF
+    if [ $result -eq 0 ] ; then
+        sudo bash -c "cp $tf $mf && chmod 0644 $mf"
+    else
+        echo "reflector returned error code $result."
     fi
 
-    sudo bash -c "cp $tf $mf && chmod 0644 $mf"
     rm -f $tf
 }
 
