@@ -1,7 +1,9 @@
 #!/bin/bash
 
+# New version of cleaner_script
+# Made by @fernandomaroto and @manuel 
+
 NEW_USER=$(cat /etc/passwd | grep "/home" |cut -d: -f1 |head -1)
-INSTALL_OPTION=""
 
 # Any failed command will just be skiped, error message may pop up but won't crash the install process
 
@@ -46,22 +48,22 @@ _vbox(){
 
     # Detects if running in vbox
 
-    local _vbox_packages=(virtualbox-guest-utils virtualbox-guest-modules-arch)   
+    local _vbox_guest_packages=(virtualbox-guest-utils virtualbox-guest-modules-arch)   
     local xx
 
     lspci | grep -i "virtualbox" >/dev/null
-    if [[ $? == 0 ]]                                  # manuel: is this test reversed???
+    if [[ $? == 0 ]]
     then
         # If using net-install detect VBox and install the packages
         if [ -f /tmp/run_once ]                  
         then
-            for xx in ${_vbox_packages[*]}
+            for xx in ${_vbox_guest_packages[*]}
             do pacman -S $xx --noconfirm
             done
         fi   
         : 
     else
-        for xx in ${_vbox_packages[*]} ; do
+        for xx in ${_vbox_guest_packages[*]} ; do
             test -n "$(pacman -Q $xx 2>/dev/null)" && pacman -Rnsdd $xx --noconfirm
         done
         rm -f /usr/lib/modules-load.d/virtualbox-guest-dkms.conf
@@ -131,13 +133,10 @@ _endeavouros(){
 _check_install_mode(){
 
     if [ -f /tmp/run_once ] ; then
-        INSTALL_OPTION="ONLINE_MODE"
+        local INSTALL_OPTION="ONLINE_MODE"
     else
-        INSTALL_OPTION="OFFLINE_MODE"
+        local INSTALL_OPTION="OFFLINE_MODE"
     fi
-
-    # manuel: is some other code using variable INSTALL_OPTION? If not, it could be a local variable here. 
-    # fernando: Not sure yet :) The plan is to detect if using offline/online install and act accordingly. I guess can be local since this function will call the others anyway
 
     case "$INSTALL_OPTION" in
         OFFLINE_MODE)
