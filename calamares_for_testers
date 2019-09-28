@@ -17,8 +17,9 @@ rm -rf install
 wget https://github.com/endeavouros-team/liveuser-desktop-settings/raw/master/install
 wget https://github.com/endeavouros-team/install-scripts/raw/master/calamares_switcher
 wget https://github.com/endeavouros-team/install-scripts/raw/master/pacstrap_endeavouros
-chmod +x cleaner_script.sh update-mirrorlist install calamares_switcher pacstrap_endeavouros
-sudo mv cleaner_script.sh update-mirrorlist calamares_switcher pacstrap_endeavouros /usr/bin
+wget https://github.com/endeavouros-team/install-scripts/raw/master/pacstrap_calamares
+chmod +x cleaner_script.sh update-mirrorlist install calamares_switcher pacstrap_endeavouros pacstrap_calamares
+sudo mv cleaner_script.sh update-mirrorlist calamares_switcher pacstrap_endeavouros pacstrap_calamares /usr/bin
 
 }
 
