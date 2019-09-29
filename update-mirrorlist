@@ -54,42 +54,46 @@ GetYourCountry() {
 }
 CWantsHttp() {
     case "$1" in
-        Finland) echo no ;;
-        *)       echo yes ;;
+        FI|"Finland") echo no ;;
+        *)            echo yes ;;
     esac
 }
+echo2() { echo "$@" >&2 ; }
+
 Main() {
     REFLECTOR_COUNTRIES="$(reflector --list-countries)"
-    local this_country="$(GetYourCountry)"
+    local this_country="$(GetYourCountryCode)"
+    local retval
     local tf=$(mktemp)
     local mf=/etc/pacman.d/mirrorlist
-    local result=0
-
-    local refopts="-phttps -f10 -l20 --sort age --save $tf"  # common reflector options
+    local cmd="reflector -phttps -f10 -l20 --sort age --save $tf "  # reflector and common options
 
     test -n "$this_country" && {
-        echo "Detected country: '$this_country'" >&2
-        # testing time option -P: do not add http with this country
-        if [ "$1" = "-P" ] || [ "$(CWantsHttp "$this_country")" = "no" ] ; then
-            reflector $refopts -a2 -c "$this_country" 2/dev/null
-            result=$?
+        # Country is in the list of countries supported by Arch,
+        # so search mirrors only in this country (should be the fastest?).
+        echo2 "Detected country: $(CodeToCountry $this_country)"
+        if [ "$(CWantsHttp "$this_country")" = "no" ] ; then
+            cmd+="-a2 -c $this_country"                      # use only https with this country
         else
-            # a country may lack https mirrors
-            reflector $refopts -a8 -phttp -c "$this_country" 2/dev/null
-            result=$?
+            cmd+="-a8 -phttp -prsync -c $this_country"       # this country may lack https mirrors
         fi
     } || {
-        reflector $refopts -a1 2/dev/null
-        result=$?
+        # Country is not in the list of countries supported by Arch,
+        # so have a global search with https and very up to date mirrors.
+        cmd+="-a1"
     }
 
-    if [ $result -eq 0 ] ; then
+    $cmd 2>/dev/null
+    retval=$?
+
+    test $retval -eq 0 && {
         sudo bash -c "cp $tf $mf && chmod 0644 $mf"
-    else
-        echo "reflector returned error code $result."
-    fi
+    } || {
+        echo2 "reflector returned error code $retval, mirrorlist not updated."
+    }
 
     rm -f $tf
+    return $retval   # 0=OK, other is FAIL
 }
 
 Main "$@"
