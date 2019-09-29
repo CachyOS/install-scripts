@@ -20,7 +20,7 @@ _update_scripts(){
     for scripts in "${scripts_array[@]}"; do
         wget $URL/$scripts
         chmod +x $scripts
-        sudo mv $scripts /usr/bin
+        #sudo mv $scripts /usr/bin
     done
 
 }
@@ -32,11 +32,14 @@ rm -rf cal_github_version.txt cal_installed_version.txt
 local URL_TAG="https://github.com/endeavouros-team/mirrors/releases/tag/endeavouros_calamares"
 local PKG_NAME="calamares_current"
 
-curl $URL_TAG |grep calamares_current |sed s'/^.*calamares_current/calamares_current/'g | sed s'/pkg.tar.xz.*/pkg.tar.xz/'g |tail -1 >cal_github_version.txt
+# ? and double quotes to escape "$" variable using sed
 
-pacman -Q |grep calamares_current |sed s'/ /-/' |sed s'/$/-any.pkg.tar.xz/' >cal_installed_version.txt
+curl $URL_TAG |grep "$PKG_NAME" |sed s"?^.*$PKG_NAME?$PKG_NAME?"g | sed s'/pkg.tar.xz.*/pkg.tar.xz/'g |tail -1 >cal_github_version.txt
+
+pacman -Q |grep "$PKG_NAME" |sed s'/ /-/' |sed s'/$/-any.pkg.tar.xz/' >cal_installed_version.txt
 
 local URL_DOWNLOAD="https://github.com/endeavouros-team/mirrors/releases/download/endeavouros_calamares"
+
 diff cal_github_version.txt cal_installed_version.txt
 
 if [ $? != 0 ]
