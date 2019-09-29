@@ -8,51 +8,50 @@ _check_internet_connection(){
     ping -c 1 8.8.8.8 >& /dev/null   # ping Google's address
 }
 
-_update_scripts()
-{
+_update_scripts(){
 
-wget https://raw.githubusercontent.com/endeavouros-team/install-scripts/master/cleaner_script.sh
-wget https://raw.githubusercontent.com/endeavouros-team/install-scripts/master/update-mirrorlist
-rm -rf install
-wget https://github.com/endeavouros-team/liveuser-desktop-settings/raw/master/install
-wget https://github.com/endeavouros-team/install-scripts/raw/master/calamares_switcher
-wget https://github.com/endeavouros-team/install-scripts/raw/master/pacstrap_endeavouros
-wget https://github.com/endeavouros-team/install-scripts/raw/master/pacstrap_calamares
-chmod +x cleaner_script.sh update-mirrorlist install calamares_switcher pacstrap_endeavouros pacstrap_calamares
-sudo mv cleaner_script.sh update-mirrorlist calamares_switcher pacstrap_endeavouros pacstrap_calamares /usr/bin
+    local URL="https://raw.githubusercontent.com/endeavouros-team/install-scripts/master"
+
+    local scripts_array=(
+    cleaner_script.sh update-mirrorlist calamares_switcher pacstrap_endeavouros pacstrap_calamares
+)
+
+    local download
+    for scripts in "${scripts_array[*]}"; do
+        wget $URL/$scripts
+        chmod +x $scripts
+        sudo mv $scripts /usr/bin
+    done
 
 }
 
-_cal_version()
-{
-rm -rf cal_github_version.txt
-curl https://github.com/endeavouros-team/mirrors/releases/tag/endeavouros_calamares |grep calamares_current |sed s'/^.*calamares_current/calamares_current/'g | sed s'/pkg.tar.xz.*/pkg.tar.xz/'g |tail -1 >cal_github_version.txt
+_cal_version(){
 
-rm -rf cal_installed_version.txt
+rm -rf cal_github_version.txt cal_installed_version.txt
+
+local URL_TAG="https://github.com/endeavouros-team/mirrors/releases/tag/endeavouros_calamares"
+local PKG_NAME="calamares_current"
+
+curl $URL_TAG |grep calamares_current |sed s'/^.*calamares_current/calamares_current/'g | sed s'/pkg.tar.xz.*/pkg.tar.xz/'g |tail -1 >cal_github_version.txt
+
 pacman -Q |grep calamares_current |sed s'/ /-/' |sed s'/$/-any.pkg.tar.xz/' >cal_installed_version.txt
 
-}
-
-_compare_cal_versions()
-
-{
-
+local URL_DOWNLOAD="https://github.com/endeavouros-team/mirrors/releases/download/endeavouros_calamares"
 diff cal_github_version.txt cal_installed_version.txt
 
 if [ $? != 0 ]
     then
-        wget https://github.com/endeavouros-team/mirrors/releases/download/endeavouros_calamares/$(cat cal_github_version.txt)
+        wget $URL_DOWNLOAD/$(cat cal_github_version.txt)
         sudo pacman -U $(cat cal_github_version.txt) --noconfirm
 
 fi
 
 }
 
-_welcome_screen()
+_welcome_screen(){
 
-{
-
-printf "$BGreen \n Do you want to check for calamares and scripts updates? (Recommended if you have internet) (1=yes, 2=no / Default 1)"
+msg1="Do you want to check for calamares and scripts updates? (Recommended if you have internet) (1=yes, 2=no / Default 1)"
+printf "$BGreen \n $msg1"
 
 read answer 
 
@@ -65,7 +64,6 @@ case $answer in
     _update_scripts
     clear
     _cal_version
-    _compare_cal_versions
     ;;
 
     2)
@@ -79,11 +77,11 @@ esac
 
 }
 
-_run_calamares()
-{
+_run_calamares(){
 
+msg2="Do you want to run calamares? (1=yes, 2=no / Default 1)"
 
-printf "$BYellow \n Do you want to run calamares? (1=yes, 2=no / Default 1)"
+printf "$BYellow \n $msg2"
 
 read run_me 
 
