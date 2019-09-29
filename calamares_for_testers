@@ -26,7 +26,7 @@ sudo mv cleaner_script.sh update-mirrorlist calamares_switcher pacstrap_endeavou
 _cal_version()
 {
 rm -rf cal_github_version.txt
-curl https://github.com/endeavouros-team/mirrors/releases/tag/mirror3-developer |grep calamares_current |sed s'/^.*calamares_current/calamares_current/'g | sed s'/pkg.tar.xz.*/pkg.tar.xz/'g |tail -1 >cal_github_version.txt
+curl https://github.com/endeavouros-team/mirrors/releases/tag/endeavouros_calamares |grep calamares_current |sed s'/^.*calamares_current/calamares_current/'g | sed s'/pkg.tar.xz.*/pkg.tar.xz/'g |tail -1 >cal_github_version.txt
 
 rm -rf cal_installed_version.txt
 pacman -Q |grep calamares_current |sed s'/ /-/' |sed s'/$/-any.pkg.tar.xz/' >cal_installed_version.txt
@@ -41,7 +41,7 @@ diff cal_github_version.txt cal_installed_version.txt
 
 if [ $? != 0 ]
     then
-        wget https://github.com/endeavouros-team/mirrors/releases/download/mirror3-developer/$(cat cal_github_version.txt)
+        wget https://github.com/endeavouros-team/mirrors/releases/download/endeavouros_calamares/$(cat cal_github_version.txt)
         sudo pacman -U $(cat cal_github_version.txt) --noconfirm
 
 fi
