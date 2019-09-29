@@ -20,7 +20,7 @@ _update_scripts(){
     for scripts in "${scripts_array[@]}"; do
         wget $URL/$scripts
         chmod +x $scripts
-        #sudo mv $scripts /usr/bin
+        sudo mv $scripts /usr/bin
     done
 
 }
