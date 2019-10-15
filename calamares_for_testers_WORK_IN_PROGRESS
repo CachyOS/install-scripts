@@ -51,9 +51,25 @@ fi
 
 }
 
+_cal_testing_version(){
+
+local URL_TAG="https://github.com/endeavouros-team/mirrors/releases/tag/endeavouros_calamares"
+local PKG_NAME="calamares_testing"
+
+# ? and double quotes to escape "$" variable using sed
+
+curl $URL_TAG |grep "$PKG_NAME" |sed s"?^.*$PKG_NAME?$PKG_NAME?"g | sed s'/pkg.tar.xz.*/pkg.tar.xz/'g |tail -1 >cal_github_version.txt
+
+local URL_DOWNLOAD="https://github.com/endeavouros-team/mirrors/releases/download/endeavouros_calamares"
+
+wget $URL_DOWNLOAD/$(cat cal_github_version.txt)
+sudo pacman -U $(cat cal_github_version.txt) --noconfirm
+
+}
+
 _welcome_screen(){
 
-msg1="Do you want to check for calamares and scripts updates? (Recommended if you have internet) (1=yes, 2=no / Default 1)"
+local msg1="Do you want to check for calamares and scripts updates? (Recommended if you have internet) (1=yes, 2=no / Default 1)"
 printf "$BGreen \n $msg1"
 
 read answer 
@@ -80,9 +96,41 @@ esac
 
 }
 
+_check_testing_calamares(){
+
+local msg1="Do you want to update calamares or install a testing version? (1=update, 2=testing / Default 1)"
+printf "$BGreen \n $msg1"
+
+read answer 
+
+if [ "$answer" != "2" ]; then answer="1"; fi
+
+case $answer in
+
+    1)  
+    clear
+    _update_scripts
+    clear
+    _cal_version
+    ;;
+
+    2)
+    clear
+    _update_scripts
+    clear
+    _cal_testing_version
+    ;;
+
+    * )
+    ;;
+
+esac
+
+}
+
 _run_calamares(){
 
-msg2="Do you want to run calamares? (1=yes, 2=no / Default 1)"
+local msg2="Do you want to run calamares? (1=yes, 2=no / Default 1)"
 
 printf "$BYellow \n $msg2"
 
@@ -110,7 +158,9 @@ esac
 # STARTS HERE
 _check_internet_connection && {
     clear
-    _welcome_screen
+    #_welcome_screen
+    _cal_testing_version
 }
 clear
-_run_calamares
+#_run_calamares
+/usr/bin/calamares_switcher
