@@ -239,6 +239,9 @@
     - ttf-font-icons
     - rofi
     - dmenu
+    - script
+    - polkit-gnome
+    - pcmanfm
     - terminator
     - lightdm
     - lightdm-gtk-greeter
