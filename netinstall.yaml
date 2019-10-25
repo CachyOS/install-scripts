@@ -170,7 +170,7 @@
     - kdeconnect
 - name: "GNOME-Desktop"
   description: "GNOME Desktop - designed to put you in control and get things done. "
-  hidden: true
+  hidden: false
   selected: false
   critical: false
   packages:
@@ -215,7 +215,7 @@
     - lightdm-gtk-greeter-settings
 - name: "Deepin-Desktop"
   description: "Deepin Desktop - beautiful, easy to use, safe and reliable. "
-  hidden: true
+  hidden: false
   selected: false
   critical: false
   packages:
