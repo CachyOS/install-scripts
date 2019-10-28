@@ -123,10 +123,10 @@ _endeavouros(){
     pacman -R gnome-software --noconfirm
     pacman -Rsc gnome-boxes --noconfirm
 
-    _check_internet_connection && {
+    #_check_internet_connection && {
         #_config_for_app update-mirrorlist # calamares does it for online install. For offline welcome screen at first boot
-        _config_for_app kalu
-    }
+    #    _config_for_app kalu
+    #}
 
 }
 
