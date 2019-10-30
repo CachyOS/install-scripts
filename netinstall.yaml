@@ -237,7 +237,6 @@
     - archlinux-xdg-menu
     - lxappearance-gtk3
     - ttf-font-icons
-    - rofi
     - dmenu
     - script
     - polkit-gnome
