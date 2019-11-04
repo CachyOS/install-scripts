@@ -54,7 +54,7 @@ fi
 _cal_testing_version(){
 
 local URL_TAG="https://github.com/endeavouros-team/mirrors/releases/tag/endeavouros_calamares"
-local PKG_NAME="calamares_testing"
+local PKG_NAME="calamares_test"
 
 # ? and double quotes to escape "$" variable using sed
 curl $URL_TAG |grep "$PKG_NAME" >/dev/null
@@ -63,6 +63,7 @@ if [[ $? == 0 ]]
         curl $URL_TAG |grep "$PKG_NAME" |sed s"?^.*$PKG_NAME?$PKG_NAME?"g | sed s'/pkg.tar.xz.*/pkg.tar.xz/'g |tail -1 >cal_github_version.txt
         local URL_DOWNLOAD="https://github.com/endeavouros-team/mirrors/releases/download/endeavouros_calamares"
         wget $URL_DOWNLOAD/$(cat cal_github_version.txt)
+        sudo pacman -Rns calamares_current --noconfirm
         sudo pacman -U $(cat cal_github_version.txt) --noconfirm
     else
         echo "There are no testing versions available"
