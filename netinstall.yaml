@@ -177,6 +177,7 @@
     - gnome
     - gnome-extra
     - celluloid
+    - adwaita-icon-theme
 - name: "Cinnamon-Desktop"
   description: "Cinnamon Desktop - advanced innovative features and a traditional user experience."
   hidden: false
