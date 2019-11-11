@@ -188,7 +188,6 @@
     - blueberry
     - cinnamon-translations
     - gnome-terminal
-    - xdg-user-dirs-update
     - celluloid
     - x-apps
     - file-roller
