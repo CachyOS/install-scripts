@@ -14,13 +14,13 @@ _check_internet_connection(){
     ping -c 1 8.8.8.8 >& /dev/null   # ping Google's address
 }
 
-_arch_news_latest_headline(){
+#_arch_news_latest_headline(){
     # gets the latest Arch news headline for 'kalu' config file news.conf
-    local info=$(mktemp)
-    wget -q -T 10 -O $info https://www.archlinux.org/ && \
-        { grep 'title="View full article:' $info | sed -e 's|&gt;|>|g' -e 's|^.*">[ ]*||' -e 's|</a>$||' | head -n 1 ; }
-    rm -f $info
-}
+#    local info=$(mktemp)
+#    wget -q -T 10 -O $info https://www.archlinux.org/ && \
+#        { grep 'title="View full article:' $info | sed -e 's|&gt;|>|g' -e 's|^.*">[ ]*||' -e 's|</a>$||' | head -n 1 ; }
+#    rm -f $info
+#}
 
 _config_for_app(){
     # handle configs for apps here; called from distro specific function
@@ -28,11 +28,11 @@ _config_for_app(){
     local app="$1"    # name of the app
 
     case "$app" in
-        kalu)
-            mkdir -p /etc/skel/.config/kalu
-            printf "Last=" >> /etc/skel/.config/kalu/news.conf
-            _arch_news_latest_headline >> /etc/skel/.config/kalu/news.conf
-            ;;
+#        kalu)
+#            mkdir -p /etc/skel/.config/kalu
+#            printf "Last=" >> /etc/skel/.config/kalu/news.conf
+#            _arch_news_latest_headline >> /etc/skel/.config/kalu/news.conf
+#            ;;
         update-mirrorlist)
             test -x /usr/bin/$app && {
                 /usr/bin/$app
