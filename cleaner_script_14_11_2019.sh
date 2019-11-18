@@ -41,7 +41,7 @@ _vbox(){
 }
 
 _common_systemd(){
-    local _systemd_enable=(NetworkManager vboxservice org.cups.cupsd avahi-daemon gdm lightdm sddm)   
+    local _systemd_enable=(NetworkManager vboxservice org.cups.cupsd avahi-daemon systemd-timesyncd systemd-time-wait-sync gdm lightdm sddm)   
     local _systemd_disable=(multi-user.target pacman-init)           
 
     local xx
@@ -126,6 +126,7 @@ _clean_offline_packages(){
         ckbcomp
         gnome-software
         gnome-boxes
+        xcompmgr
 )
     local xx
     # @ does one by one to avoid errors in the entire process
