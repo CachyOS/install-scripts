@@ -5,6 +5,7 @@
   critical: false
   packages:
     - base-devel
+    - eos-update-notifier
     - yay
     - linux-headers
     - linux-firmware
