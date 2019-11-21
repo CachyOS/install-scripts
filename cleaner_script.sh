@@ -14,36 +14,6 @@ _check_internet_connection(){
     ping -c 1 8.8.8.8 >& /dev/null   # ping Google's address
 }
 
-#_arch_news_latest_headline(){
-    # gets the latest Arch news headline for 'kalu' config file news.conf
-#    local info=$(mktemp)
-#    wget -q -T 10 -O $info https://www.archlinux.org/ && \
-#        { grep 'title="View full article:' $info | sed -e 's|&gt;|>|g' -e 's|^.*">[ ]*||' -e 's|</a>$||' | head -n 1 ; }
-#    rm -f $info
-#}
-
-_config_for_app(){
-    # handle configs for apps here; called from distro specific function
-
-    local app="$1"    # name of the app
-
-    case "$app" in
-#        kalu)
-#            mkdir -p /etc/skel/.config/kalu
-#            printf "Last=" >> /etc/skel/.config/kalu/news.conf
-#            _arch_news_latest_headline >> /etc/skel/.config/kalu/news.conf
-#            ;;
-        update-mirrorlist)
-            test -x /usr/bin/$app && {
-                /usr/bin/$app
-            }
-            ;;
-        # add other apps here!
-        *)
-            ;;
-    esac
-}
-
 _vbox(){
 
     # Detects if running in vbox
@@ -115,18 +85,60 @@ _clean_archiso(){
 
 }
 
+_clean_offline_packages(){
+
+    local _packages_to_remove=( 
+        qt5ct
+        qt5-base
+        calamares_current
+        arch-install-scripts
+        qt5-svg
+        qt5-webengine
+        kpmcore
+        kdbusaddons 
+        kcrash
+        qt5-declarative
+        squashfs-tools
+        ddrescue
+        dd_rescue
+        testdisk
+        qt5-tools
+        kparts
+        polkit-qt5
+        qt5-xmlpatterns
+        python-pyqt5
+        python-sip-pyqt5
+        pyqt5-common
+        extra-cmake-modules 
+        cmake
+        elinks
+        yaml-cpp
+        syslinux
+        solid
+        kwidgetsaddons
+        kservice
+        ki18n
+        kcoreaddons
+        kconfig
+        clonezilla
+        partclone
+        partimage
+        ckbcomp
+        gnome-software
+        gnome-boxes
+        xcompmgr
+)
+    local xx
+    # @ does one by one to avoid errors in the entire process
+    # * can be used to treat all packages in one command
+    for xx in ${_packages_to_remove[@]}; do pacman -Rnscv $xx --noconfirm; done
+
+}
+
 _endeavouros(){
 
     sed -i "/if/,/fi/"'s/^/#/' /home/$NEW_USER/.bash_profile
     sed -i "/if/,/fi/"'s/^/#/' /root/.bash_profile
-
-    pacman -R gnome-software --noconfirm
-    pacman -Rsc gnome-boxes --noconfirm
-
-    #_check_internet_connection && {
-        #_config_for_app update-mirrorlist # calamares does it for online install. For offline welcome screen at first boot
-    #    _config_for_app kalu
-    #}
 
 }
 
@@ -142,6 +154,7 @@ _check_install_mode(){
         OFFLINE_MODE)
                 _clean_archiso
                 _sed_stuff
+                _clean_offline_packages
             ;;
 
         ONLINE_MODE)
