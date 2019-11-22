@@ -19,7 +19,6 @@
     - xf86-video-ati
     - xf86-video-fbdev
     - xf86-video-intel
-    - xf86-video-vesa
     - xorg-xkill
     - xdg-user-dirs
     - xdg-user-dirs-gtk
@@ -49,7 +48,6 @@
     - nss-mdns
     - usb_modeswitch
     - whois
-    - wireless_tools
     - dhclient
     - dnsmasq
     - ethtool
