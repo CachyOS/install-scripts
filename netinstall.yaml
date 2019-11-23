@@ -52,7 +52,6 @@
     - dnsmasq
     - ethtool
     - openconnect
-    - openssh
     - openvpn
     - rp-pppoe
     - wireless-regdb
@@ -69,7 +68,6 @@
     - xl2tpd
     - dialog
     - dnsmasq
-    - openssh
     - upower
     - hwinfo
     - gtop
