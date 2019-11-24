@@ -140,6 +140,9 @@
     - lightdm
     - lightdm-gtk-greeter
     - lightdm-gtk-greeter-settings
+    - arc-x-icons-theme
+    - capitaine-cursors
+    - arc-gtk-theme
 - name: "MATE-Desktop"
   description: "MATE Desktop - the continuation of GNOME 2"
   hidden: false
