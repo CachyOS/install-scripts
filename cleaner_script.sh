@@ -167,6 +167,23 @@ _check_install_mode(){
     esac
 }
 
+_remove_ucode(){
+    local ucode="$1"
+    pacman -Q $ucode >& /dev/null && {
+        pacman -Rsn $ucode --noconfirm
+        grub-mkconfig -o /boot/grub/grub.cfg
+    }
+}
+
+_clean_up(){
+    if [ -x /usr/bin/device-info ] ; then
+        case "$(/usr/bin/device-info --cpu)" in
+            GenuineIntel) _remove_ucode amd-ucode ;;
+            *)            _remove_ucode intel-ucode ;;
+        esac
+    fi
+}
+
 ########################################
 ########## SCRIPT STARTS HERE ##########
 ########################################
@@ -175,4 +192,5 @@ _check_install_mode
 _common_systemd
 _endeavouros
 _vbox
+_clean_up
 rm -rf /usr/bin/{calamares_switcher,cleaner_script.sh}
