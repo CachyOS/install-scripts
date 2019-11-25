@@ -245,6 +245,21 @@
     - lightdm
     - lightdm-gtk-greeter
     - lightdm-gtk-greeter-settings
+- name: "LXQT-Desktop"
+  description: "The Lightweight Qt Desktop Environment."
+  hidden: false
+  selected: false
+  critical: false
+  packages:
+    - lxqt
+    - xdg-utils
+    - sddm
+    - libpulse
+    - libstatgrab
+    - libsysstat
+    - lm_sensors
+    - networkmanager-qt
+    - nm-connection-editor
 - name: "Openbox"
   description: "Openbox is a highly configurable, next generation window manager with extensive standards support."
   hidden: true
