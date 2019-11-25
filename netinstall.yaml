@@ -258,8 +258,8 @@
     - libstatgrab
     - libsysstat
     - lm_sensors
-    - networkmanager-qt
-    - nm-connection-editor
+    - network-manager-applet
+    - lxterminal
 - name: "Openbox"
   description: "Openbox is a highly configurable, next generation window manager with extensive standards support."
   hidden: true
