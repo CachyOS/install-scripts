@@ -263,6 +263,7 @@
     - breeze
     - notepadqq
     - smplayer
+    - pavucontrol-qt
 - name: "Openbox"
   description: "Openbox is a highly configurable, next generation window manager with extensive standards support."
   hidden: true
