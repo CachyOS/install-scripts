@@ -171,7 +171,6 @@ _remove_ucode(){
     local ucode="$1"
     pacman -Q $ucode >& /dev/null && {
         pacman -Rsn $ucode --noconfirm
-        grub-mkconfig -o /boot/grub/grub.cfg
     }
 }
 
