@@ -260,7 +260,8 @@
     - lm_sensors
     - network-manager-applet
     - lxterminal
-    - arc-x-icons-theme
+    - breeze
+    - notepadqq
     - smplayer
 - name: "Openbox"
   description: "Openbox is a highly configurable, next generation window manager with extensive standards support."
