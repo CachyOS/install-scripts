@@ -85,11 +85,13 @@ case $answer in
 
     1)  
     clear
+    _update_scripts
     _cal_version
     ;;
 
     2)
     clear
+    _update_scripts
     _cal_testing_version
     ;;
 
