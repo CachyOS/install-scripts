@@ -114,7 +114,7 @@
     - arandr
     - archlinux-xdg-menu
     - lxappearance-gtk3
-    - ttf-font-icons
+    - otf-font-awesome
     - dmenu
     - script
     - polkit-gnome
