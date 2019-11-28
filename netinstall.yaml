@@ -42,6 +42,8 @@
     - packagekit-qt5
     - elisa
     - kdeconnect
+    - discover
+    - fwupd
 - name: "GNOME-Desktop"
   description: "GNOME Desktop - designed to put you in control and get things done. "
   hidden: false
@@ -59,6 +61,7 @@
     - chrome-gnome-shell
     - gnome-software-packagekit-plugin
     - gnome-packagekit
+    - fwupd
 - name: "Cinnamon-Desktop"
   description: "Cinnamon Desktop - advanced innovative features and a traditional user experience."
   hidden: false
