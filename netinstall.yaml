@@ -56,6 +56,9 @@
     - gnome-multi-writer
     - celluloid
     - adwaita-icon-theme
+    - chrome-gnome-shell
+    - gnome-software-packagekit-plugin
+    - gnome-packagekit
 - name: "Cinnamon-Desktop"
   description: "Cinnamon Desktop - advanced innovative features and a traditional user experience."
   hidden: false
@@ -142,6 +145,7 @@
     - notepadqq
     - smplayer
     - pavucontrol-qt
+    - xscreensaver
 - name: "Openbox"
   description: "Openbox is a highly configurable, next generation window manager with extensive standards support."
   hidden: true
