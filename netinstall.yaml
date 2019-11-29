@@ -87,7 +87,7 @@
     - gnome-calculator
 - name: "Budgie-Desktop"
   description: "Budgie - I Tawt I Taw A Purdy Desktop"
-  hidden: true
+  hidden: false
   selected: false
   critical: false
   packages:
@@ -151,7 +151,7 @@
     - xscreensaver
 - name: "Openbox"
   description: "Openbox is a highly configurable, next generation window manager with extensive standards support."
-  hidden: true
+  hidden: false
   selected: false
   critical: false
   packages:
@@ -232,7 +232,6 @@
     - b43-fwcutter
     - broadcom-wl-dkms
     - dnsutils
-    - intel-ucode
     - ipw2100-fw
     - ipw2200-fw
     - modemmanager
