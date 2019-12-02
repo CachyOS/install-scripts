@@ -219,6 +219,7 @@
     - xf86-video-fbdev
     - xf86-video-intel
     - xorg-xkill
+    - xorg-xrandr
     - xdg-user-dirs
     - xdg-user-dirs-gtk
     - gvfs
@@ -229,6 +230,7 @@
     - gvfs-gphoto2
     - gvfs-nfs
     - gvfs-smb
+    - accountsservice
     - smartmontools
     - libwnck3
     - b43-fwcutter
@@ -301,7 +303,6 @@
     - gst-plugins-ugly
     - mplayer
     - libdvdcss
-    - systemd-ui
     - efibootmgr
     - lsb-release
     - dosfstools
