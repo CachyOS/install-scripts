@@ -245,7 +245,6 @@
     - usb_modeswitch
     - whois
     - dhclient
-    - dnsmasq
     - ethtool
     - openconnect
     - openvpn
