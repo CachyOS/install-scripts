@@ -97,6 +97,9 @@
     - lightdm
     - lightdm-gtk-greeter
     - lightdm-gtk-greeter-settings
+    - gnome-software-packagekit-plugin
+    - gnome-packagekit
+    - fwupd
 - name: "Deepin-Desktop"
   description: "Deepin Desktop - beautiful, easy to use, safe and reliable. "
   hidden: false
