@@ -170,7 +170,7 @@ _check_install_mode(){
 _remove_ucode(){
     local ucode="$1"
     pacman -Q $ucode >& /dev/null && {
-        pacman -Rsn $ucode --noconfirm
+        pacman -Rsn $ucode --noconfirm >/dev/null
     }
 }
 
