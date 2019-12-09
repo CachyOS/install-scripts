@@ -124,9 +124,9 @@ _clean_offline_packages(){
         partclone
         partimage
         ckbcomp
-        gnome-software
         gnome-boxes
         xcompmgr
+        epiphany
 )
     local xx
     # @ does one by one to avoid errors in the entire process
