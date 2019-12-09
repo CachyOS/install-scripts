@@ -56,7 +56,6 @@
     - gnome-nettool
     - gnome-usage
     - gnome-multi-writer
-    - celluloid
     - adwaita-icon-theme
     - chrome-gnome-shell
     - gnome-software-packagekit-plugin
@@ -93,7 +92,6 @@
   packages:
     - budgie-desktop
     - gnome
-    - celluloid
     - lightdm
     - lightdm-gtk-greeter
     - lightdm-gtk-greeter-settings
