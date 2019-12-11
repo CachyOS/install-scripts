@@ -320,3 +320,5 @@
     - bash-completion
     - welcome
     - endeavouros-theming
+    - os-release
+    - lsb-release
