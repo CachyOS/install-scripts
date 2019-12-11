@@ -309,7 +309,6 @@
     - mplayer
     - libdvdcss
     - efibootmgr
-    - lsb-release
     - dosfstools
     - mtools
     - openssh
