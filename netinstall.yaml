@@ -17,6 +17,7 @@
     - arc-x-icons-theme
     - capitaine-cursors
     - arc-gtk-theme
+    - gnome-packagekit
 - name: "MATE-Desktop"
   description: "MATE Desktop - the continuation of GNOME 2"
   hidden: false
@@ -30,6 +31,7 @@
     - lightdm
     - lightdm-gtk-greeter
     - lightdm-gtk-greeter-settings
+    - gnome-packagekit
 - name: "KDE-Desktop"
   description: "KDE-Plasma Desktop - Simple by default, powerful when needed."
   hidden: false
@@ -85,6 +87,7 @@
     - nemo-share
     - gnome-screenshot
     - gnome-calculator
+    - gnome-packagekit
 - name: "Budgie-Desktop"
   description: "Budgie - I Tawt I Taw A Purdy Desktop"
   hidden: false
@@ -107,6 +110,7 @@
   packages:
     - deepin
     - deepin-extra
+    - apper
 - name: "i3 Window Manager"
   description: "i3 tiling window manager, primarily targeted at developers and advanced users. "
   hidden: false
@@ -144,12 +148,14 @@
     - libsysstat
     - lm_sensors
     - network-manager-applet
-    - lxterminal
+    - oxygen-icons
     - breeze
+    - breeze-gtk
     - notepadqq
     - smplayer
     - pavucontrol-qt
     - xscreensaver
+    - apper
 - name: "Openbox"
   description: "Openbox is a highly configurable, next generation window manager with extensive standards support."
   hidden: false
