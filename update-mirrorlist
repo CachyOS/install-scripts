@@ -75,7 +75,7 @@ Main() {
         if [ "$(CWantsHttp "$this_country")" = "no" ] ; then
             cmd+="-a2 -c $this_country"                      # use only https with this country
         else
-            cmd+="-a8 -phttp -prsync -c $this_country"       # this country may lack https mirrors
+            cmd+="-a8 -phttp -c $this_country"       # this country may lack https mirrors
         fi
     } || {
         # Country is not in the list of countries supported by Arch,
