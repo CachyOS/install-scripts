@@ -1,195 +1,172 @@
-#!/bin/bash
+#! /bin/bash
 
-# New version of cleaner_script
-# Made by @fernandomaroto and @manuel 
-
-NEW_USER=$(cat /etc/passwd | grep "/home" |cut -d: -f1 |head -1)
-
-# Any failed command will just be skiped, error message may pop up but won't crash the install process
-
-# Net-install creates the file /tmp/run_once in live environment (need to be transfered to installed system) so it can be used to detect install option
-
+BGreen='\033[1;32m'       # Green
+BYellow='\033[1;33m'      # Yellow
+BWhite='\033[1;37m'       # White
 
 _check_internet_connection(){
     ping -c 1 8.8.8.8 >& /dev/null   # ping Google's address
 }
 
-_vbox(){
+_update_scripts(){
 
-    # Detects if running in vbox
-    # packages must be in this order otherwise guest-utils pulls dkms, which takes longer to be installed
-    local _vbox_guest_packages=(virtualbox-guest-modules-arch virtualbox-guest-utils)   
-    local xx
+    local URL="https://raw.githubusercontent.com/endeavouros-team/install-scripts/master"
 
-    lspci | grep -i "virtualbox" >/dev/null
-    if [[ $? == 0 ]]
-    then
-        # If using net-install detect VBox and install the packages
-        if [ -f /tmp/run_once ]                  
-        then
-            for xx in ${_vbox_guest_packages[*]}
-            do pacman -S $xx --noconfirm
-            done
-        fi   
-        : 
-    else
-        for xx in ${_vbox_guest_packages[*]} ; do
-            test -n "$(pacman -Q $xx 2>/dev/null)" && pacman -Rnsdd $xx --noconfirm
-        done
-        rm -f /usr/lib/modules-load.d/virtualbox-guest-dkms.conf
-    fi
-}
-
-_common_systemd(){
-    local _systemd_enable=(NetworkManager vboxservice org.cups.cupsd avahi-daemon systemd-networkd-wait-online systemd-timesyncd systemd-time-wait-sync tlp tlp-sleep gdm lightdm sddm)   
-    local _systemd_disable=(multi-user.target pacman-init)           
-
-    local xx
-    for xx in ${_systemd_enable[*]}; do systemctl enable -f $xx; done
-
-    local yy
-    for yy in ${_systemd_disable[*]}; do systemctl disable -f $yy; done
-}
-
-_sed_stuff(){
-
-    # Journal for offline. Turn volatile (for iso) into a real system.
-    sed -i 's/volatile/auto/g' /etc/systemd/journald.conf 2>>/tmp/.errlog
-    sed -i 's/.*pam_wheel\.so/#&/' /etc/pam.d/su
-}
-
-_clean_archiso(){
-
-    local _files_to_remove=(                               
-        /etc/sudoers.d/g_wheel
-        /var/lib/NetworkManager/NetworkManager.state
-        /etc/systemd/system/{choose-mirror.service,pacman-init.service,etc-pacman.d-gnupg.mount,getty@tty1.service.d}
-        /etc/systemd/scripts/choose-mirror
-        /etc/systemd/system/getty@tty1.service.d/autologin.conf
-        /root/{.automated_script.sh,.zlogin}
-        /etc/mkinitcpio-archiso.conf
-        /etc/initcpio
-        /etc/udev/rules.d/81-dhcpcd.rules
-        /usr/bin/{calamares_switcher,cleaner_script.sh}
-        /home/$NEW_USER/.config/qt5ct
-        /home/$NEW_USER/{.xinitrc,.xsession,.xprofile}
-        /root/{.xinitrc,.xsession,.xprofile}
-        /etc/skel/{.xinitrc,.xsession,.xprofile}
-    )
-
-    local xx
-
-    for xx in ${_files_to_remove[*]}; do rm -rf $xx; done
-
-    find /usr/lib/initcpio -name archiso* -type f -exec rm '{}' \;
-
-}
-
-_clean_offline_packages(){
-
-    local _packages_to_remove=( 
-        qt5ct
-        qt5-base
-        calamares_current
-        arch-install-scripts
-        qt5-svg
-        qt5-webengine
-        kpmcore
-        kdbusaddons 
-        kcrash
-        qt5-declarative
-        squashfs-tools
-        ddrescue
-        dd_rescue
-        testdisk
-        qt5-tools
-        kparts
-        polkit-qt5
-        qt5-xmlpatterns
-        python-pyqt5
-        python-sip-pyqt5
-        pyqt5-common
-        extra-cmake-modules 
-        cmake
-        elinks
-        yaml-cpp
-        syslinux
-        solid
-        kwidgetsaddons
-        kservice
-        ki18n
-        kcoreaddons
-        kconfig
-        clonezilla
-        partclone
-        partimage
-        ckbcomp
-        gnome-boxes
-        xcompmgr
-        epiphany
+    local scripts_array=(
+    cleaner_script.sh chrooted_cleaner_script.sh update-mirrorlist calamares_switcher pacstrap_calamares
 )
-    local xx
-    # @ does one by one to avoid errors in the entire process
-    # * can be used to treat all packages in one command
-    for xx in ${_packages_to_remove[@]}; do pacman -Rnscv $xx --noconfirm; done
+
+    local download
+    for scripts in "${scripts_array[@]}"; do
+        wget $URL/$scripts
+        chmod +x $scripts
+        sudo mv $scripts /usr/bin
+    done
 
 }
 
-_endeavouros(){
+_cal_version(){
 
-    sed -i "/if/,/fi/"'s/^/#/' /home/$NEW_USER/.bash_profile
-    sed -i "/if/,/fi/"'s/^/#/' /root/.bash_profile
+rm -rf cal_github_version.txt cal_installed_version.txt
+
+local URL_TAG="https://github.com/endeavouros-team/mirrors/releases/tag/endeavouros_calamares"
+local PKG_NAME="calamares_current"
+
+# ? and double quotes to escape "$" variable using sed
+
+curl $URL_TAG |grep "$PKG_NAME" |sed s"?^.*$PKG_NAME?$PKG_NAME?"g | sed s'/pkg.tar.xz.*/pkg.tar.xz/'g |tail -1 >cal_github_version.txt
+
+pacman -Q |grep "$PKG_NAME" |sed s'/ /-/' |sed s'/$/-any.pkg.tar.xz/' >cal_installed_version.txt
+
+local URL_DOWNLOAD="https://github.com/endeavouros-team/mirrors/releases/download/endeavouros_calamares"
+
+diff cal_github_version.txt cal_installed_version.txt
+
+if [ $? != 0 ]
+    then
+        wget $URL_DOWNLOAD/$(cat cal_github_version.txt)
+        sudo pacman -U $(cat cal_github_version.txt) --noconfirm
+
+fi
 
 }
 
-_check_install_mode(){
+_cal_testing_version(){
 
-    if [ -f /tmp/run_once ] ; then
-        local INSTALL_OPTION="ONLINE_MODE"
+local URL_TAG="https://github.com/endeavouros-team/mirrors/releases/tag/endeavouros_calamares"
+local PKG_NAME="calamares_test"
+
+# ? and double quotes to escape "$" variable using sed
+curl $URL_TAG |grep "$PKG_NAME" >/dev/null
+if [[ $? == 0 ]]
+    then
+        curl $URL_TAG |grep "$PKG_NAME" |sed s"?^.*$PKG_NAME?$PKG_NAME?"g | sed s'/pkg.tar.xz.*/pkg.tar.xz/'g |tail -1 >cal_github_version.txt
+        local URL_DOWNLOAD="https://github.com/endeavouros-team/mirrors/releases/download/endeavouros_calamares"
+        wget $URL_DOWNLOAD/$(cat cal_github_version.txt)
+        sudo pacman -Rns calamares_current --noconfirm
+        sudo pacman -U $(cat cal_github_version.txt) --noconfirm
     else
-        local INSTALL_OPTION="OFFLINE_MODE"
-    fi
+        echo "There are no testing versions available"
+        exit
+fi
 
-    case "$INSTALL_OPTION" in
-        OFFLINE_MODE)
-                _clean_archiso
-                _sed_stuff
-                _clean_offline_packages
-            ;;
-
-        ONLINE_MODE)
-                # not implemented yet. For now run functions at "SCRIPT STARTS HERE"
-                :
-                # all systemd are enabled - can be specific offline/online in the future
-            ;;
-        *)
-            ;;
-    esac
 }
 
-_remove_ucode(){
-    local ucode="$1"
-    pacman -Q $ucode >& /dev/null && {
-        pacman -Rsn $ucode --noconfirm >/dev/null
-    }
+_welcome_screen(){
+
+local msg1="Do you want to check for TESTING calamares version? ( (1=no, 2=yes / Default 1)"
+printf "$BGreen \n $msg1"
+
+read answer 
+
+if [ "$answer" != "2" ]; then answer="1"; fi
+
+case $answer in
+
+    1)  
+    clear
+    _update_scripts
+    _cal_version
+    ;;
+
+    2)
+    clear
+    _update_scripts
+    _cal_testing_version
+    ;;
+
+    * )
+    ;;
+
+esac
+
 }
 
-_clean_up(){
-    if [ -x /usr/bin/device-info ] ; then
-        case "$(/usr/bin/device-info --cpu)" in
-            GenuineIntel) _remove_ucode amd-ucode ;;
-            *)            _remove_ucode intel-ucode ;;
-        esac
-    fi
+_check_testing_calamares(){
+
+local msg1="Do you want to update calamares or install a testing version? (1=update, 2=testing / Default 1)"
+printf "$BGreen \n $msg1"
+
+read answer 
+
+if [ "$answer" != "2" ]; then answer="1"; fi
+
+case $answer in
+
+    1)  
+    clear
+    _update_scripts
+    clear
+    _cal_version
+    ;;
+
+    2)
+    clear
+    _update_scripts
+    clear
+    _cal_testing_version
+    ;;
+
+    * )
+    ;;
+
+esac
+
 }
 
-########################################
-########## SCRIPT STARTS HERE ##########
-########################################
+_run_calamares(){
 
-_check_install_mode
-_common_systemd
-_endeavouros
-_vbox
-_clean_up
-rm -rf /usr/bin/{calamares_switcher,cleaner_script.sh,chrooted_cleaner_script.sh}
+local msg2="Do you want to run calamares? (1=yes, 2=no / Default 1)"
+
+printf "$BYellow \n $msg2"
+
+read run_me 
+
+if [ "$run_me" != "2" ]; then run_me="1"; fi
+
+case $run_me in
+
+    1)
+    /usr/bin/calamares_switcher
+    ;;
+
+    2)
+    exit
+    ;;
+
+    * )
+    ;;
+
+esac
+
+}
+
+# STARTS HERE
+_check_internet_connection && {
+    clear
+    _welcome_screen
+    #_cal_testing_version
+}
+clear
+#_run_calamares
+/usr/bin/calamares_switcher
