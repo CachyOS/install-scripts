@@ -1,5 +1,7 @@
 #!/bin/bash
 
+# DOWNLOAD ME !!
+
 # wget https://github.com/endeavouros-team/install-scripts/raw/master/calamares_branding && chmod +x calamares_branding && ./calamares_branding
 
 _check_internet_connection(){
