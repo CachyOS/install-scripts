@@ -2,7 +2,7 @@
 
 # DOWNLOAD ME !!
 
-# wget https://github.com/endeavouros-team/install-scripts/raw/master/calamares_branding && chmod +x calamares_branding && ./calamares_branding
+# wget https://github.com/endeavouros-team/install-scripts/raw/master/calamares_branding.sh && chmod +x calamares_branding.sh && ./calamares_branding.sh
 
 _check_internet_connection(){
     ping -c 1 8.8.8.8 >& /dev/null   # ping Google's address
