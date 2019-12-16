@@ -12,8 +12,12 @@ arch_chroot(){
 }  
 
 # Anything to be executed outside chroot need to be here.
-cp -f /etc/os-release $chroot_path/etc/os-release
 
+#cp -f /etc/os-release $chroot_path/etc/os-release
+#cp -rf /etc/lightdm $chroot_path/etc
+#cp -rf /etc/sddm.conf $chroot_path/etc
+
+rsync -vaRI /etc/os-release /etc/lightdm/* /etc/sddm.conf $chroot_path
 
 # For chrooted commands edit the script bellow directly
 arch_chroot "/usr/bin/chrooted_cleaner_script.sh"
