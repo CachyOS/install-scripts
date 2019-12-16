@@ -1,0 +1,18 @@
+#! /bin/bash
+
+_update_scripts(){
+
+    local URL="https://raw.githubusercontent.com/endeavouros-team/install-scripts/master"
+
+    local scripts_array=(
+    cleaner_script.sh chrooted_cleaner_script.sh update-mirrorlist calamares_switcher pacstrap_calamares
+)
+
+    local download
+    for scripts in "${scripts_array[@]}"; do
+        wget $URL/$scripts
+        chmod +x $scripts
+        sudo mv $scripts /usr/bin
+    done
+
+}
