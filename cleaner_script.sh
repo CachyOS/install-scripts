@@ -17,7 +17,7 @@ arch_chroot(){
 #cp -rf /etc/lightdm $chroot_path/etc
 #cp -rf /etc/sddm.conf $chroot_path/etc
 
-rsync -vaRI /etc/os-release /etc/lightdm/* /etc/sddm.conf $chroot_path
+rsync -vaRI /etc/os-release /etc/lightdm/* /etc/sddm.conf.d/kde_settings.conf $chroot_path
 
 # For chrooted commands edit the script bellow directly
 arch_chroot "/usr/bin/chrooted_cleaner_script.sh"
