@@ -14,7 +14,7 @@ _update_branding(){
 
     git clone $URL
     sudo cp -praf calamares_branding/branding/endeavouros/* /usr/share/calamares/branding/endeavouros/
-    rm -r calamares_branding
+    rm -rf calamares_branding
 
 }
 
