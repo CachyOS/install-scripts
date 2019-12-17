@@ -20,6 +20,9 @@ local _files_to_copy=(
 /etc/os-release
 /etc/lightdm/*
 /etc/sddm.conf.d/kde_settings.conf
+/etc/pacman.d/hooks/*
+/etc/lsb-release
+/etc/default/grub
 
 
 )
