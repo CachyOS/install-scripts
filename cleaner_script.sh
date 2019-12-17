@@ -4,7 +4,7 @@
 
 # Adapted from AIS. An excellent bit of code!
 
-chroot_path=$(lsblk |grep "/tmp/calamares-root" |awk '{ print $7 }')
+chroot_path=$(lsblk |grep "/tmp/calamares-root" |grep -v "efi" |awk '{ print $7 }')
 
 arch_chroot(){
 # Use chroot not arch-chroot because of the way calamares mounts partitions
