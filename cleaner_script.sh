@@ -4,11 +4,13 @@
 
 # Adapted from AIS. An excellent bit of code!
 
-chroot_path=$(lsblk |grep "/tmp/calamares-root" |grep -v "efi" |awk '{ print $7 }')
+# Super ugly command now :(
+# If multiples partitions are used
+chroot_path=$(lsblk |grep "calamares-root" |awk '{ print $7 }' |sed -e 's/\/tmp\///' -e 's/\/.*$//' |tail -n1)
 
 arch_chroot(){
 # Use chroot not arch-chroot because of the way calamares mounts partitions
-    chroot $chroot_path /bin/bash -c "${1}"
+    chroot /tmp/$chroot_path /bin/bash -c "${1}"
 }  
 
 # Anything to be executed outside chroot need to be here.
@@ -29,7 +31,7 @@ local _files_to_copy=(
 
 local xx
 
-for xx in ${_files_to_copy[*]}; do rsync -vaRI $xx $chroot_path; done
+for xx in ${_files_to_copy[*]}; do rsync -vaRI $xx /tmp/$chroot_path; done
 
 #cp -f /etc/os-release $chroot_path/etc/os-release
 #cp -rf /etc/lightdm $chroot_path/etc
