@@ -17,7 +17,8 @@ arch_chroot(){
 
 # Copy any file from live environment to new system
 
-local _files_to_copy=(
+#local 
+_files_to_copy=(
 
 /etc/os-release
 /etc/lightdm/*
@@ -29,7 +30,7 @@ local _files_to_copy=(
 
 )
 
-local xx
+#local xx
 
 for xx in ${_files_to_copy[*]}; do rsync -vaRI $xx /tmp/$chroot_path; done
 
