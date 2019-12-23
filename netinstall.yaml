@@ -341,3 +341,11 @@
   packages:
     - orca
     - mousetweaks
+- name: "Nvidia Drivers"
+  description: "Propritary Nvidia Driver: new cards only!"
+  hidden: false
+  selected: false
+  critical: false
+  packages:
+    - nvidia
+    - nvidia-settings
