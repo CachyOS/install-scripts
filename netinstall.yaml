@@ -43,6 +43,7 @@
     - netctl
     - net-tools
     - ntfs-3g
+    - f2fs-tools
     - nvidia-installer-dkms
     - networkmanager
     - networkmanager-openvpn
