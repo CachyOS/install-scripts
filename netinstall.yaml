@@ -237,6 +237,7 @@
     - lightdm
     - lightdm-gtk-greeter
     - lightdm-gtk-greeter-settings
+    - network-manager-applet
     - gnome-software-packagekit-plugin
     - gnome-packagekit
     - fwupd
