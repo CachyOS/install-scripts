@@ -170,6 +170,8 @@
     - lightdm-gtk-greeter
     - lightdm-gtk-greeter-settings
     - gnome-packagekit
+    - arc-x-icons-theme
+    - arc-gtk-theme    
 - name: "KDE-Desktop"
   description: "KDE-Plasma Desktop - Simple by default, powerful when needed."
   hidden: false
@@ -202,6 +204,8 @@
     - gnome-software-packagekit-plugin
     - gnome-packagekit
     - fwupd
+    - arc-x-icons-theme
+    - arc-gtk-theme
 - name: "Cinnamon-Desktop"
   description: "Cinnamon Desktop - advanced innovative features and a traditional user experience."
   hidden: false
@@ -226,6 +230,8 @@
     - gnome-screenshot
     - gnome-calculator
     - gnome-packagekit
+    - arc-x-icons-theme
+    - arc-gtk-theme
 - name: "Budgie-Desktop"
   description: "Budgie - I Tawt I Taw A Purdy Desktop"
   hidden: false
@@ -241,6 +247,8 @@
     - gnome-software-packagekit-plugin
     - gnome-packagekit
     - fwupd
+    - arc-x-icons-theme
+    - arc-gtk-theme
 - name: "Deepin-Desktop"
   description: "Deepin Desktop - beautiful, easy to use, safe and reliable. "
   hidden: false
