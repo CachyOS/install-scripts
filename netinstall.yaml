@@ -179,14 +179,15 @@
   critical: false
   packages:
     - plasma
-    - plasma-wayland-session
-    - kde-applications
     - packagekit-qt5
-    - elisa
     - kdeconnect
     - discover
     - fwupd
     - python-dbus
+    - kdebase-meta 
+    - gwenview
+    - ark
+    - okular
 - name: "GNOME-Desktop"
   description: "GNOME Desktop - designed to put you in control and get things done. "
   hidden: false
