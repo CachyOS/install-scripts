@@ -216,6 +216,8 @@
     - blueberry
     - cinnamon-translations
     - gnome-terminal
+    - gnome-system-monitor
+    - gpicview-gtk3
     - celluloid
     - x-apps
     - file-roller
