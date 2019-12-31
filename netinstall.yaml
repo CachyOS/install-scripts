@@ -181,7 +181,6 @@
     - plasma
     - packagekit-qt5
     - kdeconnect
-    - discover
     - fwupd
     - python-dbus
     - kdebase-meta 
