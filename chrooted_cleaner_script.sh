@@ -41,7 +41,7 @@ _vbox(){
 }
 
 _common_systemd(){
-    local _systemd_enable=(NetworkManager vboxservice org.cups.cupsd avahi-daemon systemd-networkd-wait-online systemd-timesyncd systemd-time-wait-sync tlp tlp-sleep gdm lightdm sddm)   
+    local _systemd_enable=(NetworkManager vboxservice org.cups.cupsd avahi-daemon systemd-networkd-wait-online systemd-timesyncd tlp tlp-sleep gdm lightdm sddm)   
     local _systemd_disable=(multi-user.target pacman-init)           
 
     local xx
