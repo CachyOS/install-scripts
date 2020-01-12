@@ -20,6 +20,8 @@
     - xorg-xkill
     - xorg-xrandr
     - xorg-xinput
+    - xorg-xrandr
+    - xdg-utils
     - xdg-user-dirs
     - xdg-user-dirs-gtk
     - gvfs
@@ -115,6 +117,8 @@
     - pcurses
     - s-tui
     - tlp
+    - yad
+    - reflector
     - endeavouros-theming
     - welcome
     - eos-update-notifier
@@ -185,7 +189,8 @@
     - kdeconnect
     - fwupd
     - python-dbus
-    - kdebase-meta 
+    - kdebase-meta
+    - python-dbus
     - gwenview
     - ark
     - okular
