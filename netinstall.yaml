@@ -5,7 +5,6 @@
   critical: false
   packages:
     - base-devel
-    - eos-update-notifier
     - yay
     - linux-headers
     - linux-firmware
@@ -43,7 +42,6 @@
     - netctl
     - net-tools
     - ntfs-3g
-    - nvidia-installer-dkms
     - networkmanager
     - networkmanager-openvpn
     - nss-mdns
@@ -113,12 +111,14 @@
     - os-prober
     - wget
     - bash-completion
-    - welcome
-    - endeavouros-theming
     - lsb-release
     - pcurses
     - s-tui
     - tlp
+    - endeavouros-theming
+    - welcome
+    - eos-update-notifier
+    - nvidia-installer-dkms
 - name: "XFCE4-Desktop"
   description: "XFCE4 - lightweight desktop fast and low on system resources, visually appealing and user friendly."
   hidden: false
