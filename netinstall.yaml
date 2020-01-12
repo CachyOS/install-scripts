@@ -361,7 +361,7 @@
     - orca
     - mousetweaks
 - name: "Nvidia Drivers"
-  description: "Proprietary Nvidia Driver: new cards only!"
+  description: "Proprietary Nvidia Driver: not for legacy or hybrid cards!"
   hidden: false
   selected: false
   critical: false
