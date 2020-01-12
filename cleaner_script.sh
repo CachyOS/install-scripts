@@ -26,7 +26,8 @@ _copy_files(){
     /etc/os-release
     /etc/lightdm/*
     /etc/sddm.conf.d/kde_settings.conf
-
+    /etc/pacman.d/hooks/lsb-release.hook
+    /etc/pacman.d/hooks/os-release.hook
     /etc/lsb-release
     /etc/default/grub
 
@@ -36,8 +37,6 @@ _copy_files(){
 
 # Uses the entire file path and copies directly to / mounted point
     for xx in ${_files_to_copy[*]}; do rsync -vaRI $xx /tmp/$chroot_path; done
-    rsync -vaRI /etc/pacman.d/hooks/lsb-release.hook /tmp/$chroot_path
-    rsync -vaRI /etc/pacman.d/hooks/os-release.hook /tmp/$chroot_path
     cp -rf /etc/skel/.bashrc /tmp/$chroot_path/home/$NEW_USER/.bashrc
     chown -R $NEW_USER:users /tmp/$chroot_path/home/$NEW_USER/.bashrc
 
