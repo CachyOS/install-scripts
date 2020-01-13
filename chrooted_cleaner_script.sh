@@ -11,7 +11,8 @@ NEW_USER=$(cat /etc/passwd | grep "/home" |cut -d: -f1 |head -1)
 
 
 _check_internet_connection(){
-    ping -c 1 8.8.8.8 >& /dev/null   # ping Google's address
+    #ping -c 1 8.8.8.8 >& /dev/null   # ping Google's address
+    curl --silent --connect-timeout 8 https://8.8.8.8 > /dev/null
 }
 
 _vbox(){
