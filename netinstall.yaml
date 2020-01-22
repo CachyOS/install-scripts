@@ -93,6 +93,7 @@
     - glances
     - htop
     - screenfetch
+    - pulseaudio
     - pavucontrol
     - paprefs
     - ffmpegthumbnailer
