@@ -94,6 +94,7 @@
     - htop
     - screenfetch
     - pavucontrol
+    - paprefs
     - ffmpegthumbnailer
     - poppler-glib
     - libgsf 
