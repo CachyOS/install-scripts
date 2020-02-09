@@ -34,9 +34,9 @@ local PKG_NAME="calamares_current"
 
 # ? and double quotes to escape "$" variable using sed
 
-curl $URL_TAG |grep "$PKG_NAME" |sed s"?^.*$PKG_NAME?$PKG_NAME?"g | sed s'/pkg.tar.xz.*/pkg.tar.xz/'g |tail -1 >cal_github_version.txt
+curl $URL_TAG |grep "$PKG_NAME" |sed s"?^.*$PKG_NAME?$PKG_NAME?"g | sed s'/pkg.tar.zst.*/pkg.tar.zst/'g |tail -1 >cal_github_version.txt
 
-pacman -Q |grep "$PKG_NAME" |sed s'/ /-/' |sed s'/$/-any.pkg.tar.xz/' >cal_installed_version.txt
+pacman -Q |grep "$PKG_NAME" |sed s'/ /-/' |sed s'/$/-any.pkg.tar.zst/' >cal_installed_version.txt
 
 local URL_DOWNLOAD="https://github.com/endeavouros-team/mirrors/releases/download/endeavouros_calamares"
 
@@ -60,7 +60,7 @@ local PKG_NAME="calamares_test"
 curl $URL_TAG |grep "$PKG_NAME" >/dev/null
 if [[ $? == 0 ]]
     then
-        curl $URL_TAG |grep "$PKG_NAME" |sed s"?^.*$PKG_NAME?$PKG_NAME?"g | sed s'/pkg.tar.xz.*/pkg.tar.xz/'g |tail -1 >cal_github_version.txt
+        curl $URL_TAG |grep "$PKG_NAME" |sed s"?^.*$PKG_NAME?$PKG_NAME?"g | sed s'/pkg.tar.zst.*/pkg.tar.zst/'g |tail -1 >cal_github_version.txt
         local URL_DOWNLOAD="https://github.com/endeavouros-team/mirrors/releases/download/endeavouros_calamares"
         wget $URL_DOWNLOAD/$(cat cal_github_version.txt)
         sudo pacman -Rns calamares_current --noconfirm
