@@ -20,7 +20,6 @@
     - xorg-xkill
     - xorg-xrandr
     - xorg-xinput
-    - xorg-xrandr
     - xdg-utils
     - xdg-user-dirs
     - xdg-user-dirs-gtk
