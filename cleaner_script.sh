@@ -11,7 +11,7 @@ chroot_path=$(lsblk |grep "calamares-root" |awk '{ print $7 }' |sed -e 's/\/tmp\
 #NEW_USER=$(cat /tmp/$chroot_path/etc/passwd | grep "/home" |cut -d: -f1 |head -1)
 
 # Alternative methods
-NEW_USER=$(ls $chroot_path/home)
+NEW_USER=$(ls $chroot_path/home |grep -v "lost+found")
 
 arch_chroot(){
 # Use chroot not arch-chroot because of the way calamares mounts partitions
