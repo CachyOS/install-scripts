@@ -8,10 +8,10 @@
 # If multiples partitions are used
 chroot_path=$(lsblk |grep "calamares-root" |awk '{ print $7 }' |sed -e 's/\/tmp\///' -e 's/\/.*$//' |tail -n1)
 
-#NEW_USER=$(cat /tmp/$chroot_path/etc/passwd | grep "/home" |cut -d: -f1 |head -1)
-
 # Alternative methods
 NEW_USER=$(ls $chroot_path/home |grep -v "lost+found")
+#NEW_USER=$(cat $chroot_path/etc/sudoers.d/10-installer |awk '{ print $1 }')
+#NEW_USER=$(cat /tmp/$chroot_path/etc/passwd | grep "/home" |cut -d: -f1 |head -1)
 
 arch_chroot(){
 # Use chroot not arch-chroot because of the way calamares mounts partitions
