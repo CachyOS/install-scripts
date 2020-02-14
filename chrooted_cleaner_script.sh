@@ -3,7 +3,9 @@
 # New version of cleaner_script
 # Made by @fernandomaroto and @manuel 
 
-NEW_USER=$(cat /etc/passwd | grep "/home" |cut -d: -f1 |head -1)
+#NEW_USER=$(ls $chroot_path/home |grep -v "lost+found")
+NEW_USER=$(head -n1 $chroot_path/etc/sudoers.d/10-installer | awk '{print $1}')
+#NEW_USER=$(cat /tmp/$chroot_path/etc/passwd | grep "/home" |cut -d: -f1 |head -1)
 
 # Any failed command will just be skiped, error message may pop up but won't crash the install process
 
