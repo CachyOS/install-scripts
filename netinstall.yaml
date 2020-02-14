@@ -124,6 +124,7 @@
     - welcome
     - eos-update-notifier
     - nvidia-installer-dkms
+    - mkinitcpio-openswap
 - name: "XFCE4-Desktop"
   description: "XFCE4 - lightweight desktop fast and low on system resources, visually appealing and user friendly."
   hidden: false
