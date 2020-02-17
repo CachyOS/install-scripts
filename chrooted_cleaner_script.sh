@@ -7,7 +7,13 @@
 
 _non_encrypted(){
 
-    local NEW_USER=$(head -n1 /etc/sudoers.d/10-installer | awk '{print $1}')
+    #local NEW_USER=$(head -n1 /etc/sudoers.d/10-installer | awk '{print $1}')
+NEW_USER=$(compgen -u |tail -n -1)
+#NEW_USER=$(ls $chroot_path/home |grep -v "lost+found")
+#NEW_USER=$(head -n1 /etc/sudoers.d/10-installer | awk '{print $1}')
+#NEW_USER=$(cat /tmp/$chroot_path/etc/passwd | grep "/home" |cut -d: -f1 |head -1)
+#getent passwd |grep 1000 |sed s'/:.*//'
+#compgen -u |tail -n -1
 
 
     rm -r /home/$NEW_USER/.config/qt5ct
