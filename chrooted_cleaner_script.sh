@@ -5,8 +5,6 @@
 # Any failed command will just be skiped, error message may pop up but won't crash the install process
 # Net-install creates the file /tmp/run_once in live environment (need to be transfered to installed system) so it can be used to detect install option
 
-_non_encrypted(){
-
     #local NEW_USER=$(head -n1 /etc/sudoers.d/10-installer | awk '{print $1}')
 NEW_USER=$(compgen -u |tail -n -1)
 #NEW_USER=$(ls $chroot_path/home |grep -v "lost+found")
@@ -14,13 +12,6 @@ NEW_USER=$(compgen -u |tail -n -1)
 #NEW_USER=$(cat /tmp/$chroot_path/etc/passwd | grep "/home" |cut -d: -f1 |head -1)
 #getent passwd |grep 1000 |sed s'/:.*//'
 #compgen -u |tail -n -1
-
-
-    rm -r /home/$NEW_USER/.config/qt5ct
-    rm -r /home/$NEW_USER/{.xinitrc,.xsession,.xprofile}
-    sed -i "/if/,/fi/"'s/^/#/' /home/$NEW_USER/.bash_profile
-
-}
 
 _check_internet_connection(){
     #ping -c 1 8.8.8.8 >& /dev/null   # ping Google's address
@@ -84,7 +75,8 @@ _clean_archiso(){
         /etc/initcpio
         /etc/udev/rules.d/81-dhcpcd.rules
         /usr/bin/{calamares_switcher,cleaner_script.sh}
-
+        /home/$NEW_USER/.config/qt5ct
+        /home/$NEW_USER/{.xinitrc,.xsession,.xprofile}
         /root/{.xinitrc,.xsession,.xprofile}
         /etc/skel/{.xinitrc,.xsession,.xprofile}
     )
@@ -151,6 +143,7 @@ _endeavouros(){
 
 
     sed -i "/if/,/fi/"'s/^/#/' /root/.bash_profile
+    sed -i "/if/,/fi/"'s/^/#/' /home/$NEW_USER/.bash_profile
 
 }
 
