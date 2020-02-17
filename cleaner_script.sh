@@ -20,9 +20,9 @@ arch_chroot(){
 _non_encrypted(){
 
 # Alternative methods
-#NEW_USER=$(ls $chroot_path/home |grep -v "lost+found")
-local NEW_USER=$(head -n1 $chroot_path/etc/sudoers.d/10-installer | awk '{print $1}')
-#NEW_USER=$(cat /tmp/$chroot_path/etc/passwd | grep "/home" |cut -d: -f1 |head -1)
+#NEW_USER=$(ls $chroot_path/home |grep -v "lost+found" |)
+#local NEW_USER=$(head -n1 $chroot_path/etc/sudoers.d/10-installer | awk '{print $1}')
+local NEW_USER=$(cat /tmp/$chroot_path/etc/passwd | grep "/home" |cut -d: -f1 |head -1)
 cp -rf /etc/skel/.bashrc /tmp/$chroot_path/home/$NEW_USER/.bashrc
 chown -R $NEW_USER:users /tmp/$chroot_path/home/$NEW_USER/.bashrc
 
