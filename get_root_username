@@ -31,4 +31,15 @@ def run():
     except:
      pass # doing nothing on exception
 
+    # Needs testing
+    _ROOT_PATH_CHROOT_CLEANER_SCRIPT = "sed -i "2i $(cat /tmp/chrootpath.txt)" /usr/bin/chrooted_cleaner_script.sh"
+    _ROOT_PATH_CLEANER_SCRIPT = "sed -i "2i $(cat /tmp/chrootpath.txt)" /usr/bin/cleaner_script.sh"
+
+    _USER_CHROOT_CLEANER_SCRIPT = "sed -i "3i $(cat /tmp/new_username.txt)" /usr/bin/chrooted_cleaner_script.sh"
+    _USER_CLEANER_SCRIPT = "sed -i "3i $(cat /tmp/new_username.txt)" /usr/bin/cleaner_script.sh"
+
+    subprocess.call([_ROOT_PATH_CHROOT_CLEANER_SCRIPT, '&&', _ROOT_PATH_CLEANER_SCRIPT], shell=True)
+
+    subprocess.call([_USER_CHROOT_CLEANER_SCRIPT, '&&', _USER_CLEANER_SCRIPT], shell=True)
+    
     return None
