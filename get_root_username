@@ -1,0 +1,34 @@
+#!/usr/bin/env python3
+# -*- coding: utf-8 -*-
+
+# This module avoid problems detecting mounted partitions or new user at target system
+
+import libcalamares
+import subprocess
+from libcalamares.utils import check_target_env_call, target_env_call
+from libcalamares.utils import *
+
+def run():
+    """ Get root and username directly from calamares.
+
+    :return:
+    """
+
+    ##### WORKS
+    try:
+     with open('/tmp/chrootpath.txt', 'w') as file:
+      root_mount_point = libcalamares.globalstorage.value("rootMountPoint")
+      file.write(root_mount_point)
+      file.close()
+    except:
+     pass # doing nothing on exception
+
+    try:
+     with open('/tmp/new_username.txt', 'w') as file:
+      _username = libcalamares.globalstorage.value("username")
+      file.write(_username)
+      file.close()
+    except:
+     pass # doing nothing on exception
+
+    return None
