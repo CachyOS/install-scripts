@@ -371,3 +371,4 @@
   packages:
     - nvidia
     - nvidia-settings
+    - lib32-nvidia-utils
