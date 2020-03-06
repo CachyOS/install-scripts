@@ -366,7 +366,7 @@
 - name: "Nvidia Drivers"
   description: "Proprietary Nvidia Driver: not for legacy or hybrid cards!"
   hidden: false
-  selected: false
+  selected: true
   critical: false
   packages:
     - nvidia
