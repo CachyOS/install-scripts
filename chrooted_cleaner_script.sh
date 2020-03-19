@@ -180,11 +180,17 @@ _remove_ucode(){
 }
 
 _clean_up(){
+    # Remove the "wrong" microcode.
     if [ -x /usr/bin/device-info ] ; then
         case "$(/usr/bin/device-info --cpu)" in
             GenuineIntel) _remove_ucode amd-ucode ;;
             *)            _remove_ucode intel-ucode ;;
         esac
+    fi
+
+    # Fix generation by grub-mkconfig.
+    if [ -x /usr/bin/grub-fix-initrd-generation ] ; then
+            /usr/bin/grub-fix-initrd-generation
     fi
 }
 

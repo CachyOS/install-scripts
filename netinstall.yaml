@@ -112,6 +112,7 @@
     - intel-ucode
     - amd-ucode
     - os-prober
+    - grub-tools
     - wget
     - bash-completion
     - lsb-release
