@@ -92,6 +92,7 @@
     - glances
     - htop
     - screenfetch
+    - neofetch
     - pulseaudio
     - pavucontrol
     - paprefs
