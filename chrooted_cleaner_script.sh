@@ -44,6 +44,26 @@ _vbox(){
     fi
 }
 
+_vmware() {
+    local vmware_guest_packages=(
+        open-vm-tools
+        xf86-input-vmmouse
+        xf86-video-vmware
+    )
+    local xx
+
+    case "$(device-info --vga)" in
+        VMware*)
+            pacman -S --needed --noconfirm "${vmware_guest_packages[@]}"
+            ;;
+        *) 
+            for xx in "${vmware_guest_packages[@]}" ; do
+                test -n "$(pacman -Q "$xx" 2>/dev/null)" && pacman -Rnsdd "$xx" --noconfirm
+            done
+            ;;
+    esac
+}
+
 _common_systemd(){
     local _systemd_enable=(NetworkManager vboxservice org.cups.cupsd avahi-daemon systemd-networkd-wait-online systemd-timesyncd tlp gdm lightdm sddm)   
     local _systemd_disable=(multi-user.target pacman-init)           
@@ -202,6 +222,7 @@ _check_install_mode
 _common_systemd
 _endeavouros
 _vbox
+_vmware
 _clean_up
 
 ls / |grep "crypto_keyfile.bin" >/dev/null
