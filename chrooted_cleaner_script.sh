@@ -200,6 +200,8 @@ _remove_ucode(){
 }
 
 _clean_up(){
+    local xx
+
     # Remove the "wrong" microcode.
     if [ -x /usr/bin/device-info ] ; then
         case "$(/usr/bin/device-info --cpu)" in
@@ -211,6 +213,13 @@ _clean_up(){
     # Fix generation by grub-mkconfig.
     if [ -x /usr/bin/grub-fix-initrd-generation ] ; then
             /usr/bin/grub-fix-initrd-generation
+    fi
+
+    # remove nvidia driver if: 1) no nvidia card, 2) nvidia driver not in use (older nvidia cards use nouveau)
+    # (maybe the latter alone is enough...)
+    if [ -z "$(device-info --vga | grep NVIDIA)" ] || [ -z "$(lspci -k | grep -PA3 'VGA|3D' | grep "Kernel driver in use" | grep nvidia)" ] ; then
+        xx="$(pacman -Qqs nvidia* | grep ^nvidia)"
+        test -n "$xx" && pacman -Rsn $xx --noconfirm >/dev/null
     fi
 }
 
