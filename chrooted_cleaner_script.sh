@@ -234,7 +234,10 @@ _clean_up(){
 ########## SCRIPT STARTS HERE ##########
 ########################################
 
-_check_install_mode
+#_check_install_mode
+_clean_archiso
+_sed_stuff
+_clean_offline_packages
 _common_systemd
 _endeavouros
 _vbox
