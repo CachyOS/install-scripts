@@ -31,9 +31,6 @@ arch_chroot(){
 cp -rf /etc/skel/.bashrc /tmp/$chroot_path/home/$NEW_USER/.bashrc
 chown -R $NEW_USER:users /tmp/$chroot_path/home/$NEW_USER/.bashrc
 
-}
-
-
 _copy_files(){
 
     local _files_to_copy=(
