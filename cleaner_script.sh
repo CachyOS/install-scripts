@@ -6,7 +6,7 @@
 
 if [ -f /tmp/chrootpath.txt ]
 then 
-    chroot_path=$(cat /tmp/chrootpath.txt)
+    chroot_path=$(cat /tmp/chrootpath.txt |sed 's/\/tmp\///')
 else 
     chroot_path=$(lsblk |grep "calamares-root" |awk '{ print $NF }' |sed -e 's/\/tmp\///' -e 's/\/.*$//' |tail -n1)
 fi
