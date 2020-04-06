@@ -5,13 +5,6 @@
 # Any failed command will just be skiped, error message may pop up but won't crash the install process
 # Net-install creates the file /tmp/run_once in live environment (need to be transfered to installed system) so it can be used to detect install option
 
-if [ -f /tmp/chrootpath.txt ]
-then 
-    chroot_path=$(cat /tmp/chrootpath.txt)
-else 
-    chroot_path=$(lsblk |grep "calamares-root" |awk '{ print $NF }' |sed -e 's/\/tmp\///' -e 's/\/.*$//' |tail -n1)
-fi
-
 if [ -f /tmp/new_username.txt ]
 then
     NEW_USER=$(cat /tmp/new_username.txt)
