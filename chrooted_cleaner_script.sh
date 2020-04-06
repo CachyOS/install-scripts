@@ -5,13 +5,20 @@
 # Any failed command will just be skiped, error message may pop up but won't crash the install process
 # Net-install creates the file /tmp/run_once in live environment (need to be transfered to installed system) so it can be used to detect install option
 
-    #local NEW_USER=$(head -n1 /etc/sudoers.d/10-installer | awk '{print $1}')
-NEW_USER=$(compgen -u |tail -n -1)
-#NEW_USER=$(ls $chroot_path/home |grep -v "lost+found")
-#NEW_USER=$(head -n1 /etc/sudoers.d/10-installer | awk '{print $1}')
-#NEW_USER=$(cat /tmp/$chroot_path/etc/passwd | grep "/home" |cut -d: -f1 |head -1)
-#getent passwd |grep 1000 |sed s'/:.*//'
-#compgen -u |tail -n -1
+if [ -f /tmp/chrootpath.txt ]
+then 
+    chroot_path=$(cat /tmp/chrootpath.txt)
+else 
+    chroot_path=$(lsblk |grep "calamares-root" |awk '{ print $NF }' |sed -e 's/\/tmp\///' -e 's/\/.*$//' |tail -n1)
+fi
+
+if [ -f /tmp/new_username.txt ]
+then
+    NEW_USER=$(cat /tmp/new_username.txt)
+else
+    #NEW_USER=$(compgen -u |tail -n -1)
+    NEW_USER=$(cat /tmp/$chroot_path/etc/passwd | grep "/home" |cut -d: -f1 |head -1)
+fi
 
 _check_internet_connection(){
     #ping -c 1 8.8.8.8 >& /dev/null   # ping Google's address
@@ -233,8 +240,5 @@ _endeavouros
 _vbox
 _vmware
 _clean_up
-
-ls / |grep "crypto_keyfile.bin" >/dev/null
-if [ "$?" != 0 ]; then _non_encrypted; fi
 
 rm -rf /usr/bin/{calamares_switcher,cleaner_script.sh,chrooted_cleaner_script.sh,calamares_for_testers}
