@@ -223,6 +223,55 @@ _clean_up(){
     fi
 }
 
+_desktop_openbox(){
+    # openbox configs here
+    # Note: variable 'desktop' from '_another_case' is visible here too if more details are needed.
+    
+    mkdir -p /home/$NEW_USER/.config/openbox
+    echo "mmaker -vf OpenBox3 &" >> /home/$NEW_USER/.config/openbox/autostart
+    chown -R $NEW_USER:users /home/$NEW_USER/.config/openbox
+}
+
+_desktop_i3(){
+    # i3 configs here
+    # Note: variable 'desktop' from '_another_case' is visible here too!
+
+    git clone https://github.com/endeavouros-team/i3-EndeavourOS.git
+    pushd i3-EndeavourOS >/dev/null
+    cp -R .config /home/$NEW_USER/
+    cp -R .config ~/                                                    
+    chmod -R +x ~/.config/i3/scripts /home/$NEW_USER/.config/i3/scripts
+    cp .Xresources ~/
+    cp .Xresources /home/$NEW_USER/ 
+    chown -R $NEW_USER:users /home/$NEW_USER/.config /home/$NEW_USER/.Xresources
+    popd >/dev/null
+    rm -rf i3-EndeavourOS
+}
+
+_de_wm_config(){
+    local desktops_lowercase="$(ls -1 /usr/share/xsessions/*.desktop | tr '[:upper:]' '[:lower:]' | sed -e 's|\.desktop$||' -e 's|^/usr/share/xsessions/||')"
+    local desktop
+    local i3_added=no # break for loop
+    local openbox_added=no # break for loop
+
+    for desktop in $desktops_lowercase ; do
+        case "$desktop" in
+            i3*)
+                if [ "$i3_added" = "no" ] ; then
+                    i3_added=yes
+                    _desktop_i3 
+                fi
+                ;;
+            openbox*)
+                if [ "$openbox_added" = "no" ] ; then
+                    openbox_added=yes
+                    _desktop_openbox
+                fi
+                ;;
+        esac
+    done
+}
+
 ########################################
 ########## SCRIPT STARTS HERE ##########
 ########################################
@@ -235,6 +284,7 @@ _common_systemd
 _endeavouros
 _vbox
 _vmware
+_de_wm_config
 _clean_up
 
 rm -rf /usr/bin/{calamares_switcher,cleaner_script.sh,chrooted_cleaner_script.sh,calamares_for_testers}
