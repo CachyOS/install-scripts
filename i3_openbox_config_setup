@@ -1,69 +1,50 @@
 #!/bin/bash
 
-CMD=($(ls /usr/share/xsessions |tr ' ' \n))
-_this_is_my_pc(){
-
-# chrooted_cleaner_script gets username from NEW_USER=$(cat /tmp/new_username.txt)
-# a user may install multiples DEs
-gnome-classic.desktop  i3.desktop              kodi.desktop  openbox.desktop        xfce.desktop
-gnome.desktop          i3-empty.desktop        LXDE.desktop  openbox-kde.desktop
-gnome-xorg.desktop     i3-with-shmlog.desktop  mate.desktop  remmina-gnome.desktop
+_desktop_openbox(){
+    # openbox configs here
+    # Note: variable 'desktop' from '_another_case' is visible here too if more details are needed.
+    
+    mkdir -p /home/$NEW_USER/.config/openbox
+    echo "mmaker -vf OpenBox3 &" >> /home/$NEW_USER/.config/openbox/autostart
+    chown -R $NEW_USER:users /home/$NEW_USER/.config/openbox
 }
 
+_desktop_i3(){
+    # i3 configs here
+    # Note: variable 'desktop' from '_another_case' is visible here too!
 
-
-# for is needed if installed more than one DE
-# even so repeated .desktop will cause the command to run more than once, if may be easier, more bellow
-_case(){
-for x in "${CMD[@]}"
-do
-case $x in
-    gnome{-classic,-xorg}.desktop)
-    echo "gnome"
-    ;;
-    i3*)
-    echo "i3"
-    ;;
-    LXDE*)
-    echo "LXDE"
-    ;;
-    openbox*)
-    echo "openbox"
-    ;;
-    xfce*)
-    echo "xfce"
-    ;;
-esac
-done
-}
-#case $session in
-#    i3|i3wm           ) exec i3;;
-#    kde               ) exec startplasma-x11;;
-#    xfce|xfce4        ) exec startxfce4;;
-
-_if(){
-# using if statement may be easier, simple ls | grep
-# Only config for i3 and openbox
-ls /usr/share/xsessions |grep "i3"
-if [ $? = 0 ]
-then
     git clone https://github.com/endeavouros-team/i3-EndeavourOS.git
-    cd i3-EndeavourOS
-    cp -R .config/* /home/$NEW_USER/.config/
-    cp -R .config/* ~/.config/
+    pushd i3-EndeavourOS >/dev/null
+    cp -R .config /home/$NEW_USER/
+    cp -R .config ~/                                                    
     chmod -R +x ~/.config/i3/scripts /home/$NEW_USER/.config/i3/scripts
     cp .Xresources ~/
     cp .Xresources /home/$NEW_USER/ 
     chown -R $NEW_USER:users /home/$NEW_USER/.config /home/$NEW_USER/.Xresources
-    cd /
+    popd >/dev/null
     rm -rf i3-EndeavourOS
-fi
+}
 
-ls /usr/share/xsessions |grep "openbox"
-if [ $? = 0 ]
-then
-    mkdir /home/$NEW_USER/.config/openbox
-    echo "mmaker -vf OpenBox3 &" >> /home/$NEW_USER/.config/openbox/autostart
-    chown -R $NEW_USER:users /home/$NEW_USER/.config/openbox
-fi
+_another_case(){
+    local desktops_lowercase="$(ls -1 /usr/share/xsessions/*.desktop | tr '[:upper:]' '[:lower:]' | sed -e 's|\.desktop$||' -e 's|^/usr/share/xsessions/||')"
+    local desktop
+    local i3_added=no # break for loop
+    local openbox_added=no # break for loop
+
+    for desktop in $desktops_lowercase ; do
+        case "$desktop" in
+            i3*)
+                if [ "$i3_added" = "no" ] ; then
+                    i3_added=yes
+                    _desktop_i3 
+                fi
+                ;;
+            openbox*)
+                if [ "$openbox_added" = "no" ] ; then
+                    openbox_added=yes
+                    _desktop_openbox
+                fi
+                ;;
+        esac
+    done
 }
