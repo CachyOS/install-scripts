@@ -323,7 +323,7 @@
     - xscreensaver
 - name: "Openbox"
   description: "Openbox is a highly configurable, next generation window manager with extensive standards support."
-  hidden: true
+  hidden: false
   selected: false
   critical: false
   packages:
