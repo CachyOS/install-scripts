@@ -18,6 +18,25 @@ _check_internet_connection(){
     curl --silent --connect-timeout 8 https://8.8.8.8 > /dev/null
 }
 
+_is_pkg_installed() {
+    # returns 0 if given package name is installed, otherwise 1
+    local pkgname="$1"
+    pacman -Q "$pkgname" >& /dev/null
+}
+
+_remove_a_pkg() {
+    local pkgname="$1"
+    pacman -Rsn --noconfirm "$pkgname"
+}
+
+_remove_pkgs_if_installed() {
+    # removes given package(s) and possible dependencies if the package(s) are currently installed
+    local pkgname
+    for pkgname in "$@" ; do
+        _is_pkg_installed "$pkgname" && _remove_a_pkg "$pkgname"
+    done
+}
+
 _vbox(){
 
     # Detects if running in vbox
@@ -199,6 +218,46 @@ _remove_ucode(){
     }
 }
 
+_remove_other_graphics_drivers() {
+    local graphics="$(device-info --vga ; device-info --display)"
+    local amd=no
+
+    # remove Intel graphics driver if it is not needed
+    if [ -z "$(echo "$graphics" | grep "Intel Corporation")" ] ; then
+        _remove_pkgs_if_installed xf86-video-intel
+    fi
+
+    # remove AMD graphics driver if it is not needed
+    if [ -n "$(echo "$graphics" | grep "Advanced Micro Devices")" ] ; then
+        amd=yes
+    elif [ -n "$(echo "$graphics" | grep "AMD/ATI")" ] ; then
+        amd=yes
+    elif [ -n "$(echo "$graphics" | grep "Radeon")" ] ; then
+        amd=yes
+    fi
+    if [ "$amd" = "no" ] ; then
+        _remove_pkgs_if_installed xf86-video-amdgpu xf86-video-ati
+    fi
+}
+
+_remove_broadcom_wifi_driver() {
+    local pkgname=broadcom-wl-dkms
+    local wifi_pci
+    local wifi_driver
+
+    _is_pkg_installed $pkgname && {
+        wifi_pci="$(lspci -k | grep -A4 " Network controller: ")"
+        if [ -n "$(lsusb | grep " Broadcom ")" ] || [ -n "$(echo "$wifi_pci" | grep " Broadcom ")" ] ; then
+            return
+        fi
+        wifi_driver="$(echo "$wifi_pci" | grep "Kernel driver in use")"
+        if [ -n "$(echo "$wifi_driver" | grep "in use: wl$")" ] ; then
+            return
+        fi
+        _remove_a_pkg $pkgname
+    }
+}
+
 _clean_up(){
     local xx
 
@@ -221,6 +280,12 @@ _clean_up(){
         xx="$(pacman -Qqs nvidia* | grep ^nvidia)"
         test -n "$xx" && pacman -Rsn $xx --noconfirm >/dev/null
     fi
+
+    # remove AMD and Intel graphics drivers if they are not needed
+    _remove_other_graphics_drivers
+
+    # remove broadcom-wl-dkms if it is not needed
+    _remove_broadcom_wifi_driver
 }
 
 _desktop_openbox(){
