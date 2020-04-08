@@ -292,9 +292,9 @@ _desktop_openbox(){
     # openbox configs here
     # Note: variable 'desktop' from '_another_case' is visible here too if more details are needed.
     
-    mkdir -p /home/$NEW_USER/.config/openbox
-    echo "mmaker -vf OpenBox3 &" >> /home/$NEW_USER/.config/openbox/autostart
-    chown -R $NEW_USER:users /home/$NEW_USER/.config/openbox
+    mmaker -vf OpenBox3 # for root
+    sudo -H -u $NEW_USER bash -c 'mmaker -vf OpenBox3' # for normal user
+
 }
 
 _desktop_i3(){
