@@ -279,7 +279,7 @@
     - file-roller
 - name: "i3 Window Manager"
   description: "i3 tiling window manager, primarily targeted at developers and advanced users. "
-  hidden: false
+  hidden: true
   selected: false
   critical: false
   packages:
@@ -323,7 +323,7 @@
     - xscreensaver
 - name: "Openbox"
   description: "Openbox is a highly configurable, next generation window manager with extensive standards support."
-  hidden: false
+  hidden: true
   selected: false
   critical: false
   packages:
