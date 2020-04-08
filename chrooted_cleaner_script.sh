@@ -22,7 +22,7 @@ _vbox(){
 
     # Detects if running in vbox
     # packages must be in this order otherwise guest-utils pulls dkms, which takes longer to be installed
-    local _vbox_guest_packages=(virtualbox-guest-modules-arch virtualbox-guest-utils)   
+    local _vbox_guest_packages=(virtualbox-guest-modules-dkms virtualbox-guest-utils)   
     local xx
 
     lspci | grep -i "virtualbox" >/dev/null
