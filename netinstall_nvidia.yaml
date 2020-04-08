@@ -168,6 +168,7 @@
     - capitaine-cursors
     - arc-gtk-theme
     - gnome-packagekit
+    - endeavouros-xfce4-terminal-colors
 - name: "MATE-Desktop"
   description: "MATE Desktop - the continuation of GNOME 2"
   hidden: false
