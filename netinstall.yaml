@@ -298,6 +298,23 @@
     - lightdm
     - lightdm-gtk-greeter
     - lightdm-gtk-greeter-settings
+    - acpi
+    - sysstat
+    - nitrogen
+    - bluez-utils
+    - rofi
+    - xcursor-neutral
+    - archlinux-xdg-menu
+    - pulseaudio
+    - paprefs
+    - pavucontrol
+    - scrot
+    - picom
+    - leafpad
+    - jq
+    - feh
+    - terminator
+    - dunst
 - name: "LXQT-Desktop"
   description: "The Lightweight Qt Desktop Environment."
   hidden: false
