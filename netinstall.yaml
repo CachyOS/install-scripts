@@ -22,7 +22,6 @@
     - xorg-xinput
     - xdg-utils
     - xdg-user-dirs
-    - xdg-user-dirs-gtk
     - gvfs
     - gvfs-mtp
     - gvfs-afc
@@ -168,6 +167,7 @@
     - arc-gtk-theme
     - gnome-packagekit
     - endeavouros-xfce4-terminal-colors
+    - xdg-user-dirs-gtk
 - name: "MATE-Desktop"
   description: "MATE Desktop - the continuation of GNOME 2"
   hidden: false
@@ -178,6 +178,7 @@
     - mate-extra
     - celluloid
     - network-manager-applet
+    - xdg-user-dirs-gtk
     - lightdm
     - lightdm-gtk-greeter
     - lightdm-gtk-greeter-settings
@@ -216,6 +217,7 @@
     - chrome-gnome-shell
     - gnome-software-packagekit-plugin
     - gnome-packagekit
+    - xdg-user-dirs-gtk
     - fwupd
     - arc-x-icons-theme
     - arc-gtk-theme
@@ -245,6 +247,7 @@
     - gnome-screenshot
     - gnome-calculator
     - gnome-packagekit
+    - xdg-user-dirs-gtk
     - arc-x-icons-theme
     - arc-gtk-theme
 - name: "Budgie-Desktop"
@@ -262,6 +265,7 @@
     - network-manager-applet
     - gnome-software-packagekit-plugin
     - gnome-packagekit
+    - xdg-user-dirs-gtk
     - fwupd
     - arc-x-icons-theme
     - arc-gtk-theme
@@ -295,6 +299,7 @@
     - dmenu
     - script
     - polkit-gnome
+    - xdg-user-dirs-gtk
     - pcmanfm
     - terminator
     - lightdm
@@ -334,6 +339,7 @@
     - lxrandr
     - arandr
     - menumaker
+    - xdg-user-dirs-gtk
     - archlinux-xdg-menu
     - lightdm
     - lightdm-gtk-greeter
