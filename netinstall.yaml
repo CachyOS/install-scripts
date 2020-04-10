@@ -168,6 +168,7 @@
     - gnome-packagekit
     - endeavouros-xfce4-terminal-colors
     - xdg-user-dirs-gtk
+    - qt5ct
 - name: "MATE-Desktop"
   description: "MATE Desktop - the continuation of GNOME 2"
   hidden: false
