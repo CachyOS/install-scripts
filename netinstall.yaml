@@ -354,6 +354,8 @@
     - lightdm
     - lightdm-gtk-greeter
     - lightdm-gtk-greeter-settings
+    - arc-x-icons-theme
+    - arc-gtk-theme
 - name: "Printing-Support"
   description: "Support for printing (Cups)"
   hidden: false
