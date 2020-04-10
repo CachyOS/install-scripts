@@ -200,6 +200,7 @@ _check_install_mode(){
                 chown -R $NEW_USER:users /home/$NEW_USER/.bashrc
                 _sed_stuff
                 _clean_offline_packages
+                _check_internet_connection && update-mirrorlist
             ;;
 
         ONLINE_MODE)
