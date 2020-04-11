@@ -168,6 +168,7 @@
     - gnome-packagekit
     - endeavouros-xfce4-terminal-colors
     - xdg-user-dirs-gtk
+    - qt5ct
 - name: "MATE-Desktop"
   description: "MATE Desktop - the continuation of GNOME 2"
   hidden: false
@@ -305,6 +306,24 @@
     - lightdm
     - lightdm-gtk-greeter
     - lightdm-gtk-greeter-settings
+    - acpi
+    - sysstat
+    - nitrogen
+    - bluez-utils
+    - rofi
+    - xcursor-neutral
+    - pulseaudio
+    - paprefs
+    - pavucontrol
+    - scrot
+    - picom
+    - leafpad
+    - jq
+    - feh
+    - terminator
+    - dunst
+    - arc-x-icons-theme
+    - arc-gtk-theme
 - name: "LXQT-Desktop"
   description: "The Lightweight Qt Desktop Environment."
   hidden: false
