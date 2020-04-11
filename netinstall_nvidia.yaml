@@ -324,6 +324,7 @@
     - dunst
     - arc-x-icons-theme
     - arc-gtk-theme
+    - galculator
 - name: "LXQT-Desktop"
   description: "The Lightweight Qt Desktop Environment."
   hidden: false
