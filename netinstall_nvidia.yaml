@@ -35,6 +35,7 @@
     - libwnck3
     - b43-fwcutter
     - broadcom-wl-dkms
+    - r8168
     - dnsutils
     - ipw2100-fw
     - ipw2200-fw
