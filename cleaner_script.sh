@@ -1,5 +1,12 @@
 #!/bin/bash
 
+# Temporary note april 19 2020
+# shellprocess module was moved to last step on calamares
+# /etc/default/grub copied later may cause issues. Anyway we're using rsync update mode, so calamares may create latest files and won't be overwriten.
+
+
+
+
 # Made by fernandomaroto for EndeavourOS and Portergos
 
 # Adapted from AIS. An excellent bit of code!
