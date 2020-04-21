@@ -304,6 +304,7 @@
     - xdg-user-dirs-gtk
     - pcmanfm
     - terminator
+    - python-configobj
     - lightdm
     - lightdm-gtk-greeter
     - lightdm-gtk-greeter-settings
