@@ -322,7 +322,6 @@
     - leafpad
     - jq
     - feh
-    - terminator
     - dunst
     - arc-x-icons-theme
     - arc-gtk-theme
