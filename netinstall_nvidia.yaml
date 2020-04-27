@@ -325,6 +325,7 @@
     - arc-x-icons-theme
     - arc-gtk-theme
     - galculator
+    - gtk-engine-murrine
 - name: "LXQT-Desktop"
   description: "The Lightweight Qt Desktop Environment."
   hidden: false
