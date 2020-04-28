@@ -52,12 +52,7 @@ GetYourCountry() {
     local country="$(test -n "$code" && CodeToCountry "$code")"
     echo "$country"
 }
-CWantsHttp() {
-    case "$1" in
-        FI|"Finland") echo no ;;
-        *)            echo yes ;;
-    esac
-}
+
 echo2() { echo "$@" >&2 ; }
 
 Main() {
@@ -66,36 +61,36 @@ Main() {
     local retval
     local tf=$(mktemp)
     local mf=/etc/pacman.d/mirrorlist
-    local cmd="reflector -phttps -f10 -l20 --sort rate --save $tf "  # reflector and common options
+    local cmd="reflector -phttps -f10 -l20 --sort rate "  # reflector and common options
     local dryrun=no
 
     case "$1" in
         -n | --dryrun) dryrun=yes ;;    # don't save mirrorlist to /etc/pacman.d
     esac
 
-    if [ -n "$this_country" ] ; then
-        # Country is in the list of countries supported by Arch,
-        # so search mirrors only in this country (should be the fastest?).
-        echo2 "Detected country: $(CodeToCountry $this_country)"
-        if [ "$(CWantsHttp "$this_country")" = "no" ] ; then
-            cmd+="-a2 -c $this_country"                      # use only https with this country
-        else
-            cmd+="-a8 -phttp -c $this_country"       # this country may lack https mirrors
-        fi
-    else
-        # Country is not in the list of countries supported by Arch,
-        # so have a global search with https and very up to date mirrors.
-        cmd+="-a1"
-    fi
+    test -n "$this_country" && echo2 "Detected country: $(CodeToCountry $this_country)"
 
-    $cmd 2>/dev/null
+    case "$this_country" in
+        "") cmd+="-a1"                           # no mirrors here, search https mirrors globally
+            ;;
+        FI) cmd+="-a2 -cFI -cSE"                 # search https mirrors in FI and SE
+            ;;
+        CH|DE|DK|FR|HK|IE|IS|NL|NZ|SE|SG|UK|US)
+            cmd+="-a2 -c $this_country"          # search https mirrors only in this country
+            ;;
+        *)
+            cmd+="-a8 -phttp -c $this_country"   # this country may lack https mirrors
+            ;;
+    esac
+
+    $cmd > $tf
     retval=$?
 
     if [ $retval -eq 0 ] ; then
+        echo2 "Arch mirrorlist by reflector:"
+        cat $tf >&2
         if [ "$dryrun" = "no" ] ; then
             sudo bash -c "cp $tf $mf && chmod 0644 $mf"
-        else
-            cat $tf
         fi
     else
         echo2 "reflector returned error code $retval, mirrorlist not updated."
