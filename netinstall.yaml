@@ -202,6 +202,7 @@
     - kdebase-meta
     - python-dbus
     - gwenview
+    - kdegraphics-thumbnailers
     - ark
     - okular
 - name: "GNOME-Desktop"
