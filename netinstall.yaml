@@ -329,6 +329,7 @@
     - dunst
     - arc-x-icons-theme
     - arc-gtk-theme
+    - capitaine-cursors
     - galculator
     - gtk-engine-murrine
 - name: "LXQT-Desktop"
