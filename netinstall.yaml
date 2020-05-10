@@ -200,7 +200,6 @@
     - fwupd
     - python-dbus
     - kdebase-meta
-    - python-dbus
     - gwenview
     - kdegraphics-thumbnailers
     - ark
