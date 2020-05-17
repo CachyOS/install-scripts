@@ -198,8 +198,9 @@
     - packagekit-qt5
     - kdeconnect
     - fwupd
-    - python-dbus
-    - kdebase-meta
+    - python-dbus   
+    - kde-system-meta
+    - kde-utilities-meta
     - gwenview
     - ark
     - okular
