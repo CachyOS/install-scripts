@@ -169,4 +169,5 @@ _check_internet_connection && {
 }
 clear
 #_run_calamares
-/usr/bin/calamares_switcher
+#usr/bin/calamares_switcher
+sudo -H -u liveuser sh -c '/usr/bin/eos-welcome'
