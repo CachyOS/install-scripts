@@ -63,7 +63,7 @@ if [[ $? == 0 ]]
         curl $URL_TAG |grep "$PKG_NAME" |sed s"?^.*$PKG_NAME?$PKG_NAME?"g | sed s'/pkg.tar.zst.*/pkg.tar.zst/'g |tail -1 >cal_github_version.txt
         local URL_DOWNLOAD="https://github.com/endeavouros-team/mirrors/releases/download/endeavouros_calamares"
         wget $URL_DOWNLOAD/$(cat cal_github_version.txt)
-        sudo pacman -Rns calamares_current --noconfirm
+        sudo pacman -Rns $(pacman -Qq |grep "calamares") --noconfirm
         sudo pacman -U $(cat cal_github_version.txt) --noconfirm
     else
         echo "There are no testing versions available"
