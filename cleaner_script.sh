@@ -47,10 +47,11 @@ _copy_files(){
     /etc/pacman.d/hooks/lsb-release.hook
     /etc/pacman.d/hooks/os-release.hook
     /etc/lsb-release
-    /etc/default/grub
 
 )
-
+    # /etc/default/grub # Removed from above since cleaner scripts are moved to last step at calamares
+    # https://forum.endeavouros.com/t/calamares-3-2-24-needs-testing/4941/37
+    
     local xx
 
 # Uses the entire file path and copies directly to / mounted point
