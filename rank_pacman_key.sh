@@ -8,6 +8,7 @@ TIME="time_servers.log"
 if [ ! -d rank ]; then mkdir rank; fi
 cd rank
 
+# Feel free to suggest mirrors to be added or removed bellow
 servers_array=(
 
 "keys.openpgp.org"
