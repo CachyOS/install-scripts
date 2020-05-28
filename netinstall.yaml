@@ -302,7 +302,6 @@
     - lxappearance-gtk3
     - otf-font-awesome
     - dmenu
-    - script
     - polkit-gnome
     - xdg-user-dirs-gtk
     - thunar
