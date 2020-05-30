@@ -322,7 +322,7 @@
     - paprefs
     - pavucontrol
     - scrot
-    - picom
+    - xcompmgr
     - leafpad
     - jq
     - feh
