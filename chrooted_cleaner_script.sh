@@ -99,6 +99,18 @@ _sed_stuff(){
     # Journal for offline. Turn volatile (for iso) into a real system.
     sed -i 's/volatile/auto/g' /etc/systemd/journald.conf 2>>/tmp/.errlog
     sed -i 's/.*pam_wheel\.so/#&/' /etc/pam.d/su
+
+}
+
+_os_lsb_release(){
+
+    # Check if offline is still copying the files, sed is the way to go!
+    # same as os-release hook
+    sed -i -e s'|^NAME=.*$|NAME=\"EndeavourOS\"|' -e s'|^PRETTY_NAME=.*$|PRETTY_NAME=\"EndeavourOS\"|' -e s'|^HOME_URL=.*$|HOME_URL=\"https://endeavouros.com\"|' -e s'|^DOCUMENTATION_URL=.*$|DOCUMENTATION_URL=\"https://endeavouros.com/wiki/\"|' -e s'|^SUPPORT_URL=.*$|SUPPORT_URL=\"https://forum.endeavouros.com\"|' -e s'|^BUG_REPORT_URL=.*$|BUG_REPORT_URL=\"https://github.com/endeavouros-team\"|' -e s'|^LOGO=.*$|LOGO=endeavouros|' /usr/lib/os-release
+
+    # same as lsb-release hook
+    sed -i -e s'|^DISTRIB_ID=.*$|DISTRIB_ID=EndeavourOS|' -e s'|^DISTRIB_DESCRIPTION=.*$|DISTRIB_DESCRIPTION=\"EndeavourOS Linux\"|' /etc/lsb-release
+
 }
 
 _clean_archiso(){
@@ -348,6 +360,7 @@ _de_wm_config(){
 _check_install_mode
 _common_systemd
 _endeavouros
+_os_lsb_release
 _vbox
 _vmware
 _de_wm_config
