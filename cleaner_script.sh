@@ -1,12 +1,5 @@
 #!/bin/bash
 
-# Temporary note april 19 2020
-# shellprocess module was moved to last step on calamares
-# /etc/default/grub copied later may cause issues. Anyway we're using rsync update mode, so calamares may create latest files and won't be overwriten.
-
-
-
-
 # Made by fernandomaroto for EndeavourOS and Portergos
 
 # Adapted from AIS. An excellent bit of code!
@@ -41,14 +34,15 @@ _copy_files(){
 
     local _files_to_copy=(
 
-    /etc/os-release
+    
     /etc/lightdm/*
     /etc/sddm.conf.d/kde_settings.conf
     /etc/pacman.d/hooks/lsb-release.hook
     /etc/pacman.d/hooks/os-release.hook
-    /etc/lsb-release
+    
 
 )
+    # /etc/os-release /etc/lsb-release removed, using sed now at chrooted script
     # /etc/default/grub # Removed from above since cleaner scripts are moved to last step at calamares
     # https://forum.endeavouros.com/t/calamares-3-2-24-needs-testing/4941/37
     
