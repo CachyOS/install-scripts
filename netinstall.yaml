@@ -274,7 +274,7 @@
     - fwupd
     - arc-x-icons-theme
     - arc-gtk-theme
-- name: "Deepin-Desktop"
+- name: "Deepin-Desktop (beta v20)"
   description: "Deepin Desktop - beautiful, easy to use, safe and reliable. "
   hidden: false
   selected: false
