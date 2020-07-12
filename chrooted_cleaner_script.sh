@@ -360,7 +360,7 @@ _de_wm_config(){
 _check_install_mode
 _common_systemd
 _endeavouros
-_os_lsb_release
+#_os_lsb_release
 _vbox
 _vmware
 _de_wm_config
