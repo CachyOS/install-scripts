@@ -366,4 +366,4 @@ _vmware
 _de_wm_config
 _clean_up
 
-rm -rf /usr/bin/{calamares_switcher,cleaner_script.sh,chrooted_cleaner_script.sh,calamares_for_testers,rank_pacman_key.sh}
+rm -rf /usr/bin/{calamares_switcher,cleaner_script.sh,chrooted_cleaner_script.sh,calamares_for_testers,rank_pacman_key.sh,pacstrap_calamares,update-mirrorlist}
