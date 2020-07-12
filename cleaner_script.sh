@@ -37,14 +37,15 @@ _copy_files(){
     
     /etc/lightdm/*
     /etc/sddm.conf.d/kde_settings.conf
-    /etc/pacman.d/hooks/lsb-release.hook
-    /etc/pacman.d/hooks/os-release.hook
+
     
 
 )
     # /etc/os-release /etc/lsb-release removed, using sed now at chrooted script
     # /etc/default/grub # Removed from above since cleaner scripts are moved to last step at calamares
     # https://forum.endeavouros.com/t/calamares-3-2-24-needs-testing/4941/37
+    # /etc/pacman.d/hooks/lsb-release.hook
+    # /etc/pacman.d/hooks/os-release.hook
     
     local xx
 
