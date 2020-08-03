@@ -300,6 +300,10 @@ _clean_up(){
 
     # remove broadcom-wl-dkms if it is not needed
     _remove_broadcom_wifi_driver
+
+    # keep r8168 package but blacklist it; r8169 will be used by default
+    xx=/usr/lib/modprobe.d/r8168.conf
+    test -r $xx && sed -i $xx -e 's|r8169|r8168|'
 }
 
 _desktop_openbox(){
