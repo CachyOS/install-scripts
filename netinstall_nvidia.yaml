@@ -130,6 +130,7 @@
     - mkinitcpio-openswap
     - pcurses    
     - eos-log-tool
+    - keyserver-rank
 - name: "XFCE4-Desktop"
   description: "XFCE4 - lightweight desktop fast and low on system resources, visually appealing and user friendly."
   hidden: false
