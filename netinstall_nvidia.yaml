@@ -169,7 +169,6 @@
     - arc-x-icons-theme
     - capitaine-cursors
     - arc-gtk-theme
-    - gnome-packagekit
     - endeavouros-xfce4-terminal-colors
     - xdg-user-dirs-gtk
     - qt5ct
@@ -187,7 +186,6 @@
     - lightdm
     - lightdm-gtk-greeter
     - lightdm-gtk-greeter-settings
-    - gnome-packagekit
     - arc-x-icons-theme
     - arc-gtk-theme    
 - name: "KDE-Desktop"
@@ -197,7 +195,6 @@
   critical: false
   packages:
     - plasma
-    - packagekit-qt5
     - kdeconnect
     - fwupd
     - python-dbus   
@@ -221,8 +218,6 @@
     - gnome-multi-writer
     - adwaita-icon-theme
     - chrome-gnome-shell
-    - gnome-software-packagekit-plugin
-    - gnome-packagekit
     - xdg-user-dirs-gtk
     - fwupd
     - arc-x-icons-theme
@@ -252,7 +247,6 @@
     - nemo-share
     - gnome-screenshot
     - gnome-calculator
-    - gnome-packagekit
     - xdg-user-dirs-gtk
     - arc-x-icons-theme
     - arc-gtk-theme
@@ -269,8 +263,6 @@
     - lightdm-gtk-greeter
     - lightdm-gtk-greeter-settings
     - network-manager-applet
-    - gnome-software-packagekit-plugin
-    - gnome-packagekit
     - xdg-user-dirs-gtk
     - fwupd
     - arc-x-icons-theme
