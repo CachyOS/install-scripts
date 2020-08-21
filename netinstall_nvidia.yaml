@@ -123,6 +123,7 @@
     - yad
     - reflector
     - endeavouros-theming
+    - reflector-simple
     - welcome
     - eos-update-notifier
     - eos-hooks
