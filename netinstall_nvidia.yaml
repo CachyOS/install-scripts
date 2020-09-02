@@ -317,7 +317,8 @@
     - pavucontrol
     - scrot
     - xcompmgr
-    - leafpad
+    - picom
+    - xed
     - jq
     - feh
     - dunst
