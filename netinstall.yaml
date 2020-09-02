@@ -318,8 +318,9 @@
     - paprefs
     - pavucontrol
     - scrot
+    - picom
     - xcompmgr
-    - leafpad
+    - xed
     - jq
     - feh
     - dunst
