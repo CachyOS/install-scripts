@@ -35,7 +35,7 @@ _copy_files(){
     local _files_to_copy=(
 
     
-    /etc/lightdm/*
+    /etc/lightdm/lightdm-gtk-greeter.conf
     /etc/sddm.conf.d/kde_settings.conf
 
     
