@@ -356,7 +356,7 @@ _de_wm_config(){
         esac
     done
 }
-_remove_gnome-software(){
+_remove_gnome_software(){
     local gnome-software="$1"
     pacman -Q $gnome-software >& /dev/null && {
         pacman -Rsn $gnome-software --noconfirm >/dev/null
