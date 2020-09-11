@@ -356,24 +356,16 @@ _de_wm_config(){
         esac
     done
 }
-
-
-}
-
 _remove_gnome-software(){
     local gnome-software="$1"
     pacman -Q $gnome-software >& /dev/null && {
         pacman -Rsn $gnome-software --noconfirm >/dev/null
-    }
-    
- 
 }
-
 _remove_discovery(){
     local discovery="$1"
     pacman -Q $discovery >& /dev/null && {
         pacman -Rsn $discovery --noconfirm >/dev/null
-    }
+}
 ########################################
 ########## SCRIPT STARTS HERE ##########
 ########################################
