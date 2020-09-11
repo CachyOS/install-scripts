@@ -276,7 +276,7 @@
   packages:
     - deepin
     - deepin-extra
-    - lightdm
+    - deepin-kwin
     - file-roller
 - name: "i3 Window Manager"
   description: "i3 tiling window manager, primarily targeted at developers and advanced users. "
