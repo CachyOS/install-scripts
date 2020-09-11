@@ -357,13 +357,13 @@ _de_wm_config(){
     done
 }
 
-_remove_a_pkg(){
+_remove_gnome_software(){
     local gnome-software="$1"
     pacman -Q $gnome-software >& /dev/null && {
         pacman -Rsn $gnome-software --noconfirm >/dev/null
 }
 
-_remove_a_pkg(){
+_remove_discovery(){
     local discovery="$1"
     pacman -Q $discovery >& /dev/null && {
         pacman -Rsn $discovery --noconfirm >/dev/null
@@ -380,5 +380,7 @@ _vbox
 _vmware
 _de_wm_config
 _clean_up
+_remove_gnome_software
+_remove_discovery
 
 rm -rf /usr/bin/{calamares_switcher,cleaner_script.sh,chrooted_cleaner_script.sh,calamares_for_testers,rank_pacman_key.sh,pacstrap_calamares,update-mirrorlist}
