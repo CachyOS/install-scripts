@@ -357,14 +357,13 @@ _de_wm_config(){
     done
 }
 
-_remove_gnome_software(){
-    local gnome-software="$1"
-    pacman -Rsn --noconfirm "$pkgname"
-}
-
-_remove_discovery(){
-    local discovery="$1"
-    pacman -Rsn --noconfirm "$pkgname"
+_remove_some_packages(){
+    local packages=(
+        # list packages to be removed here
+        gnome-software
+        discovery
+    )
+    pacman -Rsn --noconfirm "${packages[@]}"
 }
 ########################################
 ########## SCRIPT STARTS HERE ##########
