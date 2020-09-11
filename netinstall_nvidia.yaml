@@ -277,8 +277,6 @@
     - deepin
     - deepin-extra
     - lightdm
-    - lightdm-gtk-greeter
-    - lightdm-gtk-greeter-settings
     - file-roller
 - name: "i3 Window Manager"
   description: "i3 tiling window manager, primarily targeted at developers and advanced users. "
