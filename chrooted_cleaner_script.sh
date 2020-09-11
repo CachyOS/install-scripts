@@ -357,13 +357,13 @@ _de_wm_config(){
     done
 }
 
-_remove_gnome_software(){
+_remove_a_pkg(){
     local gnome-software="$1"
     pacman -Q $gnome-software >& /dev/null && {
         pacman -Rsn $gnome-software --noconfirm >/dev/null
 }
 
-_remove_discovery(){
+_remove_a_pkg(){
     local discovery="$1"
     pacman -Q $discovery >& /dev/null && {
         pacman -Rsn $discovery --noconfirm >/dev/null
