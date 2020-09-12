@@ -361,7 +361,7 @@ _remove_gnome_software(){
     pacman -Rsn --noconfirm gnome-software
 }
 _remove_discovery(){
-    pacman -Rsn --noconfirm discovery
+    pacman -Rsn --noconfirm discover
 }
 ########################################
 ########## SCRIPT STARTS HERE ##########
