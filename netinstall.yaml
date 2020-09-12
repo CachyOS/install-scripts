@@ -386,6 +386,16 @@
     - gutenprint 
     - foomatic-db-gutenprint-ppds
     - splix
+- name: "Support for HP Printer/Scanner"
+  description: "Support for HP Printer/Scanner"
+  hidden: false
+  selected: false
+  critical: false
+  packages:
+    - hplip
+    - python-pyqt5
+    - python-reportlab
+    - xsane
 - name: "Accessibility Tools"
   description: "Screen reader and mouse tweak"
   hidden: false
