@@ -384,9 +384,7 @@
     - foomatic-db-nonfree 
     - foomatic-db-nonfree-ppds 
     - gutenprint 
-    - foomatic-db-gutenprint-ppds 
-    - system-config-printer
-    - hplip
+    - foomatic-db-gutenprint-ppds
     - splix
 - name: "Accessibility Tools"
   description: "Screen reader and mouse tweak"
