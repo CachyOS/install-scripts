@@ -360,7 +360,7 @@ _de_wm_config(){
 _remove_gnome_software(){
     pacman -Rsn --noconfirm gnome-software
 }
-_remove_discovery(){
+_remove_discover(){
     pacman -Rsn --noconfirm discover
 }
 ########################################
@@ -374,7 +374,7 @@ _endeavouros
 _vbox
 _vmware
 _remove_gnome_software
-_remove_discovery
+_remove_discover
 _de_wm_config
 _clean_up
 
