@@ -173,6 +173,7 @@
     - endeavouros-xfce4-terminal-colors
     - xdg-user-dirs-gtk
     - qt5ct
+    - system-config-printer
 - name: "MATE-Desktop"
   description: "MATE Desktop - the continuation of GNOME 2"
   hidden: false
@@ -326,6 +327,7 @@
     - capitaine-cursors
     - galculator
     - gtk-engine-murrine
+    - system-config-printer
 - name: "LXQT-Desktop"
   description: "The Lightweight Qt Desktop Environment."
   hidden: false
