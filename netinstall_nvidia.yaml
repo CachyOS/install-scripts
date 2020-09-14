@@ -173,6 +173,7 @@
     - endeavouros-xfce4-terminal-colors
     - xdg-user-dirs-gtk
     - qt5ct
+    - system-config-printer
 - name: "MATE-Desktop"
   description: "MATE Desktop - the continuation of GNOME 2"
   hidden: false
@@ -188,7 +189,7 @@
     - lightdm-gtk-greeter
     - lightdm-gtk-greeter-settings
     - arc-x-icons-theme
-    - arc-gtk-theme    
+    - arc-gtk-theme  
 - name: "KDE-Desktop"
   description: "KDE-Plasma Desktop - Simple by default, powerful when needed."
   hidden: false
@@ -325,6 +326,7 @@
     - capitaine-cursors
     - galculator
     - gtk-engine-murrine
+    - system-config-printer
 - name: "LXQT-Desktop"
   description: "The Lightweight Qt Desktop Environment."
   hidden: false
