@@ -182,6 +182,7 @@ _clean_offline_packages(){
         gnome-boxes
         xcompmgr
         epiphany
+        memtest86+
 )
     local xx
     # @ does one by one to avoid errors in the entire process
