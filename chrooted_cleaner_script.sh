@@ -183,6 +183,7 @@ _clean_offline_packages(){
         xcompmgr
         epiphany
         memtest86+
+        mkinitcpio-archiso
 )
     local xx
     # @ does one by one to avoid errors in the entire process
