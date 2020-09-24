@@ -291,8 +291,8 @@ _clean_up(){
     fi
 
     # remove nvidia driver if: 1) no nvidia card, 2) nvidia driver not in use (older nvidia cards use nouveau)
-    # (maybe the latter alone is enough...)
-    if [ -z "$(device-info --vga | grep NVIDIA)" ] || [ -z "$(lspci -k | grep -PA3 'VGA|3D' | grep "Kernel driver in use" | grep nvidia)" ] ; then
+
+    if [ -z "$(lspci -k | grep -P 'VGA|3D|Display' | grep -w NVIDIA)" ] || [ -z "$(lspci -k | grep -B2 "Kernel driver in use: nvidia" | grep -P 'VGA|3D|Display')" ] ; then
         xx="$(pacman -Qqs nvidia* | grep ^nvidia)"
         test -n "$xx" && pacman -Rsn $xx --noconfirm >/dev/null
     fi
