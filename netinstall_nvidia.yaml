@@ -132,6 +132,7 @@
     - pcurses    
     - eos-log-tool
     - keyserver-rank
+    - inxi
 - name: "XFCE4-Desktop"
   description: "XFCE4 - lightweight desktop fast and low on system resources, visually appealing and user friendly."
   hidden: false
