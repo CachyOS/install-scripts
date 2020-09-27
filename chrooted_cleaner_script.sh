@@ -130,6 +130,7 @@ _clean_archiso(){
         /home/$NEW_USER/{.xinitrc,.xsession,.xprofile}
         /root/{.xinitrc,.xsession,.xprofile}
         /etc/skel/{.xinitrc,.xsession,.xprofile}
+        /etc/motd
     )
 
     local xx
