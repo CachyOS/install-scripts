@@ -363,6 +363,14 @@ _de_wm_config(){
     done
 }
 
+_xorg_configs(){
+    git clone https://github.com/endeavouros-team/EndeavourOS-archiso.git
+    if [ ! -r /usr/share/X11/xorg.conf.d/30-touchpad.conf ] ; then
+        cp EndeavourOS-archiso/airootfs/usr/share/X11/xorg.conf.d/30-touchpad.conf /usr/share/X11/xorg.conf.d/
+    fi
+    rm -rf EndeavourOS-archiso
+}
+
 _remove_gnome_software(){
     pacman -Rsn --noconfirm gnome-software
 }
@@ -382,6 +390,7 @@ _vmware
 _remove_gnome_software
 _remove_discover
 _de_wm_config
+_xorg_configs
 _clean_up
 
 rm -rf /usr/bin/{calamares_switcher,cleaner_script.sh,chrooted_cleaner_script.sh,calamares_for_testers,rank_pacman_key.sh,pacstrap_calamares,update-mirrorlist}
