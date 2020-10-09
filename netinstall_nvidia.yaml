@@ -116,7 +116,6 @@
     - wget
     - bash-completion
     - lsb-release
-    - pcurses
     - s-tui
     - tlp
     - yad
