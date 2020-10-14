@@ -73,7 +73,7 @@ Main() {
     case "$this_country" in
         "") cmd+="-a1"                           # no mirrors here, search https mirrors globally
             ;;
-        FI) cmd+="-a2 -cFI -cSE"                 # search https mirrors in FI and SE
+        FI) cmd+="-a3 --sort age -cFI -cSE"      # search https mirrors in FI and SE
             ;;
         CH|DE|DK|FR|HK|IE|IS|NL|NZ|SE|SG|UK|US)
             cmd+="-a2 -c $this_country"          # search https mirrors only in this country
