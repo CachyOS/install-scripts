@@ -131,6 +131,7 @@ _clean_archiso(){
         /root/{.xinitrc,.xsession,.xprofile}
         /etc/skel/{.xinitrc,.xsession,.xprofile}
         /etc/motd
+        /{gpg.conf,gpg-agent.conf,pubring.gpg,secring.gpg}
     )
 
     local xx
