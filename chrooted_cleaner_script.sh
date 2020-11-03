@@ -154,7 +154,6 @@ _clean_offline_packages(){
     vim
     termite-terminfo
     transmission-gtk
-    xed
     openssh
     gnome-keyring
     mc
