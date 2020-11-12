@@ -173,6 +173,7 @@
     - xdg-user-dirs-gtk
     - qt5ct
     - system-config-printer
+    - seahorse
 - name: "MATE-Desktop"
   description: "MATE Desktop - the continuation of GNOME 2"
   hidden: false
@@ -188,7 +189,8 @@
     - lightdm-gtk-greeter
     - lightdm-gtk-greeter-settings
     - arc-x-icons-theme
-    - arc-gtk-theme  
+    - arc-gtk-theme
+    - seahorse
 - name: "KDE-Desktop"
   description: "KDE-Plasma Desktop - Simple by default, powerful when needed."
   hidden: false
@@ -223,6 +225,7 @@
     - fwupd
     - arc-x-icons-theme
     - arc-gtk-theme
+    - seahorse
 - name: "Cinnamon-Desktop"
   description: "Cinnamon Desktop - advanced innovative features and a traditional user experience."
   hidden: false
@@ -251,6 +254,7 @@
     - xdg-user-dirs-gtk
     - arc-x-icons-theme
     - arc-gtk-theme
+    - seahorse
 - name: "Budgie-Desktop"
   description: "Budgie - I Tawt I Taw A Purdy Desktop"
   hidden: false
@@ -268,6 +272,7 @@
     - fwupd
     - arc-x-icons-theme
     - arc-gtk-theme
+    - seahorse
 - name: "Deepin-Desktop (beta v20)"
   description: "Deepin Desktop - beautiful, easy to use, safe and reliable. "
   hidden: false
@@ -343,6 +348,7 @@
     - galculator
     - gtk-engine-murrine
     - system-config-printer
+    - seahorse
 - name: "LXQT-Desktop"
   description: "The Lightweight Qt Desktop Environment."
   hidden: false
