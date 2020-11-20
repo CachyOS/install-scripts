@@ -378,12 +378,29 @@ _de_wm_config(){
     done
 }
 
+_fetch_a_file() {
+    # Build url from parts (that may change later).
+
+    local netRepoPart="$1"               # e.g. EndeavourOS-archiso
+    local netPathPart="$2"               # e.g. airootfs/usr/share/X11/xorg.conf.d/30-touchpad.conf
+    local target="$3"                    # e.g. /usr/share/X11/xorg.conf.d/30-touchpad.conf
+    local url1=https://raw.githubusercontent.com/endeavouros-team
+    local url2=/master
+    local url="$url1/$netRepoPart$url2/$netPathPart"
+
+    wget --timeout=60 -q -O "$target" "$url" || {
+        echo "Warning: ${FUNCNAME[1]}: fetching '$url' failed." >&2
+    }
+}
+
 _xorg_configs(){
-    git clone https://github.com/endeavouros-team/EndeavourOS-archiso.git
-    if [ ! -r /usr/share/X11/xorg.conf.d/30-touchpad.conf ] ; then
-        cp EndeavourOS-archiso/airootfs/usr/share/X11/xorg.conf.d/30-touchpad.conf /usr/share/X11/xorg.conf.d/
+    local target=/usr/share/X11/xorg.conf.d/30-touchpad.conf
+
+    if [ ! -r $target ] ; then
+        _fetch_a_file EndeavourOS-archiso \
+                      airootfs/usr/share/X11/xorg.conf.d/30-touchpad.conf \
+                      $target
     fi
-    rm -rf EndeavourOS-archiso
 }
 
 _remove_gnome_software(){
