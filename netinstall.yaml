@@ -318,6 +318,7 @@
     - thunar-archive-plugin
     - thunar-volman
     - tumbler
+    - file-roller
     - xfce4-terminal
     - lightdm
     - lightdm-gtk-greeter
