@@ -316,6 +316,7 @@
     - thunar
     - thunar-archive-plugin
     - thunar-volman
+    - file-roller
     - tumbler
     - xfce4-terminal
     - lightdm
