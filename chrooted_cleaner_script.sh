@@ -84,7 +84,7 @@ _vmware() {
 }
 
 _common_systemd(){
-    local _systemd_enable=(NetworkManager vboxservice org.cups.cupsd avahi-daemon systemd-timesyncd tlp gdm lightdm sddm)   
+    local _systemd_enable=(NetworkManager vboxservice cups avahi-daemon systemd-timesyncd tlp gdm lightdm sddm)   
     local _systemd_disable=(multi-user.target pacman-init)           
 
     local xx
