@@ -86,12 +86,10 @@ _vmware() {
 _common_systemd(){
     local _systemd_enable=(NetworkManager vboxservice cups avahi-daemon systemd-timesyncd tlp gdm lightdm sddm)   
     local _systemd_disable=(multi-user.target pacman-init)           
+    local srv
 
-    local xx
-    for xx in ${_systemd_enable[*]}; do systemctl enable -f $xx; done
-
-    local yy
-    for yy in ${_systemd_disable[*]}; do systemctl disable -f $yy; done
+    for srv in ${_systemd_enable[*]};  do systemctl enable  -f $srv; done
+    for srv in ${_systemd_disable[*]}; do systemctl disable -f $srv; done
 }
 
 _sed_stuff(){
