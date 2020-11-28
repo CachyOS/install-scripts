@@ -84,14 +84,12 @@ _vmware() {
 }
 
 _common_systemd(){
-    local _systemd_enable=(NetworkManager vboxservice org.cups.cupsd avahi-daemon systemd-timesyncd tlp gdm lightdm sddm)   
+    local _systemd_enable=(NetworkManager vboxservice cups avahi-daemon systemd-timesyncd tlp gdm lightdm sddm)   
     local _systemd_disable=(multi-user.target pacman-init)           
+    local srv
 
-    local xx
-    for xx in ${_systemd_enable[*]}; do systemctl enable -f $xx; done
-
-    local yy
-    for yy in ${_systemd_disable[*]}; do systemctl disable -f $yy; done
+    for srv in ${_systemd_enable[*]};  do systemctl enable  -f $srv; done
+    for srv in ${_systemd_disable[*]}; do systemctl disable -f $srv; done
 }
 
 _sed_stuff(){
@@ -127,7 +125,7 @@ _clean_archiso(){
         /etc/udev/rules.d/81-dhcpcd.rules
         /usr/bin/{calamares_switcher,cleaner_script.sh}
         /home/$NEW_USER/.config/qt5ct
-        /home/$NEW_USER/{.xinitrc,.xsession,.xprofile}
+        /home/$NEW_USER/{.xinitrc,.xsession,.xprofile,.wget-hsts,.screenrc,.zshrc,.ICEauthority}
         /root/{.xinitrc,.xsession,.xprofile}
         /etc/skel/{.xinitrc,.xsession,.xprofile}
         /etc/motd
@@ -154,7 +152,6 @@ _clean_offline_packages(){
     vim
     termite-terminfo
     transmission-gtk
-    xed
     openssh
     gnome-keyring
     mc
@@ -379,12 +376,29 @@ _de_wm_config(){
     done
 }
 
+_fetch_a_file() {
+    # Build url from parts (that may change later).
+
+    local netRepoPart="$1"               # e.g. EndeavourOS-archiso
+    local netPathPart="$2"               # e.g. airootfs/usr/share/X11/xorg.conf.d/30-touchpad.conf
+    local target="$3"                    # e.g. /usr/share/X11/xorg.conf.d/30-touchpad.conf
+    local url1=https://raw.githubusercontent.com/endeavouros-team
+    local url2=/master
+    local url="$url1/$netRepoPart$url2/$netPathPart"
+
+    wget --timeout=60 -q -O "$target" "$url" || {
+        echo "Warning: ${FUNCNAME[1]}: fetching '$url' failed." >&2
+    }
+}
+
 _xorg_configs(){
-    git clone https://github.com/endeavouros-team/EndeavourOS-archiso.git
-    if [ ! -r /usr/share/X11/xorg.conf.d/30-touchpad.conf ] ; then
-        cp EndeavourOS-archiso/airootfs/usr/share/X11/xorg.conf.d/30-touchpad.conf /usr/share/X11/xorg.conf.d/
+    local target=/usr/share/X11/xorg.conf.d/30-touchpad.conf
+
+    if [ ! -r $target ] ; then
+        _fetch_a_file EndeavourOS-archiso \
+                      airootfs/usr/share/X11/xorg.conf.d/30-touchpad.conf \
+                      $target
     fi
-    rm -rf EndeavourOS-archiso
 }
 
 _remove_gnome_software(){

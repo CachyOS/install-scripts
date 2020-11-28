@@ -307,7 +307,7 @@
   selected: false
   critical: false
   packages:
-    - i3-wm
+    - i3-gaps
     - i3blocks
     - i3lock
     - i3status
@@ -323,6 +323,7 @@
     - thunar-archive-plugin
     - thunar-volman
     - tumbler
+    - file-roller
     - xfce4-terminal
     - lightdm
     - lightdm-gtk-greeter
