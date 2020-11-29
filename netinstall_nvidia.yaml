@@ -338,7 +338,8 @@
     - paprefs
     - pavucontrol
     - scrot
-    - xcompmgr
+    - xorg-xdpyinfo
+    - dex
     - picom
     - xed
     - jq
