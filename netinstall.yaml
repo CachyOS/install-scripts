@@ -322,8 +322,8 @@
     - thunar
     - thunar-archive-plugin
     - thunar-volman
-    - tumbler
     - file-roller
+    - tumbler
     - xfce4-terminal
     - lightdm
     - lightdm-gtk-greeter
@@ -339,8 +339,9 @@
     - paprefs
     - pavucontrol
     - scrot
+    - xorg-xdpyinfo
+    - dex
     - picom
-    - xcompmgr
     - xed
     - jq
     - feh
