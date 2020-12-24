@@ -138,8 +138,7 @@
   critical: false
   packages:
     - xfce4
-    - mousepad	
-    - orage	
+    - mousepad
     - parole
     - ristretto
     - thunar-archive-plugin
