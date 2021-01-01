@@ -84,7 +84,7 @@ Main() {
             ;;
     esac
 
-    $cmd > $tf
+    $cmd | grep -v "^sorting by " > $tf
     retval=$?
 
     if [ $retval -eq 0 ] ; then
