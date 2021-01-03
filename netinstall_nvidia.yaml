@@ -171,7 +171,6 @@
     - endeavouros-xfce4-terminal-colors
     - xdg-user-dirs-gtk
     - qt5ct
-    - system-config-printer
     - seahorse
 - name: "MATE-Desktop"
   description: "MATE Desktop - the continuation of GNOME 2"
@@ -349,7 +348,6 @@
     - capitaine-cursors
     - galculator
     - gtk-engine-murrine
-    - system-config-printer
     - seahorse
 - name: "LXQT-Desktop"
   description: "The Lightweight Qt Desktop Environment."
@@ -410,8 +408,9 @@
     - gutenprint 
     - foomatic-db-gutenprint-ppds
     - splix
+    - system-config-printer
 - name: "Support for HP Printer/Scanner"
-  description: "Support for HP Printer/Scanner"
+  description: "Extra Packages for HP Printer/Scanner"
   hidden: false
   selected: false
   critical: false
@@ -429,7 +428,7 @@
     - orca
     - mousetweaks
 - name: "Nvidia Drivers"
-  description: "Proprietary Nvidia Driver: not for legacy or hybrid cards!"
+  description: "Proprietary Nvidia Driver: not for legacy cards!"
   hidden: false
   selected: true
   critical: false
