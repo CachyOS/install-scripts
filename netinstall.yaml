@@ -322,6 +322,7 @@
     - file-roller
     - tumbler
     - xfce4-terminal
+    - endeavouros-xfce4-terminal-colors
     - lightdm
     - lightdm-gtk-greeter
     - lightdm-gtk-greeter-settings
@@ -859,12 +860,3 @@
   packages:
     - orca
     - mousetweaks
-- name: "Nvidia Drivers"
-  description: "Proprietary Nvidia Driver: not for legacy or hybrid cards!"
-  hidden: false
-  selected: false
-  critical: false
-  packages:
-    - nvidia
-    - nvidia-settings
-    - lib32-nvidia-utils
