@@ -207,6 +207,7 @@
     - spectacle
     - dragon
     - elisa
+    - print-manager
 - name: "GNOME-Desktop"
   description: "GNOME Desktop - designed to put you in control and get things done. "
   hidden: false
