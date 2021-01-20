@@ -323,6 +323,14 @@ _clean_up(){
 
     # delete some files after offline install
     rm -rf /usr/share/calamares
+    
+    # delete unnecessary DM configs
+    _is_pkg_installed sddm                || rm -f /etc/sddm.conf.d/kde_settings.conf
+    _is_pkg_installed lightdm-gtk-greeter || rm -f /etc/lightdm/lightdm-gtk-greeter.conf
+    _is_pkg_installed gdm && {
+        rm -f /etc/sddm.conf.d/kde_settings.conf
+        rm -f /etc/lightdm/lightdm-gtk-greeter.conf
+    }
 }
 
 _desktop_openbox(){
