@@ -56,6 +56,11 @@ GetYourCountry() {
 echo2() { echo "$@" >&2 ; }
 
 Main() {
+    local VERSION="2.0"                   # starting from 2.0!
+
+    local progname="$(basename "$0")"
+    echo2 "==> $progname $VERSION"
+
     REFLECTOR_COUNTRIES="$(reflector --list-countries)"
     local this_country="$(GetYourCountryCode)"
     local retval
@@ -68,7 +73,7 @@ Main() {
         -n | --dryrun) dryrun=yes ;;    # don't save mirrorlist to /etc/pacman.d
     esac
 
-    test -n "$this_country" && echo2 "Detected country: $(CodeToCountry $this_country)"
+    test -n "$this_country" && echo2 "==> Detected country: $(CodeToCountry $this_country)"
 
     case "$this_country" in
         "") cmd+="-a1"                           # no mirrors here, search https mirrors globally
@@ -76,7 +81,7 @@ Main() {
         FI) # special command for FI
             cmd="reflector -phttps -a3 --sort country -cFI,SE"
             ;;
-        CH|DE|DK|FR|HK|IE|IS|NL|NZ|SE|SG|UK|US)
+        CH|DE|DK|FR|GB|HK|IE|IS|NL|NZ|SE|SG|US)
             cmd+="-a2 -c $this_country"          # search https mirrors only in this country
             ;;
         *)
@@ -84,7 +89,8 @@ Main() {
             ;;
     esac
 
-    $cmd | grep -v "^sorting by " > $tf
+    # $cmd | grep -v "^sorting by " > $tf        # workaround for reflector bug
+    $cmd > $tf
     retval=$?
 
     if [ $retval -eq 0 ] ; then
