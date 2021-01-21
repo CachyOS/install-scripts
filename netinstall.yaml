@@ -22,14 +22,6 @@
     - xorg-xinput
     - xdg-utils
     - xdg-user-dirs
-    - gvfs
-    - gvfs-mtp
-    - gvfs-afc
-    - gvfs-goa
-    - gvfs-google
-    - gvfs-gphoto2
-    - gvfs-nfs
-    - gvfs-smb
     - accountsservice
     - smartmontools
     - libwnck3
@@ -157,6 +149,14 @@
     - xfce4-whiskermenu-plugin
     - xfce4-xkb-plugin
     - file-roller
+    - gvfs
+    - gvfs-mtp
+    - gvfs-afc
+    - gvfs-goa
+    - gvfs-google
+    - gvfs-gphoto2
+    - gvfs-nfs
+    - gvfs-smb
     - network-manager-applet
     - xed
     - epdfview
@@ -189,6 +189,14 @@
     - arc-x-icons-theme
     - arc-gtk-theme
     - seahorse
+    - gvfs
+    - gvfs-mtp
+    - gvfs-afc
+    - gvfs-goa
+    - gvfs-google
+    - gvfs-gphoto2
+    - gvfs-nfs
+    - gvfs-smb
 - name: "KDE-Desktop"
   description: "KDE-Plasma Desktop - Simple by default, powerful when needed."
   hidden: false
@@ -201,6 +209,9 @@
     - python-dbus   
     - kde-system-meta
     - kde-utilities-meta
+    - kio-fuse
+    - kio-gdrive
+    - audiocd-kio
     - gwenview
     - ark
     - okular
@@ -227,6 +238,14 @@
     - arc-x-icons-theme
     - arc-gtk-theme
     - seahorse
+    - gvfs
+    - gvfs-mtp
+    - gvfs-afc
+    - gvfs-goa
+    - gvfs-google
+    - gvfs-gphoto2
+    - gvfs-nfs
+    - gvfs-smb
 - name: "Cinnamon-Desktop"
   description: "Cinnamon Desktop - advanced innovative features and a traditional user experience."
   hidden: false
@@ -250,6 +269,14 @@
     - nemo-preview
     - nemo-seahorse	
     - nemo-share
+    - gvfs
+    - gvfs-mtp
+    - gvfs-afc
+    - gvfs-goa
+    - gvfs-google
+    - gvfs-gphoto2
+    - gvfs-nfs
+    - gvfs-smb
     - gnome-screenshot
     - gnome-calculator
     - xdg-user-dirs-gtk
@@ -274,6 +301,14 @@
     - arc-x-icons-theme
     - arc-gtk-theme
     - seahorse
+    - gvfs
+    - gvfs-mtp
+    - gvfs-afc
+    - gvfs-goa
+    - gvfs-google
+    - gvfs-gphoto2
+    - gvfs-nfs
+    - gvfs-smb
 - name: "Deepin-Desktop (beta v20)"
   description: "Deepin Desktop - beautiful, easy to use, safe and reliable. "
   hidden: false
@@ -301,6 +336,9 @@
     - deepin-voice-note
     - deepin-kwin
     - file-roller
+    - kio-fuse
+    - kio-gdrive
+    - audiocd-kio
 - name: "i3 Window Manager"
   description: "i3 tiling window manager, primarily targeted at developers and advanced users. "
   hidden: false
@@ -324,6 +362,14 @@
     - thunar-volman
     - file-roller
     - tumbler
+    - gvfs
+    - gvfs-mtp
+    - gvfs-afc
+    - gvfs-goa
+    - gvfs-google
+    - gvfs-gphoto2
+    - gvfs-nfs
+    - gvfs-smb
     - xfce4-terminal
     - endeavouros-xfce4-terminal-colors
     - lightdm
@@ -375,24 +421,9 @@
     - pavucontrol-qt
     - xscreensaver
     - print-manager
-- name: "Openbox"
-  description: "Openbox is a highly configurable, next generation window manager with extensive standards support."
-  hidden: true
-  selected: false
-  critical: false
-  packages:
-    - openbox
-    - obconf
-    - lxappearance-obconf
-    - lxinput
-    - lxrandr
-    - arandr
-    - menumaker
-    - xdg-user-dirs-gtk
-    - archlinux-xdg-menu
-    - lightdm
-    - lightdm-gtk-greeter
-    - lightdm-gtk-greeter-settings
+    - kio-fuse
+    - kio-gdrive
+    - audiocd-kio
 - name: "Printing-Support"
   description: "Support for printing (Cups)"
   hidden: false
