@@ -33,24 +33,30 @@ cp -rf /etc/skel/.bashrc /tmp/$chroot_path/home/$NEW_USER/.bashrc
 _copy_files(){
 
     local _files_to_copy=(
-
-    
-    /etc/lightdm/lightdm-gtk-greeter.conf
-    /etc/sddm.conf.d/kde_settings.conf
-
-    
-
-)
+      /etc/lightdm/lightdm-gtk-greeter.conf
+      /etc/sddm.conf.d/kde_settings.conf
+    )
     # /etc/os-release /etc/lsb-release removed, using sed now at chrooted script
     # /etc/default/grub # Removed from above since cleaner scripts are moved to last step at calamares
     # https://forum.endeavouros.com/t/calamares-3-2-24-needs-testing/4941/37
     # /etc/pacman.d/hooks/lsb-release.hook
     # /etc/pacman.d/hooks/os-release.hook
     
-    local xx
+    local apps=(                        # apps that need to exist if we copy their files
+        /tmp/$chroot_path/usr/bin/sddm
+        /tmp/$chroot_path/usr/bin/lightdm
+    )
+    local ix
+    for ((ix=0; ix < ${#apps[@]}; ix++)) ; then
+        if [ -x ${apps[$ix]} ] ; then
+            echo "====> Copying DM config file ${_files_to_copy[$ix]}"
+            rsync -vaRI ${_files_to_copy[$ix]} /tmp/$chroot_path
+        fi
+    done
 
 # Uses the entire file path and copies directly to / mounted point
-    for xx in ${_files_to_copy[*]}; do rsync -vaRI $xx /tmp/$chroot_path; done
+    #local xx
+    #for xx in ${_files_to_copy[*]}; do rsync -vaRI $xx /tmp/$chroot_path; done
 
 }
 
