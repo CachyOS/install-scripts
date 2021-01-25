@@ -323,13 +323,6 @@ _clean_up(){
 
     # delete some files after offline install
     rm -rf /usr/share/calamares
-    
-    # unused groups: test to remove user from them
-    gpasswd -d $NEW_USER lp
-    gpasswd -d $NEW_USER video
-    gpasswd -d $NEW_USER network
-    gpasswd -d $NEW_USER storage
-    gpasswd -d $NEW_USER audio
 
     # delete unnecessary DM configs
     _is_pkg_installed sddm    || rm -f /etc/sddm.conf.d/kde_settings.conf
