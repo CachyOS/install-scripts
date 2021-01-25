@@ -51,7 +51,7 @@ _copy_files(){
         /tmp/$chroot_path/usr/bin/lightdm
     )
     local ix
-    for ((ix=0; ix < ${#apps[@]}; ix++)) ; then
+    for ((ix=0; ix < ${#apps[@]}; ix++)) ; do
         if [ -x ${apps[$ix]} ] ; then
             echo "====> Copying DM config file ${_files_to_copy[$ix]}"
             rsync -vaRI ${_files_to_copy[$ix]} /tmp/$chroot_path
