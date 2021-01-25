@@ -11,6 +11,10 @@ else
     chroot_path=$(lsblk |grep "calamares-root" |awk '{ print $NF }' |sed -e 's/\/tmp\///' -e 's/\/.*$//' |tail -n1)
 fi
 
+if [ -z "$chroot_path" ] ; then
+    echo "Fatal error: cleaner_script.sh: chroot_path is empty!"
+fi
+
 if [ -f /tmp/new_username.txt ]
 then
     NEW_USER=$(cat /tmp/new_username.txt)
