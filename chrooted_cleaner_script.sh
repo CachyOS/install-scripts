@@ -325,8 +325,8 @@ _clean_up(){
     rm -rf /usr/share/calamares
 
     # delete unnecessary DM configs
-    _is_pkg_installed sddm    || rm -f /etc/sddm.conf.d/kde_settings.conf
-    _is_pkg_installed lightdm || rm -f /etc/lightdm/lightdm-gtk-greeter.conf
+    _is_pkg_installed sddm    || rm -r /etc/lightdm
+    _is_pkg_installed lightdm || rm -r /etc/sddm.conf.d
 }
 
 _desktop_openbox(){
