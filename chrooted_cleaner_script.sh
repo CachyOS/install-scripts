@@ -325,12 +325,12 @@ _clean_up(){
     rm -rf /usr/share/calamares
 
     # delete unnecessary DM configs
-    if (! _is_pkg_installed sddm) ; then
-    rm -rf /etc/sddm.conf.d
-    fi
-    if (! _is_pkg_installed lightdm) ; then
-    rm -rf /etc/lightdm
-    fi
+    #if (! _is_pkg_installed sddm) ; then
+    #rm -rf /etc/sddm.conf.d
+    #fi
+    #if (! _is_pkg_installed lightdm) ; then
+    #rm -rf /etc/lightdm
+    #fi
 }
 
 _desktop_openbox(){
