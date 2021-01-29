@@ -47,8 +47,9 @@ _copy_files(){
     # /etc/pacman.d/hooks/os-release.hook
     
     local apps=(                        # apps that need to exist if we copy their files
-        /tmp/$chroot_path/usr/bin/sddm
+                                        # note: must be in the same order as '_files_to_copy' above!
         /tmp/$chroot_path/usr/bin/lightdm
+        /tmp/$chroot_path/usr/bin/sddm
     )
     local ix
     for ((ix=0; ix < ${#apps[@]}; ix++)) ; do
