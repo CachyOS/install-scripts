@@ -35,34 +35,41 @@ arch_chroot(){
 cp -rf /etc/skel/.bashrc /tmp/$chroot_path/home/$NEW_USER/.bashrc
 
 _copy_files(){
+    local config_file
 
-    local _files_to_copy=(
-      /etc/lightdm/lightdm-gtk-greeter.conf
-      /etc/sddm.conf.d/kde_settings.conf
-    )
+    if [ -x /tmp/$chroot_path/usr/bin/sddm ] ; then
+        # Fetch sddm (Qt-based) config.
+        # This is for online install only, because offline install is set to use lightdm.
+
+        config_file=/etc/sddm.conf.d/kde_settings.conf
+
+        echo "====> Fetching DM config file $config_file"
+
+        local qt_sddm_config=https://raw.githubusercontent.com/endeavouros-team/install-scripts/master/sddm.conf.d/kde_settings.conf
+        mkdir -p $(dirname $config_file)
+        wget -q --timeout=10 -O $config_file $qt_sddm_config || {
+            echo "Error: fetching sddm config failed!"
+            return
+        }
+
+        echo "====> Copying DM config file $config_file to target"
+
+        rsync -vaRI $config_file /tmp/$chroot_path          # Uses the entire file path and copies directly to / mounted point:
+    fi
+
+    if [ -x /tmp/$chroot_path/usr/bin/lightdm ] ; then        
+        config_file=/etc/lightdm/lightdm-gtk-greeter.conf   # this file is already in the ISO, no need to fetch
+
+        echo "====> Copying DM config file $config_file to target"
+
+        rsync -vaRI $config_file /tmp/$chroot_path          # Uses the entire file path and copies directly to / mounted point:
+    fi
+
     # /etc/os-release /etc/lsb-release removed, using sed now at chrooted script
     # /etc/default/grub # Removed from above since cleaner scripts are moved to last step at calamares
     # https://forum.endeavouros.com/t/calamares-3-2-24-needs-testing/4941/37
     # /etc/pacman.d/hooks/lsb-release.hook
     # /etc/pacman.d/hooks/os-release.hook
-    
-    local apps=(                        # apps that need to exist if we copy their files
-                                        # note: must be in the same order as '_files_to_copy' above!
-        /tmp/$chroot_path/usr/bin/lightdm
-        /tmp/$chroot_path/usr/bin/sddm
-    )
-    local ix
-    for ((ix=0; ix < ${#apps[@]}; ix++)) ; do
-        if [ -x ${apps[$ix]} ] ; then
-            echo "====> Copying DM config file ${_files_to_copy[$ix]}"
-            rsync -vaRI ${_files_to_copy[$ix]} /tmp/$chroot_path
-        fi
-    done
-
-# Uses the entire file path and copies directly to / mounted point
-    #local xx
-    #for xx in ${_files_to_copy[*]}; do rsync -vaRI $xx /tmp/$chroot_path; done
-
 }
 
 _copy_files
