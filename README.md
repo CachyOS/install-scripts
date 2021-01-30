@@ -1,2 +1,2 @@
 # install-scripts
-scripts needed for installation process
+scripts and files needed for installation process and configuration
