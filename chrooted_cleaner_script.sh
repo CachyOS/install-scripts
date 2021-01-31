@@ -351,6 +351,7 @@ _desktop_i3(){
     cp -R .config ~/
     cp -R .config /home/$NEW_USER/                                                
     chmod -R +x ~/.config/i3/scripts /home/$NEW_USER/.config/i3/scripts
+    sudo -H -u $NEW_USER bash -c 'dbus-launch dconf load / < xed.dconf'
     cp .gtkrc-2.0 ~/
     cp .gtkrc-2.0 /home/$NEW_USER/
     chown -R $NEW_USER:users /home/$NEW_USER/.config
