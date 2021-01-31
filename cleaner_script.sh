@@ -65,6 +65,17 @@ _copy_files(){
         rsync -vaRI $config_file /tmp/$chroot_path          # Uses the entire file path and copies directly to / mounted point:
     fi
 
+    local file=/usr/lib/endeavouros-release
+    if [ -r $file ] ; then
+        if [ ! -r /tmp/$chroot_path$file ] ; then
+            echo "====> Copying $file to target"
+            rsync -vaRI $file /tmp/$chroot_path
+        fi
+    else
+        echo "Error: file $file does not exist, copy failed!"
+        return
+    fi
+
     # /etc/os-release /etc/lsb-release removed, using sed now at chrooted script
     # /etc/default/grub # Removed from above since cleaner scripts are moved to last step at calamares
     # https://forum.endeavouros.com/t/calamares-3-2-24-needs-testing/4941/37
