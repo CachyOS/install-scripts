@@ -346,18 +346,16 @@ _desktop_i3(){
     # i3 configs here
     # Note: variable 'desktop' from '_another_case' is visible here too!
 
-    git clone https://github.com/endeavouros-team/i3-EndeavourOS.git
-    pushd i3-EndeavourOS >/dev/null
-    cp -R .config /home/$NEW_USER/
-    cp -R .config ~/                                                    
+    git clone https://github.com/endeavouros-team/endeavouros-i3wm-setup.git
+    pushd endeavouros-i3wm-setup >/dev/null
+    cp -R .config ~/
+    cp -R .config /home/$NEW_USER/                                                
     chmod -R +x ~/.config/i3/scripts /home/$NEW_USER/.config/i3/scripts
-    cp .Xresources ~/
-    cp .Xresources /home/$NEW_USER/
     cp .gtkrc-2.0 ~/
     cp .gtkrc-2.0 /home/$NEW_USER/
-    chown -R $NEW_USER:users /home/$NEW_USER/.config /home/$NEW_USER/.Xresources
+    chown -R $NEW_USER:users /home/$NEW_USER/.config
     popd >/dev/null
-    rm -rf i3-EndeavourOS
+    rm -rf endeavouros-i3wm-setup
 }
 
 _de_wm_config(){
