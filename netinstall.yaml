@@ -87,6 +87,7 @@
     - pulseaudio
     - pavucontrol
     - paprefs
+    - sof-firmware
     - ffmpegthumbnailer
     - poppler-glib
     - libgsf 
@@ -171,7 +172,6 @@
     - arc-gtk-theme
     - endeavouros-xfce4-terminal-colors
     - xdg-user-dirs-gtk
-    - qt5ct
     - seahorse
 - name: "MATE-Desktop"
   description: "MATE Desktop - the continuation of GNOME 2"
