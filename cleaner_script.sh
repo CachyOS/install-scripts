@@ -33,6 +33,7 @@ arch_chroot(){
 # Copy any file from live environment to new system
 
 cp -rf /etc/skel/.bashrc /tmp/$chroot_path/home/$NEW_USER/.bashrc
+cp -rf /etc/environment /tmp/$chroot_path/etc/environment
 
 _copy_files(){
     local config_file
