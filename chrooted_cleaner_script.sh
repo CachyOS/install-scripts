@@ -384,6 +384,21 @@ _de_wm_config(){
     done
 }
 
+_setup_personal() {
+    local file=/tmp/setup.sh
+    local tmpdir
+    if [ -r $file ] ; then
+        # setup.sh was found, so run it
+        tmpdir=$(mktemp -d)     # $tmpdir refers to a unique folder under /tmp
+        pushd $tmpdir >/dev/null
+        sh $file
+        popd >/dev/null
+        rm -rf $tmpdir
+    else
+        echo "Info: $FUNCNAME: $file not found." >&2
+    fi
+}
+
 _fetch_a_file() {
     # Build url from parts (that may change later).
 
@@ -428,6 +443,7 @@ _vmware
 _remove_gnome_software
 _remove_discover
 _de_wm_config
+#_setup_personal
 _xorg_configs
 _clean_up
 
