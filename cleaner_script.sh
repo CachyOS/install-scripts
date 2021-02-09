@@ -76,6 +76,15 @@ _copy_files(){
         echo "Error: file $file does not exist, copy failed!"
         return
     fi
+    
+    # /home/liveuser/setup.url contains the URL to personal setup.sh
+
+if [ -r /home/liveuser/setup.url ] ; then
+  local URL="$(cat /home/liveuser/setup.url)"
+  if (wget -q -O /home/liveuser/setup.sh "$URL") ; then
+    cp /home/liveuser/setup.sh /tmp/$chroot_path/tmp/   # into /tmp/setup.sh of chrooted
+  fi
+fi
 
     # /etc/os-release /etc/lsb-release removed, using sed now at chrooted script
     # /etc/default/grub # Removed from above since cleaner scripts are moved to last step at calamares
