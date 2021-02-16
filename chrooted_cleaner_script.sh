@@ -301,9 +301,9 @@ _clean_up(){
     fi
 
     # Fix generation by grub-mkconfig.
-    if [ -x /usr/bin/grub-fix-initrd-generation ] ; then
-            /usr/bin/grub-fix-initrd-generation
-    fi
+    #if [ -x /usr/bin/grub-fix-initrd-generation ] ; then
+    #        /usr/bin/grub-fix-initrd-generation
+    #fi
 
     # remove nvidia driver if: 1) no nvidia card, 2) nvidia driver not in use (older nvidia cards use nouveau)
 
