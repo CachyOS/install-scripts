@@ -289,6 +289,13 @@ _remove_broadcom_wifi_driver() {
     }
 }
 
+_grub_fixing() {
+    # Fix generation by grub-mkconfig.
+    if [ -x /usr/bin/grub-fix-initrd-generation ] ; then
+            /usr/bin/grub-fix-initrd-generation
+    fi
+}
+
 _clean_up(){
     local xx
 
@@ -300,10 +307,7 @@ _clean_up(){
         esac
     fi
 
-    # Fix generation by grub-mkconfig.
-    #if [ -x /usr/bin/grub-fix-initrd-generation ] ; then
-    #        /usr/bin/grub-fix-initrd-generation
-    #fi
+    _grub_fixing
 
     # remove nvidia driver if: 1) no nvidia card, 2) nvidia driver not in use (older nvidia cards use nouveau)
 
