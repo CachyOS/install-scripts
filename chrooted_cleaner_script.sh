@@ -307,8 +307,6 @@ _clean_up(){
         esac
     fi
 
-    _grub_fixing
-
     # remove nvidia driver if: 1) no nvidia card, 2) nvidia driver not in use (older nvidia cards use nouveau)
 
     if [ -z "$(lspci -k | grep -P 'VGA|3D|Display' | grep -w NVIDIA)" ] || [ -z "$(lspci -k | grep -B2 "Kernel driver in use: nvidia" | grep -P 'VGA|3D|Display')" ] ; then
@@ -444,6 +442,7 @@ _endeavouros
 #_os_lsb_release
 _vbox
 _vmware
+#_grub_fixing
 _remove_gnome_software
 _remove_discover
 _de_wm_config
