@@ -289,6 +289,39 @@ _remove_broadcom_wifi_driver() {
     }
 }
 
+_manage_nvidia_packages() {
+    local file=/tmp/nvidia-info.bash        # nvidia info from livesession
+    local nvidia_card=""                    # these two variables are defined in $file
+    local nvidia_driver=""
+
+    if [ ! -r $file ] ; then
+        echo "==> Warning: file $file does not exist!"
+
+        if [ 1 -eq 1 ] ; then       # this line: change first 1 to 0 when old code is not needed
+            echo "==> Info: running the old nvidia mgmt code instead."
+            if [ -z "$(lspci -k | grep -P 'VGA|3D|Display' | grep -w NVIDIA)" ] || [ -z "$(lspci -k | grep -B2 "Kernel driver in use: nvidia" | grep -P 'VGA|3D|Display')" ] ; then
+                local xx="$(pacman -Qqs nvidia* | grep ^nvidia)"
+                test -n "$xx" && pacman -Rsn $xx --noconfirm
+            fi
+        fi
+        return
+    fi
+
+    source $file
+
+    case "$nvidia_card" in
+        yes)
+            local install=(nvidia-installer-dkms)
+            [ "$nvidia_driver" = "yes" ] && install+=(nvidia-dkms)
+            pacman -S --needed --noconfirm "${install[@]}"
+            ;;
+        no)
+            local remove="$(pacman -Qqs nvidia* | grep ^nvidia)"
+            [ "$remove" != "" ] && pacman -Rsn --noconfirm $remove
+            ;;
+    esac
+}
+
 _clean_up(){
     local xx
 
@@ -305,12 +338,8 @@ _clean_up(){
             /usr/bin/grub-fix-initrd-generation
     fi
 
-    # remove nvidia driver if: 1) no nvidia card, 2) nvidia driver not in use (older nvidia cards use nouveau)
-
-    if [ -z "$(lspci -k | grep -P 'VGA|3D|Display' | grep -w NVIDIA)" ] || [ -z "$(lspci -k | grep -B2 "Kernel driver in use: nvidia" | grep -P 'VGA|3D|Display')" ] ; then
-        xx="$(pacman -Qqs nvidia* | grep ^nvidia)"
-        test -n "$xx" && pacman -Rsn $xx --noconfirm >/dev/null
-    fi
+    # install or remove nvidia graphics stuff
+    _manage_nvidia_packages
 
     # remove AMD and Intel graphics drivers if they are not needed
     _remove_other_graphics_drivers
