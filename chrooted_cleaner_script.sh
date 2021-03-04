@@ -322,6 +322,22 @@ _manage_nvidia_packages() {
     esac
 }
 
+_run_if_exists_or_complain() {
+    local app="$1"
+
+    if (which "$app" >& /dev/null) ; then
+        echo "==> Info: running $*"
+        "$@"
+    else
+        echo "==> Warning: program $app not found."
+    fi
+}
+
+_fix_grub_stuff() {
+    _run_if_exists_or_complain eos-hooks-runner
+    _run_if_exists_or_complain eos-grub-fix-initrd-generation
+}
+
 _clean_up(){
     local xx
 
@@ -333,10 +349,8 @@ _clean_up(){
         esac
     fi
 
-    # Fix generation by grub-mkconfig.
-    if [ -x /usr/bin/grub-fix-initrd-generation ] ; then
-            /usr/bin/grub-fix-initrd-generation
-    fi
+    # Fix various grub stuff.
+    _fix_grub_stuff
 
     # install or remove nvidia graphics stuff
     _manage_nvidia_packages
