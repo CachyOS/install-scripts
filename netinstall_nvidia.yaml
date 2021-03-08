@@ -401,6 +401,7 @@
     - galculator
     - gtk-engine-murrine
     - seahorse
+    - numlockx
 - name: "LXQT-Desktop"
   description: "The Lightweight Qt Desktop Environment."
   hidden: false
