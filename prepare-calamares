@@ -3,8 +3,15 @@
 EOS_SCRIPTS_DIR=/usr/share/endeavouros/scripts
 EOS_LIVEUSER=liveuser
 
+INSTALL_LOG_FILE=/home/$EOS_LIVEUSER/endeavour-install.log
+
 source $EOS_SCRIPTS_DIR/eos-script-lib-yad || exit 1
 source $EOS_SCRIPTS_DIR/translations.bash || exit 1
+
+
+Welog() {
+    [ -d /home/$EOS_LIVEUSER ] && echo "$progname: " "$@" >> $INSTALL_LOG_FILE
+}
 
 AfterTranslations() {
     # Here we have definitions that require special treatment because of
@@ -54,6 +61,7 @@ calamares_preparations()
     local lang="$1"                    # one of: en fi de ...
     local mode="$2"                    # one of: offline online sway bspwm
     local realmode="$mode"             # remembers sway and bspwm
+    local progname=Welcome
 
     _init_translations --tr-prefer="manual" "$lang" || { echo "language fail" >&2 ; exit 1 ; }
     AfterTranslations
@@ -192,7 +200,7 @@ calamares_preparations()
                     Welog "warning: /home/$EOS_LIVEUSER/netinstall-yaml.url is empty."
                     return 1
                 fi
-                Welog "fetching $netinstall_url to be used as netinstall.yaml"
+                Welog "using $netinstall_url to be used as netinstall.yaml"
                 if [ -r $file ] ; then
                     sudo sed \
                          -i $file \
@@ -206,9 +214,6 @@ calamares_preparations()
     sudo cp -praf /usr/share/calamares/settings.conf_$mode         /usr/share/calamares/settings.conf
     sudo cp -praf /usr/share/calamares/modules/packages.conf_$mode /usr/share/calamares/modules/packages.conf
     sudo cp -praf /usr/share/calamares/modules/welcome.conf_$mode  /usr/share/calamares/modules/welcome.conf
-
-    #### "Return" value
-    echo "$realmode"
 }
 
 calamares_preparations "$@"
