@@ -167,9 +167,9 @@
     - lightdm
     - lightdm-gtk-greeter
     - lightdm-gtk-greeter-settings
+    - arc-gtk-theme-eos
     - arc-x-icons-theme
     - capitaine-cursors
-    - arc-gtk-theme
     - endeavouros-xfce4-terminal-colors
     - xdg-user-dirs-gtk
     - seahorse
@@ -187,8 +187,8 @@
     - lightdm
     - lightdm-gtk-greeter
     - lightdm-gtk-greeter-settings
+    - arc-gtk-theme-eos
     - arc-x-icons-theme
-    - arc-gtk-theme
     - seahorse
     - gvfs
     - gvfs-mtp
@@ -236,8 +236,8 @@
     - chrome-gnome-shell
     - xdg-user-dirs-gtk
     - fwupd
+    - arc-gtk-theme-eos
     - arc-x-icons-theme
-    - arc-gtk-theme
     - seahorse
     - gvfs
     - gvfs-mtp
@@ -281,8 +281,8 @@
     - gnome-screenshot
     - gnome-calculator
     - xdg-user-dirs-gtk
+    - arc-gtk-theme-eos
     - arc-x-icons-theme
-    - arc-gtk-theme
     - seahorse
 - name: "Budgie-Desktop"
   description: "Budgie - I Tawt I Taw A Purdy Desktop"
@@ -299,8 +299,8 @@
     - network-manager-applet
     - xdg-user-dirs-gtk
     - fwupd
+    - arc-gtk-theme-eos
     - arc-x-icons-theme
-    - arc-gtk-theme
     - seahorse
     - gvfs
     - gvfs-mtp
@@ -394,8 +394,8 @@
     - jq
     - feh
     - dunst
+    - arc-gtk-theme-eos
     - arc-x-icons-theme
-    - arc-gtk-theme
     - capitaine-cursors
     - galculator
     - gtk-engine-murrine
