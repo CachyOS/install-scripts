@@ -222,7 +222,7 @@
     - dragon
     - elisa
     - print-manager
-    - kompare
+    - kdiff3
 - name: "GNOME-Desktop"
   description: "GNOME Desktop - designed to put you in control and get things done. "
   hidden: false
@@ -433,7 +433,7 @@
     - kio-fuse
     - kio-gdrive
     - audiocd-kio
-    - kompare
+    - kdiff3
 - name: "Printing-Support"
   description: "Support for printing (Cups)"
   hidden: false
