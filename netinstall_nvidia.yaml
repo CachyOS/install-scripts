@@ -172,6 +172,7 @@
     - endeavouros-xfce4-terminal-colors
     - xdg-user-dirs-gtk
     - seahorse
+    - diffuse
 - name: "MATE-Desktop"
   description: "MATE Desktop - the continuation of GNOME 2"
   hidden: false
@@ -197,6 +198,7 @@
     - gvfs-gphoto2
     - gvfs-nfs
     - gvfs-smb
+    - diffuse
 - name: "KDE-Desktop"
   description: "KDE-Plasma Desktop - Simple by default, powerful when needed."
   hidden: false
@@ -219,6 +221,7 @@
     - dragon
     - elisa
     - print-manager
+    - kdiff3
 - name: "GNOME-Desktop"
   description: "GNOME Desktop - designed to put you in control and get things done. "
   hidden: false
@@ -246,6 +249,7 @@
     - gvfs-gphoto2
     - gvfs-nfs
     - gvfs-smb
+    - diffuse
 - name: "Cinnamon-Desktop"
   description: "Cinnamon Desktop - advanced innovative features and a traditional user experience."
   hidden: false
@@ -283,6 +287,7 @@
     - arc-x-icons-theme
     - arc-gtk-theme
     - seahorse
+    - diffuse
 - name: "Budgie-Desktop"
   description: "Budgie - I Tawt I Taw A Purdy Desktop"
   hidden: false
@@ -309,6 +314,7 @@
     - gvfs-gphoto2
     - gvfs-nfs
     - gvfs-smb
+    - diffuse
 - name: "Deepin-Desktop (beta v20)"
   description: "Deepin Desktop - beautiful, easy to use, safe and reliable. "
   hidden: false
@@ -339,6 +345,7 @@
     - kio-fuse
     - kio-gdrive
     - audiocd-kio
+    - kdiff3
 - name: "i3 Window Manager"
   description: "i3 tiling window manager, primarily targeted at developers and advanced users. "
   hidden: false
@@ -400,6 +407,7 @@
     - gtk-engine-murrine
     - seahorse
     - numlockx
+    - diffuse
 - name: "LXQT-Desktop"
   description: "The Lightweight Qt Desktop Environment."
   hidden: false
@@ -425,6 +433,7 @@
     - kio-fuse
     - kio-gdrive
     - audiocd-kio
+    - kdiff3
 - name: "Printing-Support"
   description: "Support for printing (Cups)"
   hidden: false
