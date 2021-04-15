@@ -172,7 +172,7 @@
     - endeavouros-xfce4-terminal-colors
     - xdg-user-dirs-gtk
     - seahorse
-    - meld
+    - diffuse
 - name: "MATE-Desktop"
   description: "MATE Desktop - the continuation of GNOME 2"
   hidden: false
@@ -198,7 +198,7 @@
     - gvfs-gphoto2
     - gvfs-nfs
     - gvfs-smb
-    - meld
+    - diffuse
 - name: "KDE-Desktop"
   description: "KDE-Plasma Desktop - Simple by default, powerful when needed."
   hidden: false
@@ -249,7 +249,7 @@
     - gvfs-gphoto2
     - gvfs-nfs
     - gvfs-smb
-    - meld
+    - diffuse
 - name: "Cinnamon-Desktop"
   description: "Cinnamon Desktop - advanced innovative features and a traditional user experience."
   hidden: false
@@ -287,7 +287,7 @@
     - arc-gtk-theme-eos
     - arc-x-icons-theme
     - seahorse
-    - meld
+    - diffuse
 - name: "Budgie-Desktop"
   description: "Budgie - I Tawt I Taw A Purdy Desktop"
   hidden: false
@@ -314,7 +314,7 @@
     - gvfs-gphoto2
     - gvfs-nfs
     - gvfs-smb
-    - meld
+    - diffuse
 - name: "Deepin-Desktop (beta v20)"
   description: "Deepin Desktop - beautiful, easy to use, safe and reliable. "
   hidden: false
@@ -406,7 +406,7 @@
     - gtk-engine-murrine
     - seahorse
     - numlockx
-    - meld
+    - diffuse
 - name: "LXQT-Desktop"
   description: "The Lightweight Qt Desktop Environment."
   hidden: false
