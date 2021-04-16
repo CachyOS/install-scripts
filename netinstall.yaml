@@ -76,6 +76,7 @@
     - opendesktop-fonts
     - ttf-opensans
     - firefox
+    - firefox-i18n-$LOCALE
     - alsa-utils
     - alsa-plugins
     - alsa-firmware
