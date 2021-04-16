@@ -317,7 +317,7 @@
     - diffuse
 - name: "Deepin-Desktop (beta v20)"
   description: "Deepin Desktop - beautiful, easy to use, safe and reliable. "
-  hidden: false
+  hidden: true
   selected: false
   critical: false
   packages:
