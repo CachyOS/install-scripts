@@ -430,6 +430,10 @@
     - pavucontrol-qt
     - xscreensaver
     - print-manager
+    - gvfs
+    - gvfs-mtp
+    - lxqt-archiver
+    - qt5-translations
     - kio-fuse
     - kio-gdrive
     - audiocd-kio
