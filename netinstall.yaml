@@ -61,7 +61,6 @@
     - dnsmasq
     - upower
     - hwinfo
-    - gtop
     - python
     - solid
     - mlocate
@@ -82,7 +81,6 @@
     - alsa-firmware
     - hardinfo
     - glances
-    - htop
     - neofetch
     - pulseaudio
     - pavucontrol
@@ -101,7 +99,6 @@
     - efibootmgr
     - dosfstools
     - mtools
-    - openssh
     - intel-ucode
     - amd-ucode
     - os-prober
@@ -118,8 +115,7 @@
     - welcome
     - eos-update-notifier
     - eos-hooks
-    - mkinitcpio-openswap
-    - pcurses    
+    - mkinitcpio-openswap    
     - eos-log-tool
     - keyserver-rank
     - inxi
@@ -171,7 +167,6 @@
     - capitaine-cursors
     - endeavouros-xfce4-terminal-colors
     - xdg-user-dirs-gtk
-    - seahorse
     - meld
 - name: "MATE-Desktop"
   description: "MATE Desktop - the continuation of GNOME 2"
@@ -189,7 +184,6 @@
     - lightdm-gtk-greeter-settings
     - arc-gtk-theme-eos
     - arc-x-icons-theme
-    - seahorse
     - gvfs
     - gvfs-mtp
     - gvfs-afc
@@ -207,7 +201,6 @@
   packages:
     - plasma
     - kdeconnect
-    - fwupd
     - python-dbus   
     - kde-system-meta
     - kde-utilities-meta
@@ -237,10 +230,8 @@
     - adwaita-icon-theme
     - chrome-gnome-shell
     - xdg-user-dirs-gtk
-    - fwupd
     - arc-gtk-theme-eos
     - arc-x-icons-theme
-    - seahorse
     - gvfs
     - gvfs-mtp
     - gvfs-afc
@@ -270,8 +261,7 @@
     - lightdm-gtk-greeter-settings
     - nemo-fileroller 	
     - nemo-image-converter
-    - nemo-preview
-    - nemo-seahorse	
+    - nemo-preview	
     - nemo-share
     - gvfs
     - gvfs-mtp
@@ -286,7 +276,6 @@
     - xdg-user-dirs-gtk
     - arc-gtk-theme-eos
     - arc-x-icons-theme
-    - seahorse
     - meld
 - name: "Budgie-Desktop"
   description: "Budgie - I Tawt I Taw A Purdy Desktop"
@@ -302,10 +291,8 @@
     - lightdm-gtk-greeter-settings
     - network-manager-applet
     - xdg-user-dirs-gtk
-    - fwupd
     - arc-gtk-theme-eos
     - arc-x-icons-theme
-    - seahorse
     - gvfs
     - gvfs-mtp
     - gvfs-afc
@@ -387,7 +374,6 @@
     - nitrogen
     - bluez-utils
     - rofi
-    - xcursor-neutral
     - xbindkeys
     - pulseaudio
     - paprefs
@@ -404,8 +390,8 @@
     - arc-x-icons-theme
     - capitaine-cursors
     - galculator
+    - celluloid
     - gtk-engine-murrine
-    - seahorse
     - numlockx
     - meld
 - name: "LXQT-Desktop"
@@ -426,10 +412,10 @@
     - breeze
     - breeze-gtk
     - featherpad
-    - smplayer
     - pavucontrol-qt
     - xscreensaver
     - print-manager
+    - smplayer
     - gvfs
     - gvfs-mtp
     - lxqt-archiver
