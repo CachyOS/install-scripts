@@ -155,6 +155,8 @@ _clean_offline_packages(){
     gparted
     openssh
     gnome-keyring
+    gtk2
+    hardinfo
     mc
     grsync
     gftp
