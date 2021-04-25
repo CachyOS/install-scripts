@@ -79,7 +79,6 @@
     - alsa-utils
     - alsa-plugins
     - alsa-firmware
-    - hardinfo
     - glances
     - neofetch
     - pulseaudio
