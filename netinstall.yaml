@@ -284,6 +284,7 @@
     - budgie-desktop
     - gnome
     - budgie-screensaver
+    - budgie-desktop-view
     - lightdm
     - lightdm-gtk-greeter
     - lightdm-gtk-greeter-settings
