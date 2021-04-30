@@ -283,7 +283,7 @@
   packages:
     - budgie-desktop
     - gnome
-    - gnome-screensaver
+    - budgie-screensaver
     - lightdm
     - lightdm-gtk-greeter
     - lightdm-gtk-greeter-settings
