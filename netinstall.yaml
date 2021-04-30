@@ -166,31 +166,6 @@
     - endeavouros-xfce4-terminal-colors
     - xdg-user-dirs-gtk
     - meld
-- name: "MATE-Desktop"
-  description: "MATE Desktop - the continuation of GNOME 2"
-  hidden: false
-  selected: false
-  critical: false
-  packages:
-    - mate
-    - mate-extra
-    - celluloid
-    - network-manager-applet
-    - xdg-user-dirs-gtk
-    - lightdm
-    - lightdm-gtk-greeter
-    - lightdm-gtk-greeter-settings
-    - arc-gtk-theme-eos
-    - arc-x-icons-theme
-    - gvfs
-    - gvfs-mtp
-    - gvfs-afc
-    - gvfs-goa
-    - gvfs-google
-    - gvfs-gphoto2
-    - gvfs-nfs
-    - gvfs-smb
-    - meld
 - name: "KDE-Desktop"
   description: "KDE-Plasma Desktop - Simple by default, powerful when needed."
   hidden: false
@@ -239,6 +214,92 @@
     - gvfs-nfs
     - gvfs-smb
     - diffuse
+- name: "i3 Window Manager"
+  description: "i3 tiling window manager, primarily targeted at developers and advanced users. "
+  hidden: false
+  selected: false
+  critical: false
+  packages:
+    - i3-gaps
+    - i3blocks
+    - i3lock
+    - i3status
+    - network-manager-applet
+    - arandr
+    - archlinux-xdg-menu
+    - lxappearance-gtk3
+    - otf-font-awesome
+    - dmenu
+    - polkit-gnome
+    - xdg-user-dirs-gtk
+    - thunar
+    - thunar-archive-plugin
+    - thunar-volman
+    - file-roller
+    - tumbler
+    - gvfs
+    - gvfs-mtp
+    - gvfs-afc
+    - gvfs-goa
+    - gvfs-google
+    - gvfs-gphoto2
+    - gvfs-nfs
+    - gvfs-smb
+    - xfce4-terminal
+    - endeavouros-xfce4-terminal-colors
+    - lightdm
+    - lightdm-gtk-greeter
+    - lightdm-gtk-greeter-settings
+    - acpi
+    - sysstat
+    - nitrogen
+    - bluez-utils
+    - rofi
+    - xbindkeys
+    - pulseaudio
+    - paprefs
+    - pavucontrol
+    - scrot
+    - xorg-xdpyinfo
+    - dex
+    - picom
+    - xed
+    - jq
+    - feh
+    - dunst
+    - arc-gtk-theme-eos
+    - arc-x-icons-theme
+    - capitaine-cursors
+    - galculator
+    - celluloid
+    - gtk-engine-murrine
+    - numlockx
+    - meld
+- name: "MATE-Desktop"
+  description: "MATE Desktop - the continuation of GNOME 2"
+  hidden: false
+  selected: false
+  critical: false
+  packages:
+    - mate
+    - mate-extra
+    - celluloid
+    - network-manager-applet
+    - xdg-user-dirs-gtk
+    - lightdm
+    - lightdm-gtk-greeter
+    - lightdm-gtk-greeter-settings
+    - arc-gtk-theme-eos
+    - arc-x-icons-theme
+    - gvfs
+    - gvfs-mtp
+    - gvfs-afc
+    - gvfs-goa
+    - gvfs-google
+    - gvfs-gphoto2
+    - gvfs-nfs
+    - gvfs-smb
+    - meld
 - name: "Cinnamon-Desktop"
   description: "Cinnamon Desktop - advanced innovative features and a traditional user experience."
   hidden: false
@@ -301,67 +362,6 @@
     - gvfs-nfs
     - gvfs-smb
     - meld
-- name: "i3 Window Manager"
-  description: "i3 tiling window manager, primarily targeted at developers and advanced users. "
-  hidden: false
-  selected: false
-  critical: false
-  packages:
-    - i3-gaps
-    - i3blocks
-    - i3lock
-    - i3status
-    - network-manager-applet
-    - arandr
-    - archlinux-xdg-menu
-    - lxappearance-gtk3
-    - otf-font-awesome
-    - dmenu
-    - polkit-gnome
-    - xdg-user-dirs-gtk
-    - thunar
-    - thunar-archive-plugin
-    - thunar-volman
-    - file-roller
-    - tumbler
-    - gvfs
-    - gvfs-mtp
-    - gvfs-afc
-    - gvfs-goa
-    - gvfs-google
-    - gvfs-gphoto2
-    - gvfs-nfs
-    - gvfs-smb
-    - xfce4-terminal
-    - endeavouros-xfce4-terminal-colors
-    - lightdm
-    - lightdm-gtk-greeter
-    - lightdm-gtk-greeter-settings
-    - acpi
-    - sysstat
-    - nitrogen
-    - bluez-utils
-    - rofi
-    - xbindkeys
-    - pulseaudio
-    - paprefs
-    - pavucontrol
-    - scrot
-    - xorg-xdpyinfo
-    - dex
-    - picom
-    - xed
-    - jq
-    - feh
-    - dunst
-    - arc-gtk-theme-eos
-    - arc-x-icons-theme
-    - capitaine-cursors
-    - galculator
-    - celluloid
-    - gtk-engine-murrine
-    - numlockx
-    - meld
 - name: "LXQT-Desktop"
   description: "The Lightweight Qt Desktop Environment."
   hidden: false
@@ -423,7 +423,7 @@
     - python-reportlab
     - xsane
 - name: "Accessibility Tools"
-  description: "Screen reader and mouse tweak"
+  description: "Screen reader and mouse tweaks (impaired vision)"
   hidden: false
   selected: false
   critical: false
