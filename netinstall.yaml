@@ -429,3 +429,4 @@
   packages:
     - orca
     - mousetweaks
+    - espeak-ng
