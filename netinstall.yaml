@@ -2,7 +2,7 @@
   description: "Recommended. Don't change unless you know what you're doing. Base-devel group and some other commom utilities (generic)"
   hidden: false
   selected: true
-  critical: false
+  critical: true
   packages:
     - base-devel
     - yay
@@ -123,7 +123,7 @@
   description: "XFCE4 - lightweight desktop fast and low on system resources, visually appealing and user friendly."
   hidden: false
   selected: false
-  critical: false
+  critical: true
   packages:
     - xfce4
     - mousepad
@@ -170,7 +170,7 @@
   description: "KDE-Plasma Desktop - Simple by default, powerful when needed."
   hidden: false
   selected: false
-  critical: false
+  critical: true
   packages:
     - plasma
     - kdeconnect
@@ -192,7 +192,7 @@
   description: "GNOME Desktop - designed to put you in control and get things done. "
   hidden: false
   selected: false
-  critical: false
+  critical: true
   packages:
     - gnome
     - gnome-tweaks
@@ -217,7 +217,7 @@
   description: "i3 tiling window manager, primarily targeted at developers and advanced users. "
   hidden: false
   selected: false
-  critical: false
+  critical: true
   packages:
     - i3-gaps
     - i3blocks
@@ -278,7 +278,7 @@
   description: "MATE Desktop - the continuation of GNOME 2"
   hidden: false
   selected: false
-  critical: false
+  critical: true
   packages:
     - mate
     - mate-extra
@@ -303,7 +303,7 @@
   description: "Cinnamon Desktop - advanced innovative features and a traditional user experience."
   hidden: false
   selected: false
-  critical: false
+  critical: true
   packages:
     - cinnamon
     - blueberry
@@ -339,7 +339,7 @@
   description: "Budgie - I Tawt I Taw A Purdy Desktop"
   hidden: false
   selected: false
-  critical: false
+  critical: true
   packages:
     - budgie-desktop
     - gnome
@@ -365,7 +365,7 @@
   description: "The Lightweight Qt Desktop Environment."
   hidden: false
   selected: false
-  critical: false
+  critical: true
   packages:
     - lxqt
     - xdg-utils
@@ -395,7 +395,7 @@
   description: "Support for printing (Cups)"
   hidden: false
   selected: false
-  critical: false
+  critical: true
   packages:
     - cups 
     - cups-filters 
@@ -415,7 +415,7 @@
   description: "Extra Packages for HP Printer/Scanner"
   hidden: false
   selected: false
-  critical: false
+  critical: true
   packages:
     - hplip
     - python-pyqt5
@@ -425,7 +425,7 @@
   description: "Screen reader and mouse tweaks (impaired vision)"
   hidden: false
   selected: false
-  critical: false
+  critical: true
   packages:
     - orca
     - mousetweaks
