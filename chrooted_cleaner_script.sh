@@ -4,7 +4,14 @@
 # Made by @fernandomaroto and @manuel 
 # Any failed command will just be skiped, error message may pop up but won't crash the install process
 # Net-install creates the file /tmp/run_once in live environment (need to be transfered to installed system) so it can be used to detect install option
-# modified to run with common calamares shelprocess module specifications (joekamprad 4.6.2021 calamares-next) 
+
+if [ -f /tmp/new_username.txt ]
+then
+    NEW_USER=$(cat /tmp/new_username.txt)
+else
+    #NEW_USER=$(compgen -u |tail -n -1)
+    NEW_USER=$(cat /tmp/$chroot_path/etc/passwd | grep "/home" |cut -d: -f1 |head -1)
+fi
 
 _check_internet_connection(){
     #ping -c 1 8.8.8.8 >& /dev/null   # ping Google's address
@@ -111,8 +118,8 @@ _clean_archiso(){
         /etc/initcpio
         /etc/udev/rules.d/81-dhcpcd.rules
         /usr/bin/{calamares_switcher,cleaner_script.sh}
-        /home/@@USER@@/.config/qt5ct
-        /home/@@USER@@/{.xinitrc,.xsession,.xprofile,.wget-hsts,.screenrc,.zshrc,.ICEauthority}
+        /home/$NEW_USER/.config/qt5ct
+        /home/$NEW_USER/{.xinitrc,.xsession,.xprofile,.wget-hsts,.screenrc,.zshrc,.ICEauthority}
         /root/{.xinitrc,.xsession,.xprofile}
         /etc/skel/{.xinitrc,.xsession,.xprofile}
         /etc/motd
@@ -150,7 +157,6 @@ _clean_offline_packages(){
     qt5ct
     qt5-base
     calamares_current
-    calamares_config_next
     arch-install-scripts
     qt5-svg
     qt5-webengine
@@ -162,7 +168,6 @@ _clean_offline_packages(){
     ddrescue
     dd_rescue
     testdisk
-    boost-libs
     qt5-tools
     kparts
     polkit-qt5
@@ -202,7 +207,7 @@ _endeavouros(){
 
 
     sed -i "/if/,/fi/"'s/^/#/' /root/.bash_profile
-    sed -i "/if/,/fi/"'s/^/#/' /home/@@USER@@/.bash_profile
+    sed -i "/if/,/fi/"'s/^/#/' /home/$NEW_USER/.bash_profile
 
 }
 
@@ -217,7 +222,7 @@ _check_install_mode(){
     case "$INSTALL_OPTION" in
         OFFLINE_MODE)
                 _clean_archiso
-                chown -R @@USER@@:users /home/@@USER@@/.bashrc
+                chown -R $NEW_USER:users /home/$NEW_USER/.bashrc
                 _sed_stuff
                 _clean_offline_packages
                 _check_internet_connection && update-mirrorlist
@@ -364,14 +369,14 @@ _desktop_i3(){
     git clone https://github.com/endeavouros-team/endeavouros-i3wm-setup.git
     pushd endeavouros-i3wm-setup >/dev/null
     cp -R .config ~/
-    cp -R .config /home/@@USER@@/                                                
-    chmod -R +x ~/.config/i3/scripts /home/@@USER@@/.config/i3/scripts
-    sudo -H -u @@USER@@ bash -c 'dbus-launch dconf load / < xed.dconf'
+    cp -R .config /home/$NEW_USER/                                                
+    chmod -R +x ~/.config/i3/scripts /home/$NEW_USER/.config/i3/scripts
+    sudo -H -u $NEW_USER bash -c 'dbus-launch dconf load / < xed.dconf'
     cp .nanorc ~/
-    cp .nanorc /home/@@USER@@/
+    cp .nanorc /home/$NEW_USER/
     cp .gtkrc-2.0 ~/
-    cp .gtkrc-2.0 /home/@@USER@@/
-    chown -R @@USER@@:@@USER@@ /home/@@USER@@/
+    cp .gtkrc-2.0 /home/$NEW_USER/
+    chown -R $NEW_USER:$NEW_USER /home/$NEW_USER/
     popd >/dev/null
     rm -rf endeavouros-i3wm-setup
 }
@@ -445,6 +450,7 @@ _remove_discover(){
 
 _check_install_mode
 _endeavouros
+#_os_lsb_release
 _vbox
 _vmware
 _remove_gnome_software
@@ -453,5 +459,3 @@ _de_wm_config
 #_setup_personal
 _xorg_configs
 _clean_up
-
-rm -rf /usr/local/bin/{cleaner_script.sh,chrooted_cleaner_script.sh,pacstrap_calamares,update-mirrorlist}
