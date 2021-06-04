@@ -16,6 +16,11 @@ CCCheck() {   # check validity of country code
 GetYourCountryCode() {
     local IP code
 
+    code="$(curl -Lsm 10 https://ipinfo.io/country)"
+    CCCheck "$code" && {
+        echo "$code" ; return
+    }
+
     IP="$(dig -4 TXT +short o-o.myaddr.l.google.com @ns1.google.com | tr -d '"')"  # ipv4 address
     code="$(geoiplookup "$IP" | sed 's|^.*: \([A-Z][A-Z]\),.*$|\1|')"
     CCCheck "$code" && {
@@ -53,23 +58,46 @@ GetYourCountry() {
     echo "$country"
 }
 
-echo2() { echo "$@" >&2 ; }
+Debug() {
+    if [ "$dryrun" = "yes" ] ; then
+        echo "$@" >&2
+    fi
+}
+logterminal() {
+    local msg="$1"
+    local extra="$2"
+
+    case "$extra" in
+        "") echo "==> $progname: $msg" ;;
+        --nh) echo "$msg" ;;
+    esac
+}
+
+DIE() {
+    logterminal "$FUNCNAME: $1"
+    exit 1
+}
+
+RunCmd() {
+    $cmd > $tf
+    retval=$?
+}
 
 Main() {
-    local VERSION="2.0.1"                   # started from 2.0!
+    local VERSION="2.0.2"                   # started from 2.0!
     local progname="$(basename "$0")"
     local mf=/etc/pacman.d/mirrorlist
     local bu=/tmp/mirrorlist.bu             # original mirrorlist, saved by Welcome
 
-    echo2 "==> $progname $VERSION"
+    logterminal "version $VERSION"
 
     if [ -r $mf ] && [ -r $bu ] ; then
         if (/usr/bin/diff $mf $bu >& /dev/null) ; then
             # Current and original mirrorlists are the same, so carry on.
-            echo2 "==> $progname: updating mirrorlist."
+            logterminal "updating mirrorlist."
         else
             # Current and original mirrorlist are different, so stop.
-            echo2 "==> $progname: mirrorlist already changed, not updating it."
+            logterminal "mirrorlist already changed, not updating it."
             return
         fi
     fi
@@ -78,41 +106,69 @@ Main() {
     local this_country="$(GetYourCountryCode)"
     local retval
     local tf=$(mktemp)
-    local cmd="reflector -phttps -f10 -l20 --sort rate "  # reflector and common options
+    local cmd="reflector -phttps --latest 10 --sort rate "  # reflector and common options
     local dryrun=no
+    local arg
 
-    case "$1" in
-        -n | --dryrun) dryrun=yes ;;    # don't save mirrorlist to /etc/pacman.d
-    esac
+    if [ -n "$this_country" ] ; then
+        logterminal "detected country: $(CodeToCountry $this_country)"
+    else
+        logterminal "country code not found on Arch mirrorlist"
+    fi
 
-    test -n "$this_country" && echo2 "==> Detected country: $(CodeToCountry $this_country)"
+    for arg in "$@" ; do
+        case "$arg" in
+            -n | --dryrun) dryrun=yes ;;    # don't save mirrorlist to /etc/pacman.d
+            -cc=*) this_country="${arg#*=}" ; logterminal "country changed to '$this_country'" ;;
+            *) DIE "parameter '$arg' is not supported" ;;
+        esac
+    done
 
     case "$this_country" in
-        "") cmd+="-a1"                           # no mirrors here, search https mirrors globally
+        "" | IS | IE)
+            # no mirrors or mirror problems here, search well-updated https mirrors globally
+            cmd+="-a2 -f10 --verbose"
             ;;
-        FI) # special command for FI
-            cmd="reflector -phttps -a3 --sort country -cFI,SE"
+        FI)
+            # special command for FI
+            cmd+="-a2 -cde --threads 5"
+            cmd+=" -x orbit-os -x ratenzahlung -x satis-faction"
+            cmd+=" -x xtom.de -x metalgamer -x agdsn -x fsrv -x appuals -x wrz -x clientvps"
+            cmd+=" -x fef.moe -x gnomus"
             ;;
-        CH|DE|DK|FR|GB|HK|IE|IS|NL|NZ|SE|SG|US)
-            cmd+="-a2 -c $this_country"          # search https mirrors only in this country
+        DE|DK|FR|GB|HK|NL|NZ|SE|SG|US)
+            # search https mirrors only in this country
+            cmd+="-a2 -c $this_country --threads 5"
+            ;;
+        CA|CH|CZ)
+            cmd+="-a2 --threads 5"
             ;;
         *)
-            cmd+="-a8 -phttp -c $this_country"   # this country may lack https mirrors
+            # this country may lack https mirrors
+            cmd+="-a8 -phttp --latest 15 --verbose"
             ;;
     esac
 
-    # $cmd | grep -v "^sorting by " > $tf        # workaround for reflector bug
-    $cmd > $tf
-    retval=$?
+    logterminal "command: $cmd"
+    logterminal "please wait..."
+    logterminal "" --nh
+    logterminal "'time' output:" --nh
+    time RunCmd
+    logterminal "" --nh
 
     if [ $retval -eq 0 ] ; then
-        echo2 "Arch mirrorlist by reflector:"
-        cat $tf >&2
+        logterminal "Arch mirrorlist by reflector:"
+        logterminal "" --nh
+        logterminal "$(cat $tf)" --nh
+        logterminal "" --nh
         if [ "$dryrun" = "no" ] ; then
+            logterminal "writing file $mf"
             sudo bash -c "cp $tf $mf && chmod 0644 $mf"
+        else
+            logterminal "you used option --dryrun, will not write file $mf"
         fi
     else
-        echo2 "reflector returned error code $retval, mirrorlist not updated."
+        logterminal "reflector returned error code $retval, mirrorlist not updated."
     fi
 
     rm -f $tf
