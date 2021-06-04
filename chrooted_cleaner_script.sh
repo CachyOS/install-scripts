@@ -4,14 +4,7 @@
 # Made by @fernandomaroto and @manuel 
 # Any failed command will just be skiped, error message may pop up but won't crash the install process
 # Net-install creates the file /tmp/run_once in live environment (need to be transfered to installed system) so it can be used to detect install option
-
-if [ -f /tmp/new_username.txt ]
-then
-    NEW_USER=$(cat /tmp/new_username.txt)
-else
-    #NEW_USER=$(compgen -u |tail -n -1)
-    NEW_USER=$(cat /tmp/$chroot_path/etc/passwd | grep "/home" |cut -d: -f1 |head -1)
-fi
+# modified to run with common calamares shelprocess module specifications (joekamprad 4.6.2021 calamares-next) 
 
 _check_internet_connection(){
     #ping -c 1 8.8.8.8 >& /dev/null   # ping Google's address
@@ -86,15 +79,6 @@ _vmware() {
     esac
 }
 
-_common_systemd(){
-    local _systemd_enable=(NetworkManager vboxservice cups avahi-daemon systemd-timesyncd tlp gdm lightdm sddm)   
-    local _systemd_disable=(multi-user.target pacman-init)           
-    local srv
-
-    for srv in ${_systemd_enable[*]};  do systemctl enable  -f $srv; done
-    for srv in ${_systemd_disable[*]}; do systemctl disable -f $srv; done
-}
-
 _sed_stuff(){
 
     # Journal for offline. Turn volatile (for iso) into a real system.
@@ -127,8 +111,8 @@ _clean_archiso(){
         /etc/initcpio
         /etc/udev/rules.d/81-dhcpcd.rules
         /usr/bin/{calamares_switcher,cleaner_script.sh}
-        /home/$NEW_USER/.config/qt5ct
-        /home/$NEW_USER/{.xinitrc,.xsession,.xprofile,.wget-hsts,.screenrc,.zshrc,.ICEauthority}
+        /home/@@USER@@/.config/qt5ct
+        /home/@@USER@@/{.xinitrc,.xsession,.xprofile,.wget-hsts,.screenrc,.zshrc,.ICEauthority}
         /root/{.xinitrc,.xsession,.xprofile}
         /etc/skel/{.xinitrc,.xsession,.xprofile}
         /etc/motd
@@ -166,6 +150,7 @@ _clean_offline_packages(){
     qt5ct
     qt5-base
     calamares_current
+    calamares_config_next
     arch-install-scripts
     qt5-svg
     qt5-webengine
@@ -177,6 +162,7 @@ _clean_offline_packages(){
     ddrescue
     dd_rescue
     testdisk
+    boost-libs
     qt5-tools
     kparts
     polkit-qt5
@@ -216,7 +202,7 @@ _endeavouros(){
 
 
     sed -i "/if/,/fi/"'s/^/#/' /root/.bash_profile
-    sed -i "/if/,/fi/"'s/^/#/' /home/$NEW_USER/.bash_profile
+    sed -i "/if/,/fi/"'s/^/#/' /home/@@USER@@/.bash_profile
 
 }
 
@@ -231,7 +217,7 @@ _check_install_mode(){
     case "$INSTALL_OPTION" in
         OFFLINE_MODE)
                 _clean_archiso
-                chown -R $NEW_USER:users /home/$NEW_USER/.bashrc
+                chown -R @@USER@@:users /home/@@USER@@/.bashrc
                 _sed_stuff
                 _clean_offline_packages
                 _check_internet_connection && update-mirrorlist
@@ -369,26 +355,6 @@ _clean_up(){
     # keep r8168 package but blacklist it; r8169 will be used by default
     xx=/usr/lib/modprobe.d/r8168.conf
     test -r $xx && sed -i $xx -e 's|r8169|r8168|'
-
-    # delete some files after offline install
-    rm -rf /usr/share/calamares
-
-    # delete unnecessary DM configs
-    #if (! _is_pkg_installed sddm) ; then
-    #rm -rf /etc/sddm.conf.d
-    #fi
-    #if (! _is_pkg_installed lightdm) ; then
-    #rm -rf /etc/lightdm
-    #fi
-}
-
-_desktop_openbox(){
-    # openbox configs here
-    # Note: variable 'desktop' from '_another_case' is visible here too if more details are needed.
-    
-    mmaker -vf OpenBox3 # for root
-    sudo -H -u $NEW_USER bash -c 'mmaker -vf OpenBox3' # for normal user
-
 }
 
 _desktop_i3(){
@@ -398,14 +364,14 @@ _desktop_i3(){
     git clone https://github.com/endeavouros-team/endeavouros-i3wm-setup.git
     pushd endeavouros-i3wm-setup >/dev/null
     cp -R .config ~/
-    cp -R .config /home/$NEW_USER/                                                
-    chmod -R +x ~/.config/i3/scripts /home/$NEW_USER/.config/i3/scripts
-    sudo -H -u $NEW_USER bash -c 'dbus-launch dconf load / < xed.dconf'
+    cp -R .config /home/@@USER@@/                                                
+    chmod -R +x ~/.config/i3/scripts /home/@@USER@@/.config/i3/scripts
+    sudo -H -u @@USER@@ bash -c 'dbus-launch dconf load / < xed.dconf'
     cp .nanorc ~/
-    cp .nanorc /home/$NEW_USER/
+    cp .nanorc /home/@@USER@@/
     cp .gtkrc-2.0 ~/
-    cp .gtkrc-2.0 /home/$NEW_USER/
-    chown -R $NEW_USER:$NEW_USER /home/$NEW_USER/
+    cp .gtkrc-2.0 /home/@@USER@@/
+    chown -R @@USER@@:@@USER@@ /home/@@USER@@/
     popd >/dev/null
     rm -rf endeavouros-i3wm-setup
 }
@@ -414,7 +380,6 @@ _de_wm_config(){
     local desktops_lowercase="$(ls -1 /usr/share/xsessions/*.desktop | tr '[:upper:]' '[:lower:]' | sed -e 's|\.desktop$||' -e 's|^/usr/share/xsessions/||')"
     local desktop
     local i3_added=no # break for loop
-    local openbox_added=no # break for loop
 
     for desktop in $desktops_lowercase ; do
         case "$desktop" in
@@ -422,12 +387,6 @@ _de_wm_config(){
                 if [ "$i3_added" = "no" ] ; then
                     i3_added=yes
                     _desktop_i3 
-                fi
-                ;;
-            openbox*)
-                if [ "$openbox_added" = "no" ] ; then
-                    openbox_added=yes
-                    _desktop_openbox
                 fi
                 ;;
         esac
@@ -485,9 +444,7 @@ _remove_discover(){
 ########################################
 
 _check_install_mode
-_common_systemd
 _endeavouros
-#_os_lsb_release
 _vbox
 _vmware
 _remove_gnome_software
@@ -497,4 +454,4 @@ _de_wm_config
 _xorg_configs
 _clean_up
 
-rm -rf /usr/bin/{calamares_switcher,cleaner_script.sh,chrooted_cleaner_script.sh,calamares_for_testers,rank_pacman_key.sh,pacstrap_calamares,update-mirrorlist,prepare-calamares}
+rm -rf /usr/local/bin/{cleaner_script.sh,chrooted_cleaner_script.sh,pacstrap_calamares,update-mirrorlist}
