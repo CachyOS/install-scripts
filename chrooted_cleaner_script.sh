@@ -157,6 +157,9 @@ _clean_offline_packages(){
     qt5ct
     qt5-base
     calamares_current
+    calamares_config_next
+    kvantum-theme-arc
+    kvantum-qt5
     arch-install-scripts
     qt5-svg
     qt5-webengine
