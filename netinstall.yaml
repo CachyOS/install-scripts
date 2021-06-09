@@ -173,7 +173,6 @@
   critical: false
   packages:
     - plasma
-    - plasma-wayland-session
     - kdeconnect
     - python-dbus   
     - kde-system-meta
