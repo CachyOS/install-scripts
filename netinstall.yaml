@@ -392,7 +392,7 @@
     - audiocd-kio
     - kdiff3
 - name: "------ Community Editions -------"
-  description: "Unofficial community contributed Editions 
+  description: "Unofficial community contributed Editions"
 - name: "sway tiling on wayland"
   description: "Sway is a tiling Wayland compositor and a drop-in replacement for the i3 window manager."
   hidden: false
