@@ -310,7 +310,7 @@
     - cinnamon-translations
     - gnome-terminal
     - gnome-system-monitor
-    - gpicview-gtk3
+    - gpicview
     - celluloid
     - x-apps
     - file-roller
