@@ -1,0 +1,47 @@
+#!/bin/bash
+
+# Create an up-to-date EndeavourOS pacman.conf file into the current directory.
+#
+# Usage: go to the directory where a pacman.conf file should exist and run this script.
+# Note: this script will overwrite any existing pacman.conf file in the current directory!
+
+Main()
+{
+    # Remember the current directory.
+    local orig_dir="$PWD"
+
+    # Go to /tmp.
+    pushd /tmp >/dev/null
+
+    # Get the latest pacman.conf from Arch.
+    yay -G pacman
+
+    # Add EndeavourOS repo to pacman.conf.
+    cat <<EOF >> pacman/pacman.conf
+
+[endeavouros]
+SigLevel = PackageRequired
+Include = /etc/pacman.d/endeavouros-mirrorlist
+
+EOF
+
+    # Make other adjustments in pacman.conf:
+    # - add ILoveCandy
+    # - enable Color, VerbosePkgLists and ParallelDownloads
+    sed -i pacman/pacman.conf \
+        -e '/^#Color/a ILoveCandy' \
+        -e 's|^#Color|Color|' \
+        -e 's|^#VerbosePkgLists|VerbosePkgLists|' \
+        -e 's|^#ParallelDownloads|ParallelDownloads|'
+
+    # Copy the updated pacman.conf to the original directory.
+    cp pacman/pacman.conf "$orig_dir"/pacman.conf
+
+    # Cleanup
+    rm -rf /tmp/pacman
+
+    # Go back to the original directory.
+    popd >/dev/null
+}
+
+Main "$@"
