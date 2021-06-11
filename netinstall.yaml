@@ -393,6 +393,10 @@
     - kdiff3
 - name: "------ Community Editions -------"
   description: "Unofficial community contributed Editions"
+  hidden: false
+  selected: true
+  critical: false
+  packages:
 - name: "sway tiling on wayland"
   description: "Sway is a tiling Wayland compositor and a drop-in replacement for the i3 window manager."
   hidden: false
