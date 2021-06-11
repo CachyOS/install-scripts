@@ -391,6 +391,13 @@
     - kio-gdrive
     - audiocd-kio
     - kdiff3
+- name: "Community Editions"
+  description: "Unofficial community contributed Editions"
+  hidden: false
+  selected: false
+  critical: false
+  packages:  
+    
 - name: "Printing-Support"
   description: "Support for printing (Cups)"
   hidden: false
