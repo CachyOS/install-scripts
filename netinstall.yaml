@@ -175,8 +175,8 @@
     - plasma
     - kdeconnect
     - python-dbus   
-    - kde-system-meta
-    - kde-utilities-meta
+    - kde-system
+    - kde-utilities
     - kio-fuse
     - kio-gdrive
     - audiocd-kio
