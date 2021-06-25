@@ -1,0 +1,160 @@
+#!/bin/bash
+
+# Arch mirror ranking for the liveuser on the ISO.
+#
+# Note: for using option --timiming, package 'time' is required.
+
+Main() {
+    local save=no
+    local verbose=no
+    local timing=no
+    local testing=no
+    local starting_age=1
+
+    local list=/etc/pacman.d/mirrorlist
+    local progname="$(basename "$0")"
+
+    Options "$@"
+
+    Rank
+}
+
+Usage() {
+    cat <<EOF
+Rank Arch mirrors.
+
+Note: usually the ranking process is quite fast (probably less than 15 seconds),
+but on challenging network conditions ranking can take tens of minutes!
+
+Usage: $progname [options]
+Options:
+    --save    | -s      Save mirrorlist to $list.
+    --verbose | -v      Show more details about ranking.
+    --timing            Show how much time ranking took. Requires package 'time'.
+    --help    | -h      This help.
+EOF
+}
+
+Options() {
+    local shorts="svh"
+    local longs="save,verbose,timing,testing,help,starting-age:"
+    local params="$(getopt -o $shorts --longoptions $longs --name "$progname" -- "$@")"
+
+    eval set -- "$params"
+
+    while true ; do
+        case "$1" in
+            -s | --save) save=yes ;;
+            -v | --verbose) verbose=yes ;;
+            -h | --help) Usage ; exit 0 ;;
+            --starting-age)
+                case "$2" in
+                    1|2|3|4|5|6|7|8) ;;
+                    *) DIE "value '$2' of option $1 is not an integer in the range of 1 to 8"
+                esac
+                starting_age="$2"
+                shift
+                ;;
+            --timing)
+                [ -x /usr/bin/time ] || DIE "package 'time' is needed when using option --timing"
+                timing=yes
+                ;;
+            --testing) testing=yes ;;        # this option is meant for devs only
+            --) shift ; break ;;
+        esac
+        shift
+    done
+}
+
+Rank() {
+    local ages="1 2 8"             # try ages in this order
+    local timeouts="1 2"           # try connection and download timeouts in this order
+    local fastest_count            # give this many fastest mirrors
+    local thread_spec=(            # 20 or one
+        "--threads 20"             # use 20 threads
+        ""                         # use only one thread (when threads cause problems)
+    )
+    local protocol_spec=(          # preferred protocls
+        "-phttps"                  # only https
+        "-phttps,http"             # both https and http (when https is not available)
+    )
+    local cmdbase="/usr/bin/reflector"
+    if [ "$timing" = "yes" ] ; then
+        cmdbase="/usr/bin/time -p -o /dev/stdout $cmdbase"
+    fi
+    if [ "$starting_age" != "1" ] ; then
+        ages="$(seq $starting_age 8)"
+    fi
+
+    local ml=$(mktemp)
+    local age timeout protocols threads
+    local cmd
+    local result=0
+    local timediff
+
+    for threads in "${thread_spec[@]}" ; do
+        for protocols in "${protocol_spec[@]}" ; do
+            for timeout in $timeouts ; do
+                for age in $ages ; do
+                    if [ $age -gt 1 ] ; then
+                        fastest_count=15
+                    else
+                        fastest_count=10
+                    fi
+                    cmd="$cmdbase $protocols -f$fastest_count -a$age $threads"
+                    cmd+=" --connection-timeout $timeout --download-timeout $timeout"
+                    Info "running: $cmd"
+                    if [ "$verbose" = "no" ] ; then
+                        Info "please wait..."
+                        $cmd --save $ml 2>/dev/null
+                        result=$?
+                    else
+                        $cmd --save $ml --verbose
+                        result=$?
+                    fi
+                    if [ $result -eq 0 ] ; then
+                        cat $ml
+                        if [ "$save" = "yes" ] ; then
+                            Line
+                            Info "Writing mirrorlist to $list."
+                            timediff=$(date +%s)
+                            pkexec bash -c "cp $list $list.bak.$timediff ; cp $ml $list"
+                        fi
+                        [ "$testing" = "no" ] && Exit 0
+                    else
+                        Warning "reflector option -a$age failed, trying with -a$((age+1))"
+                    fi
+                done
+                Warning "reflector failed, trying with greater timeout ($timeout sec)"
+                read -p "Do you want to continue (Y/n)? "
+                case "$REPLY" in
+                    [nN]*) break 10 ;;
+                esac
+            done
+            Warning "reflector failed, trying with both http and https"
+        done
+        Warning "reflector failed, trying with only one thread"
+
+        read -p "Do you want to stop (Y/n)? "
+        case "$REPLY" in
+            [nN]*) continue ;;
+        esac
+    done
+
+    DIE "ranking failed!"
+}
+
+Line()    { echo "$@" ; }
+
+Info()    { Line "==> $progname: info: $@" ; }
+Warning() { Line "==> $progname: warning: $@" ; }
+Error()   { Line "==> $progname: error: $@" ; }
+
+DIE()     { Error "$1" ; Exit 1 ; }
+
+Exit()    {
+    [ -n "$ml" ] && rm -f "$ml"
+    exit $1
+}
+
+Main "$@"
