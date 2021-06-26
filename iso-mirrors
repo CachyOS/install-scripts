@@ -94,8 +94,8 @@ Rank() {
 
     for threads in "${thread_spec[@]}" ; do
         for protocols in "${protocol_spec[@]}" ; do
-            for timeout in $timeouts ; do
-                for age in $ages ; do
+            for age in $ages ; do
+                for timeout in $timeouts ; do
                     if [ $age -gt 1 ] ; then
                         fastest_count=15
                     else
@@ -122,23 +122,27 @@ Rank() {
                         fi
                         [ "$testing" = "no" ] && Exit 0
                     else
-                        Warning "reflector option -a$age failed, trying with -a$((age+1))"
+                        Warning "reflector failed, trying with greater timeout ($timeout sec)"
                     fi
                 done
-                Warning "reflector failed, trying with greater timeout ($timeout sec)"
-                read -p "Do you want to continue (Y/n)? "
-                case "$REPLY" in
-                    [nN]*) break 10 ;;
-                esac
+                Warning "reflector option -a$age failed, trying with -a$((age+1))"
+                if [ "$testing" = "yes" ] ; then
+                    read -p "Do you want to continue (Y/n)? "
+                    case "$REPLY" in
+                        [nN]*) break 10 ;;
+                    esac
+                fi
             done
             Warning "reflector failed, trying with both http and https"
         done
         Warning "reflector failed, trying with only one thread"
 
-        read -p "Do you want to stop (Y/n)? "
-        case "$REPLY" in
-            [nN]*) continue ;;
-        esac
+        if [ "$testing" = "yes" ] ; then
+            read -p "Do you want to stop (Y/n)? "
+            case "$REPLY" in
+                [nN]*) continue ;;
+            esac
+        fi
     done
 
     DIE "ranking failed!"
