@@ -188,6 +188,31 @@
     - elisa
     - print-manager
     - kdiff3
+- name: "KDE-minimal-Desktop"
+  description: "KDE-Plasma minimal Desktop"
+  hidden: false
+  selected: false
+  critical: true
+  packages:
+    - plasma-desktop
+    - konsole
+    - plasma-nm
+    - powerdevil
+    - sddm
+    - sddm-kcm
+    - kdeconnect
+    - python-dbus
+    - kio-fuse
+    - kio-gdrive
+    - audiocd-kio
+    - gwenview
+    - ark
+    - okular
+    - spectacle
+    - dragon
+    - elisa
+    - print-manager
+    - kdiff3
 - name: "GNOME-Desktop"
   description: "GNOME Desktop - designed to put you in control and get things done. "
   hidden: false
