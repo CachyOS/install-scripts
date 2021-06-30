@@ -235,6 +235,39 @@
     - gvfs-nfs
     - gvfs-smb
     - diffuse
+- name: "GNOME-minimal"
+  description: "GNOME minimal Desktop"
+  hidden: false
+  selected: false
+  critical: true
+  packages:
+    - gnome-shell
+    - gdm
+    - gedit
+    - gnome-terminal
+    - gnome-control-center
+    - gnome-tweaks
+    - gnome-screenshot
+    - gnome-keyring
+    - file-roller
+    - nautilus
+    - nautilus-sendto
+    - sushi
+    - gnome-nettool
+    - gnome-usage
+    - gnome-multi-writer
+    - gnome-themes-extra
+    - adwaita-icon-theme
+    - xdg-user-dirs-gtk
+    - gvfs
+    - gvfs-mtp
+    - gvfs-afc
+    - gvfs-goa
+    - gvfs-google
+    - gvfs-gphoto2
+    - gvfs-nfs
+    - gvfs-smb
+    - diffuse
 - name: "i3 Window Manager"
   description: "i3 tiling window manager, primarily targeted at developers and advanced users. "
   hidden: false
