@@ -196,6 +196,7 @@
   critical: true
   packages:
     - plasma-desktop
+    - kinfocenter
     - konsole
     - dolphin
     - plasma-nm
