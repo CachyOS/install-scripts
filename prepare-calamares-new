@@ -1,0 +1,218 @@
+#!/bin/bash
+
+# New script for using calamares.
+#
+# Note that this script can be called directly from the terminal,
+# or it can be called from the Welcome app.
+
+source /usr/share/endeavouros/scripts/eos-script-lib-yad || exit 1
+#source /usr/share/endeavouros/scripts/translations.bash || exit 1
+
+export -f eos_yad
+
+DIE() {
+    if [ 1 -eq 1 ] ; then
+        local cmd=(
+            eos_yad --form --title="Error"
+            --text="$progname: warning: $mode: $1"
+            --button=yad-quit
+        )
+        "${cmd[@]}"
+    fi
+    echo "$progname: warning: $mode: $1"
+    exit 1
+}
+
+
+### Provides the install log contents. ###
+FollowFile() {
+    local tailfile="$1"
+    local term_title="$2"
+    local xpos="$3"
+    local ypos="$4"
+
+    xfce4-terminal -T "$term_title" --geometry=120x20+$xpos+$ypos -x tail -f "$tailfile" &
+}
+
+### Provides the pacman log. ###
+CatchChrootedPacmanLog() {
+    local pacmanlog=""
+    local lockfile="$HOME/.$progname.lck"
+
+    # wait until pacman.log is available in the chrooted system, then follow the log in background
+    while true ; do
+        sleep 2
+        pacmanlog="$(/usr/bin/ls -1 /tmp/calamares-root-*/var/log/pacman.log 2>/dev/null | /usr/bin/tail -n 1)"
+        if [ -n "$pacmanlog" ] ; then
+            # pacman.log found
+            [ -r "$lockfile" ] && return
+            /usr/bin/touch "$lockfile"
+            FollowFile "$pacmanlog" "Pacman log" 400 50
+            break
+        fi
+    done
+}
+
+### Change the script for sway and bspwm. ###
+ChangeCleanerScript() {
+    sudo sed -i /usr/bin/chrooted_cleaner_script.sh -e 's|^#_setup_personal$|_setup_personal|' -e 's|^_de_wm_config$|#_de_wm_config|'
+}
+
+### Starts logging into the install log. ###
+InstallLog_Start() {
+    cat <<EOF > $log
+########## $log by $progname
+########## Started (UTC): $(date -u "+%x %X")
+########## Install mode: $mode
+EOF
+    FollowFile "$log" "Install log" 20 20
+}
+
+### Starts calamares and makes it to run in the background. ###
+Calamares_Start() {
+    pkexec calamares -style kvantum -c /etc/calamares/ -d >> $log &
+}
+
+### Dialog that asks for the offline or online install mode. ###
+AskOfficial() {
+    local txt="Selet offline or online install mode.\n\n"
+    txt+="<b>Offline</b> mode provides an Xfce desktop with an EndeavourOS theming. $inet_no.\n"
+    txt+="<b>Online</b> mode lets you choose from many popular desktops with vanilla theming. $inet_yes.\n"
+    local cmd=(
+        eos_yad --form --title="Select official edition" --image=dialog-question
+        --text="$txt"
+        --button='Offline: Xfce!!Xfce with EOS theming. $inet_no.':11
+        --button='Online: many desktops!!Choose from popular desktops, vanilla theming. $inet_yes.':13
+    )
+    "${cmd[@]}"
+    case "$?" in
+        11) mode=offline ;;
+        13) mode=online ;;
+    esac
+}
+
+### Dialog that asks for the community edition. ###
+AskCommunity() {
+    local txt="Choose one of the EndeavourOS community editions.\n\n"
+    txt+="<b>Sway</b> is a tiling wayland compositor with an i3-like window manager.\n"
+    txt+="Note that it will not work with a proprietary Nvidia driver.\n\n"
+    txt+="<b>Bspwm</b> is a tiling window manager that represents windows as leaves of a full binary tree.\n\n"
+    txt+="$inet_yes when installing any of these editions.\n"
+    local cmd=(
+        eos_yad --form --title="Select a community edition" --image=dialog-question
+        --text="$txt"
+        --button='Sway!!Tiling Wayland compositor with i3-like window manager. $inet_yes.':11
+        --button='Bspwm!!Tiling window manager. $inet_yes.':13
+    )
+    "${cmd[@]}"
+    case "$?" in
+        11) mode=sway ;;
+        13) mode=bspwm ;;
+    esac
+}
+
+### Dialog that asks for the official or community edition. ###
+AskMode() {
+    local inet_no="Internet connection is not required"
+    local inet_yes="Internet connection is required"
+
+    local txt=""
+
+    txt+="Installing <b>EndeavourOS</b> to your system.\n\n"
+    txt+="You can install one of the <i>official</i> editions, or one of the <i>community</i> editions.\n\n"
+    txt+="<b>Official editions</b>: popular desktops made by the EndeavourOS team.\n"
+    txt+="These editions include Xfce, KDE, GNOME, MATE, LXQt, Budgie, and more.\n\n"
+    txt+="<b>Community editions</b>: special editions made by the EndeavourOS community members.\n"
+    txt+="These editions include Sway and Bspwm.\n"
+
+    local cmd=(
+        eos_yad --form --title="Select edition to install" --image=dialog-question
+        --text="$txt"
+        --button='Official Editions!!Select from the editions made by the EndeavourOS team.':11
+        --button='Community Editions!!Select from the editions made by the community members.':13
+    )
+
+    "${cmd[@]}"
+    case "$?" in
+        11) AskOfficial ;;
+        13) AskCommunity ;;
+    esac
+}
+
+### Starts the calamares installer process and logging. ###
+Install() {
+    InstallLog_Start
+    Calamares_Start
+
+    if [ "$mode" != "offline" ] ; then
+        CatchChrootedPacmanLog
+    fi
+}
+
+CopyFile() {
+    local filefrom="$1"   # source file
+    local fileto="$2"     # destination file (not folder!)
+    local folderto="$(dirname "$fileto")"
+
+    [ -r "$filefrom" ] || DIE "copying: file '$filefrom' does not exist."
+    [ -d "$folderto" ] || DIE "copying: folder '$folderto' does not exist."
+
+    sudo cp /etc/calamares/settings_online.conf /etc/calamares/settings.conf || DIE "copying settings.conf failed"
+}
+
+###  Runs the online install. ###
+Online() {
+    sudo cp /etc/calamares/settings_online.conf /etc/calamares/settings.conf || DIE "copying settings.conf failed"
+    Install
+}
+
+###  Runs the offline install. ###
+Offline() {
+    sudo cp /etc/calamares/settings_offline.conf /etc/calamares/settings.conf || DIE "copying settings.conf failed"
+    Install
+}
+
+###  Runs the sway install. ###
+Sway() {
+    cp $Home/community_editions/sway_setup.url           $Home/setup.url           || DIE "copying setup.url failed"
+    cp $Home/community_editions/sway_netinstall-yaml.url $Home/netinstall-yaml.url || DIE "copying netinstall-yaml.url failed"
+    ChangeCleanerScript  # changes chrooted_cleaner_script.sh to use personal setup
+    Install
+}
+
+###  Runs the bspwm install. ###
+Bspwm() {
+    cp $Home/community_editions/bspwm_setup.url           $Home/setup.url           || DIE "copying setup.url failed"
+    cp $Home/community_editions/bspwm_netinstall-yaml.url $Home/netinstall-yaml.url || DIE "copying netinstall-yaml.url failed"
+    ChangeCleanerScript  # changes chrooted_cleaner_script.sh to use personal setup
+    Install
+}
+
+###  All starts in the Main function. ###
+Main() {
+    local progname="$(basename "$0")"           # for help and messages
+    local Home=/home/liveuser                   # liveuser's home folder
+    local log=$Home/endeavour-install.log       # install log
+    local mode=""                               # one of: offline, online, sway, bspwm
+
+    local testing=no
+    case "$1" in
+        --testing | -t) testing=yes ;;
+    esac
+
+    AskMode                                     # sets the value for $mode
+
+    if [ "$testing" = "yes" ] ; then
+        echo "selected mode = $mode"
+        return
+    fi
+
+    case "$mode" in
+        offline) Offline ;;
+        online)  Online ;;
+        sway)    Sway ;;
+        bspwm)   Bspwm ;;
+    esac
+}
+
+Main "$@"
