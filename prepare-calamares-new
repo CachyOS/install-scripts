@@ -53,11 +53,6 @@ CatchChrootedPacmanLog() {
     done
 }
 
-### Change the script for sway and bspwm. ###
-ChangeCleanerScript() {
-    sudo sed -i /usr/bin/chrooted_cleaner_script.sh -e 's|^#_setup_personal$|_setup_personal|' -e 's|^_de_wm_config$|#_de_wm_config|'
-}
-
 ### Starts logging into the install log. ###
 InstallLog_Start() {
     cat <<EOF > $log
@@ -140,7 +135,7 @@ AskMode() {
 }
 
 ### Starts the calamares installer process and logging. ###
-Install() {
+InstallWithLogs() {
     InstallLog_Start
     Calamares_Start
 
@@ -154,38 +149,25 @@ CopyFile() {
     local fileto="$2"     # destination file (not folder!)
     local folderto="$(dirname "$fileto")"
 
-    [ -r "$filefrom" ] || DIE "copying: file '$filefrom' does not exist."
-    [ -d "$folderto" ] || DIE "copying: folder '$folderto' does not exist."
+    [ -r "$filefrom" ] || DIE "$FUNCNAME: file '$filefrom' does not exist."
+    [ -d "$folderto" ] || DIE "$FUNCNAME: folder '$folderto' does not exist."
 
-    sudo cp /etc/calamares/settings_online.conf /etc/calamares/settings.conf || DIE "copying settings.conf failed"
+    sudo cp $filefrom $fileto || DIE "copying $filefrom to $fileto failed"
 }
 
 ###  Runs the online install. ###
 Online() {
-    sudo cp /etc/calamares/settings_online.conf /etc/calamares/settings.conf || DIE "copying settings.conf failed"
-    Install
+    CopyFile $cfolder/settings_online.conf $cfolder/settings.conf
 }
 
 ###  Runs the offline install. ###
 Offline() {
-    sudo cp /etc/calamares/settings_offline.conf /etc/calamares/settings.conf || DIE "copying settings.conf failed"
-    Install
+    CopyFile $cfolder/settings_offline.conf $cfolder/settings.conf
 }
 
-###  Runs the sway install. ###
-Sway() {
-    cp $Home/community_editions/sway_setup.url           $Home/setup.url           || DIE "copying setup.url failed"
-    cp $Home/community_editions/sway_netinstall-yaml.url $Home/netinstall-yaml.url || DIE "copying netinstall-yaml.url failed"
-    ChangeCleanerScript  # changes chrooted_cleaner_script.sh to use personal setup
-    Install
-}
-
-###  Runs the bspwm install. ###
-Bspwm() {
-    cp $Home/community_editions/bspwm_setup.url           $Home/setup.url           || DIE "copying setup.url failed"
-    cp $Home/community_editions/bspwm_netinstall-yaml.url $Home/netinstall-yaml.url || DIE "copying netinstall-yaml.url failed"
-    ChangeCleanerScript  # changes chrooted_cleaner_script.sh to use personal setup
-    Install
+###  Runs the Community editions install. ###
+Community() {
+    CopyFile $cfolder/settings_community.conf $cfolder/settings.conf
 }
 
 ###  All starts in the Main function. ###
@@ -194,25 +176,20 @@ Main() {
     local Home=/home/liveuser                   # liveuser's home folder
     local log=$Home/endeavour-install.log       # install log
     local mode=""                               # one of: offline, online, sway, bspwm
+    local cfolder=/etc/calamares                # folder for calamares configuration files
 
-    local testing=no
-    case "$1" in
-        --testing | -t) testing=yes ;;
-    esac
+    # sets the value for $mode
+    AskMode
 
-    AskMode                                     # sets the value for $mode
-
-    if [ "$testing" = "yes" ] ; then
-        echo "selected mode = $mode"
-        return
-    fi
-
+    # prepare the settings
     case "$mode" in
-        offline) Offline ;;
-        online)  Online ;;
-        sway)    Sway ;;
-        bspwm)   Bspwm ;;
+        sway | bspwm) Community ;;
+        offline)      Offline ;;
+        online)       Online ;;
     esac
+
+    # finally: install with calamares
+    InstallWithLogs
 }
 
 Main "$@"
