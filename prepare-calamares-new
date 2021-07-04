@@ -11,6 +11,11 @@ source /usr/share/endeavouros/scripts/eos-script-lib-yad || exit 1
 export -f eos_yad
 
 DIE() {
+    echo "$progname: warning: $mode: $1"
+    exit 1
+}
+
+GUIDIE() {
     if [ 1 -eq 1 ] ; then
         local cmd=(
             eos_yad --form --title="Error"
@@ -68,69 +73,50 @@ Calamares_Start() {
     pkexec calamares -style kvantum -c /etc/calamares/ -d >> $log &
 }
 
-### Dialog that asks for the offline or online install mode. ###
-AskOfficial() {
-    local txt="Selet offline or online install mode.\n\n"
-    txt+="<b>Offline</b> mode provides an Xfce desktop with an EndeavourOS theming. $inet_no.\n"
-    txt+="<b>Online</b> mode lets you choose from many popular desktops with vanilla theming. $inet_yes.\n"
-    local cmd=(
-        eos_yad --form --title="Select official edition" --image=dialog-question
-        --text="$txt"
-        --button='Offline: Xfce!!Xfce with EOS theming. $inet_no.':11
-        --button='Online: many desktops!!Choose from popular desktops, vanilla theming. $inet_yes.':13
-    )
-    "${cmd[@]}"
-    case "$?" in
-        11) mode=offline ;;
-        13) mode=online ;;
-    esac
-}
-
-### Dialog that asks for the community edition. ###
-AskCommunity() {
-    local txt="Choose one of the EndeavourOS community editions.\n\n"
-    txt+="<b>Sway</b> is a tiling wayland compositor with an i3-like window manager.\n"
-    txt+="Note that it will not work with a proprietary Nvidia driver.\n\n"
-    txt+="<b>Bspwm</b> is a tiling window manager that represents windows as leaves of a full binary tree.\n\n"
-    txt+="$inet_yes when installing any of these editions.\n"
-    local cmd=(
-        eos_yad --form --title="Select a community edition" --image=dialog-question
-        --text="$txt"
-        --button='Sway!!Tiling Wayland compositor with i3-like window manager. $inet_yes.':11
-        --button='Bspwm!!Tiling window manager. $inet_yes.':13
-    )
-    "${cmd[@]}"
-    case "$?" in
-        11) mode=sway ;;
-        13) mode=bspwm ;;
-    esac
-}
-
 ### Dialog that asks for the official or community edition. ###
 AskMode() {
     local inet_no="Internet connection is not required"
     local inet_yes="Internet connection is required"
+    local ret=0
 
     local txt=""
 
     txt+="Installing <b>EndeavourOS</b> to your system.\n\n"
     txt+="You can install one of the <i>official</i> editions, or one of the <i>community</i> editions.\n\n"
     txt+="<b>Official editions</b>: popular desktops made by the EndeavourOS team.\n"
-    txt+="These editions include Xfce, KDE, GNOME, MATE, LXQt, Budgie, and more.\n\n"
-    txt+="<b>Community editions</b>: special editions made by the EndeavourOS community members.\n"
-    txt+="These editions include Sway and Bspwm.\n"
+    txt+="These editions include:\n<tt>"
+    txt+="    Xfce\n"
+    txt+="    KDE\n"
+    txt+="    GNOME\n"
+    txt+="    MATE\n"
+    txt+="    LXQt\n"
+    txt+="    Budgie\n</tt>"
+    txt+="and more.\n"
+    txt+="Official editions have a <i>vanilla theming</i>, and $inet_yes (online).\n\n"
+    txt+="In addition to the above, you can install Xfce with a special <i>EndeavourOS theming</i>\n"
+    txt+="and $inet_no (offline).\n\n"
+    txt+="<b>Community editions</b>: editions made by the EndeavourOS community members.\n"
+    txt+="Currently community editions include Sway and Bspwm. $inet_yes.\n"
+    txt+="Note that the community edition will be selected a bit later, in Calamares.\n\n"
 
     local cmd=(
-        eos_yad --form --title="Select edition to install" --image=dialog-question
+        eos_yad --form --title="Select what to install" --image=dialog-question
         --text="$txt"
-        --button='Official Editions!!Select from the editions made by the EndeavourOS team.':11
-        --button='Community Editions!!Select from the editions made by the community members.':13
+        --button='Official (online)!!EndeavourOS team edition, vanilla theming, online install.':11
+        --button='Official (offline)!!EndeavourOS team edition (Xfce), special theming, offline install.':13
+        --button='Community!!EndeavourOS community edition, online install.':15
     )
 
-    "${cmd[@]}"
-    case "$?" in
-        11) AskOfficial ;;
-        13) AskCommunity ;;
+    "${cmd[@]}"       # ask from the user
+
+    ret=$?
+
+    # prepare the settings (if $ret is OK)
+    case "$ret" in
+        11) mode=online ;;
+        13) mode=offline ;;
+        15) mode=community ;;
+        252|*) ;; # DIE "selecting edition failed ($ret)." ;;
     esac
 }
 
@@ -149,10 +135,10 @@ CopyFile() {
     local fileto="$2"     # destination file (not folder!)
     local folderto="$(dirname "$fileto")"
 
-    [ -r "$filefrom" ] || DIE "$FUNCNAME: file '$filefrom' does not exist."
-    [ -d "$folderto" ] || DIE "$FUNCNAME: folder '$folderto' does not exist."
+    [ -r "$filefrom" ] || GUIDIE "$FUNCNAME: file '$filefrom' does not exist."
+    [ -d "$folderto" ] || GUIDIE "$FUNCNAME: folder '$folderto' does not exist."
 
-    sudo cp $filefrom $fileto || DIE "copying $filefrom to $fileto failed"
+    sudo cp $filefrom $fileto || GUIDIE "copying $filefrom to $fileto failed"
 }
 
 ###  Runs the online install. ###
@@ -181,11 +167,12 @@ Main() {
     # sets the value for $mode
     AskMode
 
-    # prepare the settings
+    # echo "mode = $mode" ;  return   # TESTING !!!
+
     case "$mode" in
-        sway | bspwm) Community ;;
-        offline)      Offline ;;
-        online)       Online ;;
+        online)    Online ;;
+        offline)   Offline ;;
+        community) Community ;;
     esac
 
     # finally: install with calamares
