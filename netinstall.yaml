@@ -125,6 +125,7 @@
   selected: false
   critical: true
   packages:
+    - endeavouros-xfce4-config
     - xfce4
     - mousepad
     - parole
@@ -274,6 +275,7 @@
   selected: false
   critical: true
   packages:
+    - endeavouros-i3-config
     - i3-gaps
     - i3blocks
     - i3lock
