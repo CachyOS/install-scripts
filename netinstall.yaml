@@ -125,7 +125,6 @@
   selected: false
   critical: true
   packages:
-    - endeavouros-xfce4-config
     - xfce4
     - mousepad
     - parole
@@ -212,6 +211,8 @@
     - ark
     - spectacle
     - kdiff3
+    - kate
+    - plasma-pa
 - name: "GNOME-Desktop"
   description: "GNOME Desktop - designed to put you in control and get things done. "
   hidden: false
