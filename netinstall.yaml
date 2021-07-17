@@ -202,7 +202,6 @@
     - plasma-nm
     - kscreen
     - powerdevil
-    - sddm
     - sddm-kcm
     - kdeconnect
     - python-dbus
