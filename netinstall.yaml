@@ -174,7 +174,7 @@
   packages:
     - plasma
     - kdeconnect
-    - python-dbus   
+    - dbus-python   
     - kde-system-meta
     - kde-utilities-meta
     - kio-fuse
