@@ -174,7 +174,7 @@
   packages:
     - plasma
     - kdeconnect
-    - python-dbus   
+    - dbus-python  
     - kde-system
     - kde-utilities
     - kio-fuse
@@ -204,7 +204,7 @@
     - powerdevil
     - sddm-kcm
     - kdeconnect
-    - python-dbus
+    - dbus-python
     - kio-fuse
     - kio-gdrive
     - audiocd-kio
