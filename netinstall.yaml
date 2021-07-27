@@ -175,6 +175,7 @@
     - konsole
     - dolphin
     - plasma-nm
+    - plasma-pa
     - kscreen
     - powerdevil
     - sddm-kcm
@@ -191,7 +192,6 @@
     - print-manager
     - kdiff3
     - kate
-    - plasma-pa
     - plasma-disks
 - name: "GNOME-Desktop"
   description: "GNOME Desktop - designed to put you in control and get things done. "
