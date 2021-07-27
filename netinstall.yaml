@@ -1,5 +1,5 @@
 - name: "Base-devel + Common packages"
-  description: "Recommended. Don't change unless you know what you're doing. Base-devel group and some other commom utilities (generic)"
+  description: "Recommended. Don't change unless you know what you're doing (generic)."
   hidden: false
   selected: true
   critical: true
@@ -191,29 +191,6 @@
   selected: false
   critical: true
   packages:
-    - gnome
-    - gnome-tweaks
-    - nautilus-sendto
-    - gnome-nettool
-    - gnome-usage
-    - gnome-multi-writer
-    - adwaita-icon-theme
-    - xdg-user-dirs-gtk
-    - arc-gtk-theme-eos
-    - arc-x-icons-theme
-    - gvfs
-    - gvfs-mtp
-    - gvfs-afc
-    - gvfs-gphoto2
-    - gvfs-nfs
-    - gvfs-smb
-    - diffuse
-- name: "GNOME-minimal"
-  description: "GNOME minimal Desktop"
-  hidden: false
-  selected: false
-  critical: true
-  packages:
     - gnome-shell
     - gdm
     - gedit
@@ -228,7 +205,7 @@
     - sushi
     - gnome-nettool
     - gnome-usage
-    - gnome-multi-writer
+    - gnome-disk-utility
     - gnome-themes-extra
     - adwaita-icon-theme
     - xdg-user-dirs-gtk
