@@ -126,7 +126,6 @@
   critical: true
   packages:
     - xfce4
-    - mousepad
     - parole
     - ristretto
     - thunar-archive-plugin
@@ -148,8 +147,6 @@
     - gvfs
     - gvfs-mtp
     - gvfs-afc
-    - gvfs-goa
-    - gvfs-google
     - gvfs-gphoto2
     - gvfs-nfs
     - gvfs-smb
@@ -178,7 +175,6 @@
     - kde-system
     - kde-utilities
     - kio-fuse
-    - kio-gdrive
     - audiocd-kio
     - gwenview
     - ark
@@ -188,31 +184,6 @@
     - elisa
     - print-manager
     - kdiff3
-    - plasma-disks
-- name: "KDE-minimal-Desktop"
-  description: "KDE-Plasma minimal Desktop"
-  hidden: false
-  selected: false
-  critical: true
-  packages:
-    - plasma-desktop
-    - kinfocenter
-    - konsole
-    - dolphin
-    - plasma-nm
-    - kscreen
-    - powerdevil
-    - sddm-kcm
-    - kdeconnect
-    - dbus-python
-    - kio-fuse
-    - kio-gdrive
-    - audiocd-kio
-    - ark
-    - spectacle
-    - kdiff3
-    - kate
-    - plasma-pa
     - plasma-disks
 - name: "GNOME-Desktop"
   description: "GNOME Desktop - designed to put you in control and get things done. "
@@ -233,8 +204,6 @@
     - gvfs
     - gvfs-mtp
     - gvfs-afc
-    - gvfs-goa
-    - gvfs-google
     - gvfs-gphoto2
     - gvfs-nfs
     - gvfs-smb
@@ -266,8 +235,6 @@
     - gvfs
     - gvfs-mtp
     - gvfs-afc
-    - gvfs-goa
-    - gvfs-google
     - gvfs-gphoto2
     - gvfs-nfs
     - gvfs-smb
@@ -299,8 +266,6 @@
     - gvfs
     - gvfs-mtp
     - gvfs-afc
-    - gvfs-goa
-    - gvfs-google
     - gvfs-gphoto2
     - gvfs-nfs
     - gvfs-smb
@@ -353,8 +318,6 @@
     - gvfs
     - gvfs-mtp
     - gvfs-afc
-    - gvfs-goa
-    - gvfs-google
     - gvfs-gphoto2
     - gvfs-nfs
     - gvfs-smb
@@ -384,8 +347,6 @@
     - gvfs
     - gvfs-mtp
     - gvfs-afc
-    - gvfs-goa
-    - gvfs-google
     - gvfs-gphoto2
     - gvfs-nfs
     - gvfs-smb
@@ -415,8 +376,6 @@
     - gvfs
     - gvfs-mtp
     - gvfs-afc
-    - gvfs-goa
-    - gvfs-google
     - gvfs-gphoto2
     - gvfs-nfs
     - gvfs-smb
@@ -448,7 +407,6 @@
     - lxqt-archiver
     - qt5-translations
     - kio-fuse
-    - kio-gdrive
     - audiocd-kio
     - kdiff3
 - name: "Kernel in addition"
