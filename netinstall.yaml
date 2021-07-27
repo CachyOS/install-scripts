@@ -80,6 +80,7 @@
     - alsa-plugins
     - alsa-firmware
     - glances
+    - python-defusedxml
     - neofetch
     - pulseaudio
     - pavucontrol
