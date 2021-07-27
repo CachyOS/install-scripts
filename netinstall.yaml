@@ -169,11 +169,16 @@
   selected: false
   critical: true
   packages:
-    - plasma
+    - plasma-desktop
+    - kinfocenter
+    - konsole
+    - dolphin
+    - plasma-nm
+    - kscreen
+    - powerdevil
+    - sddm-kcm
     - kdeconnect
-    - dbus-python  
-    - kde-system
-    - kde-utilities
+    - dbus-python
     - kio-fuse
     - audiocd-kio
     - gwenview
@@ -184,6 +189,8 @@
     - elisa
     - print-manager
     - kdiff3
+    - kate
+    - plasma-pa
     - plasma-disks
 - name: "GNOME-Desktop"
   description: "GNOME Desktop - designed to put you in control and get things done. "
