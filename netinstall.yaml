@@ -348,9 +348,22 @@
   critical: true
   packages:
     - budgie-desktop
-    - gnome
-    - budgie-screensaver
     - budgie-desktop-view
+    - budgie-screensaver
+    - gnome-shell
+    - gedit
+    - gnome-terminal
+    - gnome-control-center
+    - gnome-keyring
+    - file-roller
+    - nautilus
+    - nautilus-sendto
+    - sushi
+    - gnome-nettool
+    - gnome-usage
+    - gnome-disk-utility
+    - gnome-themes-extra
+    - adwaita-icon-theme
     - lightdm
     - lightdm-gtk-greeter
     - lightdm-gtk-greeter-settings
