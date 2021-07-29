@@ -312,7 +312,6 @@
   critical: true
   packages:
     - cinnamon
-    - blueberry
     - cinnamon-translations
     - gnome-terminal
     - gnome-system-monitor
