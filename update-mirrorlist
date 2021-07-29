@@ -128,7 +128,7 @@ Main() {
         # new implementation (after 2021-06-27)
         case "$this_country" in
             FI) cmd="/usr/bin/reflector -phttps -l10 -cDE" ;;
-            *)  cmd="/usr/bin/rate-mirrors arch" ;;
+            *)  cmd="sudo /usr/bin/rate-mirrors --allow-root arch" ;;
         esac
     else
         # old implementation (before 2021-06-27)
