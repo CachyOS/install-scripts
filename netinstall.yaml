@@ -154,7 +154,6 @@
     - network-manager-applet
     - xed
     - galculator
-    - blueberry
     - lightdm
     - lightdm-gtk-greeter
     - lightdm-gtk-greeter-settings
@@ -262,7 +261,6 @@
     - acpi
     - sysstat
     - nitrogen
-    - bluez-utils
     - rofi
     - xbindkeys
     - pulseaudio
