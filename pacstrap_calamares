@@ -360,6 +360,10 @@ chroot_setup "$newroot" || die "failed to setup chroot %s" "$newroot"
 msg 'Updating Arch mirror list'
 update-mirrorlist
 
+# refresh pacman keys before installing packages
+msg 'refreshing pacman keys'
+pacman-key --refresh-keys
+
 msg 'Installing packages to %s' "$newroot"
 if ! pacman -r "$newroot" -Sy "${pacman_args[@]}"; then
   die 'Failed to install packages to new root'
