@@ -63,6 +63,7 @@
     - hwinfo
     - python
     - solid
+    - haveged
     - mlocate
     - ttf-dejavu
     - ttf-liberation
