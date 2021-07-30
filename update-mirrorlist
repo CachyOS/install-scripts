@@ -84,7 +84,7 @@ RunCmd() {
 }
 
 Main() {
-    local VERSION="2.0.3"                   # started from 2.0!
+    local VERSION="2.0.5"                   # started from 2.0!
     local progname="$(basename "$0")"
     local mf=/etc/pacman.d/mirrorlist
     local bu=/tmp/mirrorlist.bu             # original mirrorlist, saved by Welcome
@@ -127,33 +127,33 @@ Main() {
     if [ -x /usr/bin/rate-mirrors ] ; then
         # new implementation (after 2021-06-27)
         case "$this_country" in
-            FI) cmd="reflector -phttps -l10 -cDE" ;;
-            *)  cmd="rate-mirrors arch" ;;
+            FI) cmd="/usr/bin/reflector -phttps -l10 -cDE" ;;
+            *)  cmd="sudo /usr/bin/rate-mirrors --allow-root arch" ;;
         esac
     else
         # old implementation (before 2021-06-27)
         case "$this_country" in
             "" | IS | IE)
                 # no mirrors or mirror problems here, search well-updated https mirrors globally
-                cmd+="-a2 -f10 --verbose"
+                cmd+=" --verbose"
                 ;;
             FI)
                 # special command for FI
-                cmd+="-a2 -cde --threads 5"
+                cmd+=" -cde --threads 5"
                 cmd+=" -x orbit-os -x ratenzahlung -x satis-faction"
                 cmd+=" -x xtom.de -x metalgamer -x agdsn -x fsrv -x appuals -x wrz -x clientvps"
                 cmd+=" -x fef.moe -x gnomus"
                 ;;
             DE|DK|FR|GB|HK|NL|NZ|SE|SG|US)
                 # search https mirrors only in this country
-                cmd+="-a2 -c $this_country --threads 5"
+                cmd+=" -c $this_country --threads 5"
                 ;;
             CA|CH|CZ)
-                cmd+="-a2 --threads 5"
+                cmd+=" --threads 5"
                 ;;
             *)
                 # this country may lack https mirrors
-                cmd+="-a8 -phttp --latest 15 --verbose"
+                cmd+=" -phttp --latest 15 --verbose"
                 ;;
         esac
     fi
