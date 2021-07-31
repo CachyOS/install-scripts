@@ -81,6 +81,10 @@ DIE() {
 RunCmd() {
     $cmd > $tf
     retval=$?
+    if [ -x /usr/bin/rate-mirrors ] ; then
+        grep '^Server = ' $tf > $tf.tmp
+        mv $tf.tmp $tf
+    fi
 }
 
 Main() {
@@ -127,8 +131,14 @@ Main() {
     if [ -x /usr/bin/rate-mirrors ] ; then
         # new implementation (after 2021-06-27)
         case "$this_country" in
-            FI) cmd="/usr/bin/reflector -phttps -l10 -cDE" ;;
-            *)  cmd="sudo /usr/bin/rate-mirrors --allow-root arch" ;;
+            FI)
+                # Some other European countries (e.g. DE) could use this command as well!
+                cmd="/usr/bin/reflector -phttps -l5 -cDE --sort rate --threads 5"
+                ;;
+            *)
+                # Should create a reasonably good mirrorlist generally
+                cmd="/usr/bin/rate-mirrors --allow-root arch"
+                ;;
         esac
     else
         # old implementation (before 2021-06-27)
