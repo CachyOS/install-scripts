@@ -95,6 +95,11 @@ Main() {
 
     logterminal "version $VERSION"
 
+    /usr/bin/eos-connection-checker || {
+        logterminal "Internet connection is not available, cannot rank mirrorlist."
+        return
+    }
+
     if [ -r $mf ] && [ -r $bu ] ; then
         if (/usr/bin/diff $mf $bu >& /dev/null) ; then
             # Current and original mirrorlists are the same, so carry on.
