@@ -88,7 +88,7 @@ RunCmd() {
 }
 
 Main() {
-    local VERSION="2.0.5"                   # started from 2.0!
+    local VERSION="2.0.6"                   # started from 2.0!
     local progname="$(basename "$0")"
     local mf=/etc/pacman.d/mirrorlist
     local bu=/tmp/mirrorlist.bu             # original mirrorlist, saved by Welcome
