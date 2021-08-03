@@ -81,15 +81,24 @@ DIE() {
 RunCmd() {
     $cmd > $tf
     retval=$?
+    if [ -x /usr/bin/rate-mirrors ] ; then
+        grep '^Server = ' $tf > $tf.tmp
+        mv $tf.tmp $tf
+    fi
 }
 
 Main() {
-    local VERSION="2.0.5"                   # started from 2.0!
+    local VERSION="2.0.6"                   # started from 2.0!
     local progname="$(basename "$0")"
     local mf=/etc/pacman.d/mirrorlist
     local bu=/tmp/mirrorlist.bu             # original mirrorlist, saved by Welcome
 
     logterminal "version $VERSION"
+
+    /usr/bin/eos-connection-checker || {
+        logterminal "Internet connection is not available, cannot rank mirrorlist."
+        return
+    }
 
     if [ -r $mf ] && [ -r $bu ] ; then
         if (/usr/bin/diff $mf $bu >& /dev/null) ; then
@@ -127,8 +136,14 @@ Main() {
     if [ -x /usr/bin/rate-mirrors ] ; then
         # new implementation (after 2021-06-27)
         case "$this_country" in
-            FI) cmd="/usr/bin/reflector -phttps -l10 -cDE" ;;
-            *)  cmd="sudo /usr/bin/rate-mirrors --allow-root arch" ;;
+            FI)
+                # Some other European countries (e.g. DE) could use this command as well!
+                cmd="/usr/bin/reflector -phttps -l5 -cDE --sort rate --threads 5"
+                ;;
+            *)
+                # Should create a reasonably good mirrorlist generally
+                cmd="/usr/bin/rate-mirrors --allow-root arch"
+                ;;
         esac
     else
         # old implementation (before 2021-06-27)
