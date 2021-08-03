@@ -116,6 +116,7 @@
     - welcome
     - eos-update-notifier
     - eos-hooks
+    - eos-rankmirrors
     - mkinitcpio-openswap    
     - eos-log-tool
     - keyserver-rank
