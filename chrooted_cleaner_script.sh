@@ -209,7 +209,7 @@ _clean_offline_packages(){
 _endeavouros(){
 
 
-    sed -i "/if/,/fi/"'s/^/#/' /root/.bash_profile
+    [ -r /root/.bash_profile ] && sed -i "/if/,/fi/"'s/^/#/' /root/.bash_profile
     sed -i "/if/,/fi/"'s/^/#/' /home/$NEW_USER/.bash_profile
 
 }
