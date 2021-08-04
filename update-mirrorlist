@@ -78,9 +78,37 @@ DIE() {
     exit 1
 }
 
+UseBestMirrorsIfAvailable() {
+    # ad hoc mirror "ranking"
+    declare -A BEST_MIRRORS     # mirrors here will be the *first* mirrors
+
+    # Add a list of *known* best mirrors for a country:
+    BEST_MIRRORS[FI]='https://mirror.f4st.host/archlinux/$repo/os/$arch https://mirror.pseudoform.org/$repo/os/$arch'  # FI uses these!
+
+    local best="${BEST_MIRRORS[$this_country]}"
+    local bb
+
+    if [ -n "$best" ] ; then
+        rm -f $tf.new
+        for bb in $best ; do
+            logterminal "Adding mirror '$bb'"
+            echo "Server = $bb" >> $tf.new
+
+            # remove $bb from the current list if it is there
+            grep -v "$bb" $tf > $tf.tmp
+            mv $tf.tmp $tf
+        done
+        cat $tf >> $tf.new
+        mv $tf.new $tf
+    fi
+}
+
 RunCmd() {
     $cmd > $tf
     retval=$?
+
+    UseBestMirrorsIfAvailable
+
     if [ -x /usr/bin/rate-mirrors ] ; then
         grep '^Server = ' $tf > $tf.tmp
         mv $tf.tmp $tf
