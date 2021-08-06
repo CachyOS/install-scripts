@@ -214,6 +214,49 @@ _endeavouros(){
 
 }
 
+_manage_pacman_database() {
+    # For offline install only!
+    # Offline install needs to update the pacman database, otherwise e.g. command 'checkupdates' fails.
+    eos-connection-checker
+    if [ $? -eq 0 ]; then
+        # we can update the database now
+        pacman -Sy
+        return
+    fi
+    # we need to update the database at first boot
+    local lck=/var/local/eos-pacman-db-updated
+    local cmd=/usr/lib/eos-offline-pacman-db-init
+    local srv=/usr/lib/systemd/system/eos-pacman-db-init.service
+
+    cat <<EOF > $cmd
+#!/bin/bash
+if [ ! -e $lck ] ; then
+    for _ix in 1 2 3; do
+        eos-connection-checker
+        [ $? -eq 0 ] && break
+        sleep 4
+    done
+    pacman -Sy && touch $lck
+fi
+EOF
+
+    cat <<EOF > $srv
+[Unit]
+Description=Update pacman database when network is connected
+After=network.target
+
+[Service]
+Type=oneshot
+ExecStart=bash $cmd
+
+[Install]
+WantedBy=network.target
+EOF
+
+    systemctl enable $srv
+}
+
+
 _check_install_mode(){
 
     if [ -f /tmp/run_once ] ; then
@@ -228,6 +271,7 @@ _check_install_mode(){
                 chown -R $NEW_USER:users /home/$NEW_USER/.bashrc
                 _sed_stuff
                 _clean_offline_packages
+                _manage_pacman_database
                 # _check_internet_connection && update-mirrorlist
             ;;
 
