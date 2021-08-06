@@ -90,8 +90,7 @@ _sed_stuff(){
 
     # Journal for offline. Turn volatile (for iso) into a real system.
     sed -i 's/volatile/auto/g' /etc/systemd/journald.conf 2>>/tmp/.errlog
-    sed -i 's/.*pam_wheel\.so/#&/' /etc/pam.d/su      
-    sed -i 's?# logind-check-graphical?logind-check-graphical=true #?' /etc/lightdm/lightdm.conf
+    sed -i 's/.*pam_wheel\.so/#&/' /etc/pam.d/su
 }
 
 _os_lsb_release(){
@@ -462,6 +461,11 @@ _xorg_configs(){
     fi
 }
 
+_change_config_options(){
+    #set lightdm.conf to logind-check-graphical=true
+    sed -i 's?# logind-check-graphical?logind-check-graphical=true #?' /etc/lightdm/lightdm.conf
+}
+
 _remove_gnome_software(){
     pacman -Rsn --noconfirm gnome-software
 }
@@ -477,6 +481,7 @@ _endeavouros
 #_os_lsb_release
 _vbox
 _vmware
+_change_config_options
 _remove_gnome_software
 _remove_discover
 #_de_wm_config
