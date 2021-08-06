@@ -109,7 +109,7 @@ _clean_archiso(){
     local _files_to_remove=(                               
         /etc/sudoers.d/g_wheel
         /var/lib/NetworkManager/NetworkManager.state
-        /etc/systemd/system/{choose-mirror.service,pacman-init.service,etc-pacman.d-gnupg.mount,getty@tty1.service.d}
+        /etc/systemd/system/{choose-mirror.service,getty@tty1.service.d}
         /etc/systemd/scripts/choose-mirror
         /etc/systemd/system/getty@tty1.service.d/autologin.conf
         /root/{.automated_script.sh,.zlogin}
