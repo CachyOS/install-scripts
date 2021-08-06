@@ -137,29 +137,13 @@ _clean_archiso(){
 _clean_offline_packages(){
 
     local _packages_to_remove=( 
-    darkhttpd
-    grml-zsh-config
-    irssi
-    lftp
-    kitty-terminfo
-    lynx
-    vim
-    termite-terminfo
-    transmission-gtk
     gparted
-    openssh
-    gnome-keyring
-    gtk2
-    hardinfo
-    mc
     grsync
-    gftp
     qt5ct
     qt5-base
+    kvantum-qt5
     calamares_current
     calamares_config_next
-    kvantum-theme-arc
-    kvantum-qt5
     arch-install-scripts
     qt5-svg
     qt5-webengine
@@ -168,9 +152,6 @@ _clean_offline_packages(){
     kcrash
     qt5-declarative
     squashfs-tools
-    ddrescue
-    dd_rescue
-    testdisk
     qt5-tools
     kparts
     polkit-qt5
@@ -190,12 +171,8 @@ _clean_offline_packages(){
     kcoreaddons
     kconfig
     clonezilla
-    partclone
-    partimage
     ckbcomp
-    gnome-boxes
     xcompmgr
-    epiphany
     memtest86+
     mkinitcpio-archiso
 )
@@ -502,7 +479,7 @@ _vbox
 _vmware
 _remove_gnome_software
 _remove_discover
-_de_wm_config
+#_de_wm_config
 #_setup_personal
 _xorg_configs
 _clean_up
