@@ -34,7 +34,7 @@ arch_chroot(){
 
 cp -rf /etc/skel/.bashrc /tmp/$chroot_path/home/$NEW_USER/.bashrc
 cp -rf /etc/environment /tmp/$chroot_path/etc/environment
-cp -rf /home/liveuser/.gnupg/gpg.conf /tmp/$chroot_path/etc/pacman.d/gnupg/gpg.conf
+#cp -rf /home/liveuser/.gnupg/gpg.conf /tmp/$chroot_path/etc/pacman.d/gnupg/gpg.conf
 
 _copy_files(){
     local config_file
