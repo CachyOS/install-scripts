@@ -90,17 +90,8 @@ _sed_stuff(){
 
     # Journal for offline. Turn volatile (for iso) into a real system.
     sed -i 's/volatile/auto/g' /etc/systemd/journald.conf 2>>/tmp/.errlog
-    sed -i 's/.*pam_wheel\.so/#&/' /etc/pam.d/su
-    
-    # set lightdm to wait for gpu and driver to be fully initialized
-    if [ -x /usr/bin/lightdm ] ; then        
-        
-        echo "====> apply changes to lightdm.conf on target"
-
-        sed -i 's?# logind-check-graphical?logind-check-graphical=true #?' /etc/lightdm/lightdm.conf          #sed logind-check-graphical=true
-    fi
-
-
+    sed -i 's/.*pam_wheel\.so/#&/' /etc/pam.d/su      
+    sed -i 's?# logind-check-graphical?logind-check-graphical=true #?' /etc/lightdm/lightdm.conf
 }
 
 _os_lsb_release(){
