@@ -128,7 +128,7 @@
   selected: false
   critical: true
   packages:
-    - endeavouros-xfce4-config
+    - endeavouros-xfce4
     - xfce4
     - parole
     - ristretto
@@ -232,7 +232,7 @@
   selected: false
   critical: true
   packages:
-    - endeavouros-i3-config
+    - endeavouros-i3wm
     - i3-gaps
     - i3blocks
     - i3lock
@@ -406,18 +406,6 @@
     - kio-fuse
     - audiocd-kio
     - kdiff3
-- name: "Kernel in addition"
-  description: "adding other Kernel in addition to main one"
-  hidden: false
-  selected: false
-  critical: true
-  packages:
-    - linux-zen
-    - linux-zen-headers
-    - linux-hardened
-    - linux-hardened-headers
-    - linux-lts
-    - linux-lts-headers
 - name: "Printing-Support"
   description: "Support for printing (Cups)"
   hidden: false
