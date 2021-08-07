@@ -226,7 +226,7 @@ _check_install_mode(){
     case "$INSTALL_OPTION" in
         OFFLINE_MODE)
                 _clean_archiso
-                chown -R $NEW_USER:users /home/$NEW_USER/.bashrc
+                chown $NEW_USER:$NEW_USER /home/$NEW_USER/.bashrc
                 _sed_stuff
                 _clean_offline_packages
                 _check_internet_connection || _fix_offline_mirrorlist
