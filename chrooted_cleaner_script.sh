@@ -229,7 +229,6 @@ _check_install_mode(){
                 chown -R $NEW_USER:users /home/$NEW_USER/.bashrc
                 _sed_stuff
                 _clean_offline_packages
-                _manage_pacman_database
                 _check_internet_connection || _fix_offline_mirrorlist
                 # _check_internet_connection && update-mirrorlist
             ;;
