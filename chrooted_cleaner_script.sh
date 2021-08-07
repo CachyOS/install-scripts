@@ -201,15 +201,18 @@ _fix_offline_mirrorlist() {
 ### by ranking with e.g. program 'reflector-simple'.
 
 ## Germany
+Server = http://mirror.f4st.host/archlinux/\$repo/os/\$arch
 Server = https://mirror.f4st.host/archlinux/\$repo/os/\$arch
 
 ## United States
+Server = http://arch.mirror.constant.com/\$repo/os/\$arch
 Server = https://arch.mirror.constant.com/\$repo/os/\$arch
 
 ## Germany
 Server = https://mirror.pseudoform.org/\$repo/os/\$arch
 
 ## United States
+Server = http://mirror.lty.me/archlinux/\$repo/os/\$arch
 Server = https://mirror.lty.me/archlinux/\$repo/os/\$arch
 EOF
 }
