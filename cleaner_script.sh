@@ -1,13 +1,13 @@
 #!/bin/bash
 
-# Made by fernandomaroto for EndeavourOS and Portergos
-
+# Made by fernandomaroto for CachyOS and Portergos
 # Adapted from AIS. An excellent bit of code!
+# ISO-NEXT specific cleanup removals and additions (08-2021) @killajoe and @manuel
 
 if [ -f /tmp/chrootpath.txt ]
-then 
+then
     chroot_path=$(cat /tmp/chrootpath.txt |sed 's/\/tmp\///')
-else 
+else
     chroot_path=$(lsblk |grep "calamares-root" |awk '{ print $NF }' |sed -e 's/\/tmp\///' -e 's/\/.*$//' |tail -n1)
 fi
 
@@ -26,7 +26,7 @@ fi
 arch_chroot(){
 # Use chroot not arch-chroot because of the way calamares mounts partitions
     chroot /tmp/$chroot_path /bin/bash -c "${1}"
-}  
+}
 
 # Anything to be executed outside chroot need to be here.
 
@@ -34,6 +34,7 @@ arch_chroot(){
 
 cp -rf /etc/skel/.bashrc /tmp/$chroot_path/home/$NEW_USER/.bashrc
 cp -rf /etc/environment /tmp/$chroot_path/etc/environment
+#cp -rf /home/liveuser/.gnupg/gpg.conf /tmp/$chroot_path/etc/pacman.d/gnupg/gpg.conf
 
 _copy_files(){
     local config_file
@@ -58,7 +59,7 @@ _copy_files(){
         rsync -vaRI $config_file /tmp/$chroot_path          # Uses the entire file path and copies directly to / mounted point:
     fi
 
-    if [ -x /tmp/$chroot_path/usr/bin/lightdm ] ; then        
+    if [ -x /tmp/$chroot_path/usr/bin/lightdm ] ; then
         config_file=/etc/lightdm/lightdm-gtk-greeter.conf   # this file is already in the ISO, no need to fetch
 
         echo "====> Copying DM config file $config_file to target"
@@ -76,7 +77,7 @@ _copy_files(){
         echo "Error: file $file does not exist, copy failed!"
         return
     fi
-    
+
     # /home/liveuser/setup.url contains the URL to personal setup.sh
 
     if [ -r /home/liveuser/setup.url ] ; then
@@ -102,16 +103,6 @@ _copy_files(){
     fi
     echo "nvidia_card=$card"     >> $nvidia_file
     echo "nvidia_driver=$driver" >> $nvidia_file
-
-
-    # /etc/os-release /etc/lsb-release removed, using sed now at chrooted script
-    # /etc/default/grub # Removed from above since cleaner scripts are moved to last step at calamares
-    # https://forum.endeavouros.com/t/calamares-3-2-24-needs-testing/4941/37
-    # /etc/pacman.d/hooks/lsb-release.hook
-    # /etc/pacman.d/hooks/os-release.hook
 }
 
 _copy_files
-
-# For chrooted commands edit the script bellow directly
-arch_chroot "/usr/bin/chrooted_cleaner_script.sh"
