@@ -47,7 +47,7 @@ _copy_files(){
 
         echo "====> Fetching DM config file $config_file"
 
-        local qt_sddm_config=https://raw.githubusercontent.com/endeavouros-team/install-scripts/master/sddm.conf.d/kde_settings.conf
+        local qt_sddm_config=https://gitlab.com/cachyos/install-scripts/-/raw/master/sddm.conf.d/kde_settings.conf
         mkdir -p $(dirname $config_file)
         wget -q --timeout=10 -O $config_file $qt_sddm_config || {
             echo "Error: fetching sddm config failed!"
