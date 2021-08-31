@@ -98,7 +98,7 @@ _os_lsb_release(){
 
     # Check if offline is still copying the files, sed is the way to go!
     # same as os-release hook
-    sed -i -e s'|^NAME=.*$|NAME=\"CachyOS\"|' -e s'|^PRETTY_NAME=.*$|PRETTY_NAME=\"CachyOS\"|' -e s'|^HOME_URL=.*$|HOME_URL=\"https://cachyos.org\"|' -e s'|^DOCUMENTATION_URL=.*$|DOCUMENTATION_URL=\"https://wiki.cachyos.org/\"|' -e s'|^SUPPORT_URL=.*$|SUPPORT_URL=\"https://forum.endeavouros.com\"|' -e s'|^BUG_REPORT_URL=.*$|BUG_REPORT_URL=\"https://gitlab.com/cachyos\"|' -e s'|^LOGO=.*$|LOGO=cachyos|' /usr/lib/os-release
+    sed -i -e s'|^NAME=.*$|NAME=\"CachyOS\"|' -e s'|^PRETTY_NAME=.*$|PRETTY_NAME=\"CachyOS\"|' -e s'|^HOME_URL=.*$|HOME_URL=\"https://cachyos.org\"|' -e s'|^DOCUMENTATION_URL=.*$|DOCUMENTATION_URL=\"https://wiki.cachyos.org/\"|' -e s'|^SUPPORT_URL=.*$|SUPPORT_URL=\"https://forum.cachyos.org\"|' -e s'|^BUG_REPORT_URL=.*$|BUG_REPORT_URL=\"https://gitlab.com/cachyos\"|' -e s'|^LOGO=.*$|LOGO=cachyos|' /usr/lib/os-release
 
     # same as lsb-release hook
     sed -i -e s'|^DISTRIB_ID=.*$|DISTRIB_ID=CachyOS|' -e s'|^DISTRIB_DESCRIPTION=.*$|DISTRIB_DESCRIPTION=\"CachyOS Linux\"|' /etc/lsb-release
@@ -189,7 +189,7 @@ _clean_offline_packages(){
 
 }
 
-_endeavouros(){
+_cachyos(){
 
 
     [ -r /root/.bash_profile ] && sed -i "/if/,/fi/"'s/^/#/' /root/.bash_profile
@@ -431,11 +431,11 @@ _setup_personal() {
 _fetch_a_file() {
     # Build url from parts (that may change later).
 
-    local netRepoPart="$1"               # e.g. CachyOS-archiso
+    local netRepoPart="$1"               # e.g. cachyos-archiso
     local netPathPart="$2"               # e.g. airootfs/usr/share/X11/xorg.conf.d/30-touchpad.conf
     local target="$3"                    # e.g. /usr/share/X11/xorg.conf.d/30-touchpad.conf
-    local url1=https://raw.githubusercontent.com/endeavouros-team
-    local url2=/master
+    local url1=https://gitlab.com/cachyos
+    local url2=/-/raw/master
     local url="$url1/$netRepoPart$url2/$netPathPart"
 
     wget --timeout=60 -q -O "$target" "$url" || {
@@ -447,7 +447,7 @@ _xorg_configs(){
     local target=/usr/share/X11/xorg.conf.d/30-touchpad.conf
 
     if [ ! -r $target ] ; then
-        _fetch_a_file CachyOS-archiso \
+        _fetch_a_file cachyos-archiso \
                       airootfs/usr/share/X11/xorg.conf.d/30-touchpad.conf \
                       $target
     fi
@@ -469,7 +469,7 @@ _remove_discover(){
 ########################################
 
 _check_install_mode
-_endeavouros
+_cachyos
 #_os_lsb_release
 _vbox
 _vmware
