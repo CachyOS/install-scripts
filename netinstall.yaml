@@ -5,8 +5,11 @@
   critical: false
   packages:
     - base-devel
-    - yay
+    - paru-bin
+    - yay-bin
     - linux-headers
+    - linux-cacule
+    - linux-cacule-headers
     - linux-firmware
     - pacman-contrib
     - xf86-video-vesa
@@ -25,6 +28,8 @@
     - accountsservice
     - smartmontools
     - libwnck3
+    - fish
+    - zsh
     - b43-fwcutter
     - broadcom-wl-dkms
     - r8168
@@ -63,7 +68,6 @@
     - hwinfo
     - python
     - solid
-    - haveged
     - mlocate
     - ttf-dejavu
     - ttf-liberation
@@ -75,8 +79,6 @@
     - adobe-source-han-sans-cn-fonts
     - opendesktop-fonts
     - ttf-opensans
-    - firefox
-    - firefox-i18n-$LOCALE
     - alsa-utils
     - alsa-plugins
     - alsa-firmware
@@ -88,7 +90,7 @@
     - sof-firmware
     - ffmpegthumbnailer
     - poppler-glib
-    - libgsf 
+    - libgsf
     - libopenraw
     - freetype2
     - gst-libav
@@ -102,23 +104,23 @@
     - intel-ucode
     - amd-ucode
     - os-prober
-    - grub-tools
     - wget
     - bash-completion
     - lsb-release
     - s-tui
     - tlp
-    - yad-eos
     - reflector
-    - endeavouros-theming
-    - reflector-simple
-    - welcome
-    - eos-update-notifier
-    - eos-hooks
-    - eos-rankmirrors
-    - mkinitcpio-openswap    
-    - eos-log-tool
-    - keyserver-rank
+    - cachyos-grub-meta
+    - cachyos-emerald-kde-git
+    - cachyos-nord-kde-git
+    - cachyos-settings
+    - cachy-browser
+    - libpamac-aur
+    - pamac-aur
+    - cachyos-mirrorlist
+    - cachyos-v3-mirrorlist
+    - cachyos-keyring
+    - mkinitcpio-openswap
     - inxi
     - tldr
 - name: "XFCE4-Desktop"
@@ -132,18 +134,18 @@
     - parole
     - ristretto
     - thunar-archive-plugin
-    - thunar-media-tags-plugin		
-    - xfce4-battery-plugin	
-    - xfce4-datetime-plugin		
-    - xfce4-mount-plugin	
-    - xfce4-netload-plugin	
-    - xfce4-notifyd	
+    - thunar-media-tags-plugin
+    - xfce4-battery-plugin
+    - xfce4-datetime-plugin
+    - xfce4-mount-plugin
+    - xfce4-netload-plugin
+    - xfce4-notifyd
     - xfce4-pulseaudio-plugin
     - xfce4-screensaver
     - xfce4-screenshooter
     - xfce4-taskmanager
-    - xfce4-wavelan-plugin	
-    - xfce4-weather-plugin	
+    - xfce4-wavelan-plugin
+    - xfce4-weather-plugin
     - xfce4-whiskermenu-plugin
     - xfce4-xkb-plugin
     - file-roller
@@ -176,7 +178,7 @@
   packages:
     - plasma
     - kdeconnect
-    - dbus-python   
+    - dbus-python
     - kde-system-meta
     - kde-utilities-meta
     - kio-fuse
@@ -190,245 +192,24 @@
     - elisa
     - print-manager
     - kdiff3
-- name: "GNOME-Desktop"
-  description: "GNOME Desktop - designed to put you in control and get things done. "
-  hidden: false
-  selected: false
-  critical: false
-  packages:
-    - gnome
-    - gnome-tweaks
-    - nautilus-sendto
-    - gnome-nettool
-    - gnome-usage
-    - gnome-multi-writer
-    - adwaita-icon-theme
-    - xdg-user-dirs-gtk
-    - arc-gtk-theme-eos
-    - arc-x-icons-theme
-    - gvfs
-    - gvfs-mtp
-    - gvfs-afc
-    - gvfs-goa
-    - gvfs-google
-    - gvfs-gphoto2
-    - gvfs-nfs
-    - gvfs-smb
-    - diffuse
-- name: "i3 Window Manager"
-  description: "i3 tiling window manager, primarily targeted at developers and advanced users. "
-  hidden: false
-  selected: false
-  critical: false
-  packages:
-    - i3-gaps
-    - i3blocks
-    - i3lock
-    - i3status
-    - network-manager-applet
-    - arandr
-    - archlinux-xdg-menu
-    - lxappearance-gtk3
-    - otf-font-awesome
-    - dmenu
-    - polkit-gnome
-    - xdg-user-dirs-gtk
-    - thunar
-    - thunar-archive-plugin
-    - thunar-volman
-    - file-roller
-    - tumbler
-    - gvfs
-    - gvfs-mtp
-    - gvfs-afc
-    - gvfs-goa
-    - gvfs-google
-    - gvfs-gphoto2
-    - gvfs-nfs
-    - gvfs-smb
-    - xfce4-terminal
-    - endeavouros-xfce4-terminal-colors
-    - lightdm
-    - lightdm-gtk-greeter
-    - lightdm-gtk-greeter-settings
-    - acpi
-    - sysstat
-    - nitrogen
-    - bluez-utils
-    - rofi
-    - xbindkeys
-    - pulseaudio
-    - paprefs
-    - pavucontrol
-    - scrot
-    - xorg-xdpyinfo
-    - dex
-    - picom
-    - xed
-    - jq
-    - feh
-    - dunst
-    - arc-gtk-theme-eos
-    - arc-x-icons-theme
-    - capitaine-cursors
-    - galculator
-    - celluloid
-    - gtk-engine-murrine
-    - numlockx
-    - meld
-- name: "MATE-Desktop"
-  description: "MATE Desktop - the continuation of GNOME 2"
-  hidden: false
-  selected: false
-  critical: false
-  packages:
-    - mate
-    - mate-extra
-    - celluloid
-    - network-manager-applet
-    - xdg-user-dirs-gtk
-    - lightdm
-    - lightdm-gtk-greeter
-    - lightdm-gtk-greeter-settings
-    - arc-gtk-theme-eos
-    - arc-x-icons-theme
-    - gvfs
-    - gvfs-mtp
-    - gvfs-afc
-    - gvfs-goa
-    - gvfs-google
-    - gvfs-gphoto2
-    - gvfs-nfs
-    - gvfs-smb
-    - meld
-- name: "Cinnamon-Desktop"
-  description: "Cinnamon Desktop - advanced innovative features and a traditional user experience."
-  hidden: false
-  selected: false
-  critical: false
-  packages:
-    - cinnamon
-    - blueberry
-    - cinnamon-translations
-    - gnome-terminal
-    - gnome-system-monitor
-    - gpicview
-    - celluloid
-    - x-apps
-    - file-roller
-    - lightdm
-    - lightdm-gtk-greeter
-    - lightdm-gtk-greeter-settings
-    - nemo-fileroller 	
-    - nemo-image-converter
-    - nemo-preview	
-    - nemo-share
-    - gvfs
-    - gvfs-mtp
-    - gvfs-afc
-    - gvfs-goa
-    - gvfs-google
-    - gvfs-gphoto2
-    - gvfs-nfs
-    - gvfs-smb
-    - gnome-screenshot
-    - gnome-calculator
-    - xdg-user-dirs-gtk
-    - arc-gtk-theme-eos
-    - arc-x-icons-theme
-    - meld
-- name: "Budgie-Desktop"
-  description: "Budgie - I Tawt I Taw A Purdy Desktop"
-  hidden: false
-  selected: false
-  critical: false
-  packages:
-    - budgie-desktop
-    - gnome
-    - budgie-screensaver
-    - budgie-desktop-view
-    - lightdm
-    - lightdm-gtk-greeter
-    - lightdm-gtk-greeter-settings
-    - network-manager-applet
-    - xdg-user-dirs-gtk
-    - arc-gtk-theme-eos
-    - arc-x-icons-theme
-    - gvfs
-    - gvfs-mtp
-    - gvfs-afc
-    - gvfs-goa
-    - gvfs-google
-    - gvfs-gphoto2
-    - gvfs-nfs
-    - gvfs-smb
-    - meld
-- name: "LXQT-Desktop"
-  description: "The Lightweight Qt Desktop Environment."
-  hidden: false
-  selected: false
-  critical: false
-  packages:
-    - lxqt
-    - xdg-utils
-    - sddm
-    - libpulse
-    - libstatgrab
-    - libsysstat
-    - lm_sensors
-    - network-manager-applet
-    - oxygen-icons
-    - breeze
-    - breeze-gtk
-    - featherpad
-    - pavucontrol-qt
-    - xscreensaver
-    - print-manager
-    - smplayer
-    - gvfs
-    - gvfs-mtp
-    - lxqt-archiver
-    - qt5-translations
-    - kio-fuse
-    - kio-gdrive
-    - audiocd-kio
-    - kdiff3
+    - cachyos-gaming-meta
 - name: "Printing-Support"
   description: "Support for printing (Cups)"
   hidden: false
   selected: false
   critical: false
   packages:
-    - cups 
-    - cups-filters 
-    - cups-pdf 
-    - ghostscript 
-    - gsfonts 
+    - cups
+    - cups-filters
+    - cups-pdf
+    - ghostscript
+    - gsfonts
     - foomatic-db-engine
-    - foomatic-db 
-    - foomatic-db-ppds 
-    - foomatic-db-nonfree 
-    - foomatic-db-nonfree-ppds 
-    - gutenprint 
+    - foomatic-db
+    - foomatic-db-ppds
+    - foomatic-db-nonfree
+    - foomatic-db-nonfree-ppds
+    - gutenprint
     - foomatic-db-gutenprint-ppds
     - splix
     - system-config-printer
-- name: "Support for HP Printer/Scanner"
-  description: "Extra Packages for HP Printer/Scanner"
-  hidden: false
-  selected: false
-  critical: false
-  packages:
-    - hplip
-    - python-pyqt5
-    - python-reportlab
-    - xsane
-- name: "Accessibility Tools"
-  description: "Screen reader and mouse tweaks (impaired vision)"
-  hidden: false
-  selected: false
-  critical: false
-  packages:
-    - orca
-    - mousetweaks
-    - espeak-ng
