@@ -1,6 +1,6 @@
 #!/bin/bash
 
-# Arch mirror ranking for the liveuser on the ISO.
+# Arch mirror ranking for the cachyos on the ISO.
 #
 # Note: for using option --timiming, package 'time' is required.
 

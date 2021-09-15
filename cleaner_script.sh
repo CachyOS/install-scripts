@@ -34,7 +34,7 @@ arch_chroot(){
 
 cp -rf /etc/skel/.bashrc /tmp/$chroot_path/home/$NEW_USER/.bashrc
 cp -rf /etc/environment /tmp/$chroot_path/etc/environment
-#cp -rf /home/liveuser/.gnupg/gpg.conf /tmp/$chroot_path/etc/pacman.d/gnupg/gpg.conf
+#cp -rf /home/cachyos/.gnupg/gpg.conf /tmp/$chroot_path/etc/pacman.d/gnupg/gpg.conf
 
 _copy_files(){
     local config_file
@@ -78,12 +78,12 @@ _copy_files(){
         return
     fi
 
-    # /home/liveuser/setup.url contains the URL to personal setup.sh
+    # /home/cachyos/setup.url contains the URL to personal setup.sh
 
-    if [ -r /home/liveuser/setup.url ] ; then
-        local URL="$(cat /home/liveuser/setup.url)"
-        if (wget -q -O /home/liveuser/setup.sh "$URL") ; then
-            cp /home/liveuser/setup.sh /tmp/$chroot_path/tmp/   # into /tmp/setup.sh of chrooted
+    if [ -r /home/cachyos/setup.url ] ; then
+        local URL="$(cat /home/cachyos/setup.url)"
+        if (wget -q -O /home/cachyos/setup.sh "$URL") ; then
+            cp /home/cachyos/setup.sh /tmp/$chroot_path/tmp/   # into /tmp/setup.sh of chrooted
         fi
     fi
 
