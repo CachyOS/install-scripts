@@ -7,9 +7,12 @@
     - base-devel
     - paru-bin
     - yay-bin
+    - linux
     - linux-headers
     - linux-cacule
     - linux-cacule-headers
+    - linux-cacule-rdb
+    - linnux-cacule-rdb-headers
     - linux-firmware
     - pacman-contrib
     - xf86-video-vesa
@@ -28,7 +31,6 @@
     - accountsservice
     - smartmontools
     - libwnck3
-    - fish
     - zsh
     - b43-fwcutter
     - broadcom-wl-dkms
@@ -59,6 +61,7 @@
     - linux-atm
     - ndisc6
     - ppp
+    - libglvnd
     - pptpclient
     - vpnc
     - xl2tpd
@@ -74,16 +77,13 @@
     - ttf-bitstream-vera
     - cantarell-fonts
     - noto-fonts
-    - adobe-source-han-sans-jp-fonts
-    - adobe-source-han-sans-kr-fonts
-    - adobe-source-han-sans-cn-fonts
     - opendesktop-fonts
     - ttf-opensans
     - alsa-utils
     - alsa-plugins
     - alsa-firmware
-    - glances
     - neofetch
+    - fastfetch-git
     - pulseaudio
     - pavucontrol
     - paprefs
@@ -110,11 +110,10 @@
     - s-tui
     - tlp
     - reflector
-    - cachyos-grub-meta
-    - cachyos-emerald-kde-git
-    - cachyos-nord-kde-git
     - cachyos-settings
-    - cachy-browser
+    - cachyos-browser
+    - cachyos-fish-config
+    - grub-hook
     - libpamac-aur
     - pamac-aur
     - cachyos-mirrorlist
@@ -123,93 +122,103 @@
     - mkinitcpio-openswap
     - inxi
     - tldr
-- name: "XFCE4-Desktop"
-  description: "XFCE4 - lightweight desktop fast and low on system resources, visually appealing and user friendly."
+- name: "KDE-Minimal"
+  description: "KDE-Plasma Desktop - Simple by default, powerful when needed. Minimal Version"
   hidden: false
-  selected: false
+  selected: true
   critical: false
   packages:
-    - xfce4
-    - mousepad
-    - parole
-    - ristretto
-    - thunar-archive-plugin
-    - thunar-media-tags-plugin
-    - xfce4-battery-plugin
-    - xfce4-datetime-plugin
-    - xfce4-mount-plugin
-    - xfce4-netload-plugin
-    - xfce4-notifyd
-    - xfce4-pulseaudio-plugin
-    - xfce4-screensaver
-    - xfce4-screenshooter
-    - xfce4-taskmanager
-    - xfce4-wavelan-plugin
-    - xfce4-weather-plugin
-    - xfce4-whiskermenu-plugin
-    - xfce4-xkb-plugin
-    - file-roller
-    - gvfs
-    - gvfs-mtp
-    - gvfs-afc
-    - gvfs-goa
-    - gvfs-google
-    - gvfs-gphoto2
-    - gvfs-nfs
-    - gvfs-smb
-    - network-manager-applet
-    - xed
-    - galculator
-    - blueberry
-    - lightdm
-    - lightdm-gtk-greeter
-    - lightdm-gtk-greeter-settings
-    - arc-gtk-theme-eos
-    - arc-x-icons-theme
-    - capitaine-cursors
-    - endeavouros-xfce4-terminal-colors
-    - xdg-user-dirs-gtk
-    - meld
-- name: "KDE-Desktop"
-  description: "KDE-Plasma Desktop - Simple by default, powerful when needed."
-  hidden: false
-  selected: false
-  critical: false
-  packages:
-    - plasma
-    - kdeconnect
-    - dbus-python
-    - kde-system-meta
-    - kde-utilities-meta
-    - kio-fuse
-    - kio-gdrive
-    - audiocd-kio
-    - gwenview
+    - plasma-desktop
+    - plasma-framework
+    - plasma-workspace
+    - plasma-nm
+    - plasma-pa
+    - konsole
+    - kate
+    - dolphin
+    - ksysguard
     - ark
-    - okular
+    - btop
     - spectacle
-    - dragon
-    - elisa
-    - print-manager
-    - kdiff3
-    - cachyos-gaming-meta
-- name: "Printing-Support"
-  description: "Support for printing (Cups)"
+    - kwin
+    - cachyos-emerald-kde-git
+    - cachyos-nord-kde-git
+    - sddm
+    - sddm-kcm
+    - char-white
+    - kwayland-integration
+    - plasma-wayland-protocols
+    - plasma-wayland-session
+    - kinfocenter
+    - powerdevil
+    - bluedevil
+    - kdeplasma-addons
+    - egl-wayland
+- name: "KDE-Meta"
+  description: "KDE-Plasma META Desktop - Simple by default, powerful when needed. All KDE-Packages"
   hidden: false
   selected: false
   critical: false
   packages:
-    - cups
-    - cups-filters
-    - cups-pdf
-    - ghostscript
-    - gsfonts
-    - foomatic-db-engine
-    - foomatic-db
-    - foomatic-db-ppds
-    - foomatic-db-nonfree
-    - foomatic-db-nonfree-ppds
-    - gutenprint
-    - foomatic-db-gutenprint-ppds
-    - splix
-    - system-config-printer
+    - plasma-meta
+- name: "miscellaneous packages"
+  description: "Some extra packages"
+  hidden: false
+  selected: false
+  critical: false
+  packages:
+    - ungoogled-chromium
+    - waterfox-g3-kpe
+    - vscodium-git
+    - pipewire-full-git-meta
+    - openrgb
+    - pacman-cleanup-hook
+    - lightcord-git
+    - kotatogram-desktop-bin
+    - telegram-desktop
+    - nvm
+    - apple-music-electron-git
+    - corectrl
+    - aria2-fast
+    - gitahead
+    - flameshot-git
+- name: "CachyOS Gaming Meta"
+  description: "The meta package includes all needed packages for gaming"
+  hidden: false
+  selected: false
+  critical: false
+  packages:
+    - cachyos-gaming-meta
+    - proton-ge-custom
+    - wine-ge-custom
+    - proton-tkg-git
+    - wine-tkg-git
+    - bottles
+ - name: "NVIDIA DKMS PERFORMANCE Driver"
+  description: "You can choose between nvidia-dkms-performance which got some patches and improvements"
+  hidden: false
+  selected: false
+  critical: false
+  packages:
+    - nvidia-dkms-performance
+    - nvidia-settings-performance
+    - nvidia-utils-performance
+    - lib32-nvidia-utils-performance
+    - lib32-opencl-nvidia-performance
+    - opencl-nvidia-performance
+ - name: "NVIDIA arch driver Driver"
+  description: "You can choose between nvidia-dkms-performance which got some patches and improvements"
+  hidden: false
+  selected: false
+  critical: false
+  packages:
+    - nvidia-dkms
+    - nvidia-settings
+    - nvidia-utils
+    - lib32-nvidia-utils
+    - lib32-opencl-nvidia
+    - opencl-nvidia
+    - nvidia-prime
+    - bumblebee
+    - nvtop
+
