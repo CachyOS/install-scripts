@@ -111,7 +111,7 @@
     - tlp
     - reflector
     - cachyos-settings
-    - cachyos-browser
+    - cachy-browser
     - cachyos-fish-config
     - grub-hook
     - libpamac-aur
