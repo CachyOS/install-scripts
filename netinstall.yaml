@@ -194,7 +194,7 @@
     - proton-tkg-git
     - wine-tkg-git
     - bottles
- - name: "NVIDIA DKMS PERFORMANCE Driver"
+- name: "NVIDIA DKMS PERFORMANCE Driver"
   description: "You can choose between nvidia-dkms-performance which got some patches and improvements"
   hidden: false
   selected: false
@@ -206,7 +206,7 @@
     - lib32-nvidia-utils-performance
     - lib32-opencl-nvidia-performance
     - opencl-nvidia-performance
- - name: "NVIDIA arch driver Driver"
+- name: "NVIDIA arch driver Driver"
   description: "You can choose between nvidia-dkms-performance which got some patches and improvements"
   hidden: false
   selected: false
@@ -221,4 +221,3 @@
     - nvidia-prime
     - bumblebee
     - nvtop
-
