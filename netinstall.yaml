@@ -1,18 +1,18 @@
-- name: "Base-devel + Common packages"
+- name:        "Base-devel + Common packages"
   description: "Recommended. Don't change unless you know what you're doing. Base-devel group and some other commom utilities (generic)"
-  hidden: false
-  selected: true
-  critical: false
+  hidden:      false
+  selected:    true
+  critical:    false
   packages:
     - base-devel
     - paru-bin
     - yay-bin
     - linux
     - linux-headers
-    - linux-cacule
-    - linux-cacule-headers
-    - linux-cacule-rdb
-    - linnux-cacule-rdb-headers
+    - linux-cachyos
+    - linux-cachyos-headers
+    - linux-cachyos-cacule
+    - linux-cachyos-cacule-headers
     - linux-firmware
     - pacman-contrib
     - xf86-video-vesa
@@ -31,7 +31,6 @@
     - accountsservice
     - smartmontools
     - libwnck3
-    - zsh
     - b43-fwcutter
     - broadcom-wl-dkms
     - r8168
@@ -122,17 +121,13 @@
     - mkinitcpio-openswap
     - inxi
     - tldr
-- name: "KDE-Minimal"
+- name:        "KDE-Recommended"
   description: "KDE-Plasma Desktop - Simple by default, powerful when needed. Minimal Version"
-  hidden: false
-  selected: true
-  critical: false
+  hidden:      false
+  selected:    true
+  critical:    false
   packages:
-    - plasma-desktop
-    - plasma-framework
-    - plasma-workspace
-    - plasma-nm
-    - plasma-pa
+    - plasma
     - konsole
     - kate
     - dolphin
@@ -140,7 +135,6 @@
     - ark
     - btop
     - spectacle
-    - kwin
     - cachyos-emerald-kde-git
     - cachyos-nord-kde-git
     - sddm
@@ -154,63 +148,63 @@
     - bluedevil
     - kdeplasma-addons
     - egl-wayland
-- name: "KDE-Meta"
+- name:        "KDE-Meta"
   description: "KDE-Plasma META Desktop - Simple by default, powerful when needed. All KDE-Packages"
-  hidden: false
-  selected: false
-  critical: false
+  hidden:      false
+  selected:    false
+  critical:    false
   packages:
     - plasma-meta
-- name: "miscellaneous packages"
+- name:        "miscellaneous packages"
   description: "Some extra packages"
-  hidden: false
-  selected: false
-  critical: false
+  hidden:      false
+  selected:    false
+  critical:    false
   packages:
     - ungoogled-chromium
     - waterfox-g3-kpe
-    - vscodium-git
-    - pipewire-full-git-meta
     - openrgb
     - pacman-cleanup-hook
-    - lightcord-git
     - kotatogram-desktop-bin
     - telegram-desktop
-    - nvm
     - apple-music-electron-git
     - corectrl
-    - aria2-fast
-    - gitahead
-    - flameshot-git
-- name: "CachyOS Gaming Meta"
+    - flameshot
+- name:        "CachyOS Gaming Meta"
   description: "The meta package includes all needed packages for gaming"
-  hidden: false
-  selected: false
-  critical: false
+  hidden:      false
+  selected:    false
+  critical:    false
   packages:
     - cachyos-gaming-meta
     - proton-ge-custom
-    - wine-ge-custom
+    - proton
+    - proton-experimental
     - proton-tkg-git
-    - wine-tkg-git
     - bottles
-- name: "NVIDIA DKMS PERFORMANCE Driver"
+- name:        "NVIDIA DKMS PERFORMANCE Driver"
   description: "You can choose between nvidia-dkms-performance which got some patches and improvements"
-  hidden: false
-  selected: false
-  critical: false
+  hidden:      false
+  selected:    false
+  critical:    false
   packages:
     - nvidia-dkms-performance
-    - nvidia-settings-performance
-    - nvidia-utils-performance
-    - lib32-nvidia-utils-performance
-    - lib32-opencl-nvidia-performance
-    - opencl-nvidia-performance
-- name: "NVIDIA arch driver Driver"
+- name:        "NVIDIA DKMS PERFORMANCE Driver Clang for llvm compiled kernels"
+  description: "You can choose between nvidia-dkms-performance which got some patches and improvements forcing to use clang for dkms modules"
+  hidden:      false
+  selected:    false
+  critical:    false
+  packages:
+    - nvidia-dkms-performance-clang
+    - linux-cachyos-lto
+    - linux-cachyos-lto-headers
+    - linux-cachyos-cacule-lto
+    - linux-cachyos-cacule-lto-headers
+- name:        "NVIDIA arch driver Driver"
   description: "You can choose between nvidia-dkms-performance which got some patches and improvements"
-  hidden: false
-  selected: false
-  critical: false
+  hidden:      false
+  selected:    false
+  critical:    false
   packages:
     - nvidia-dkms
     - nvidia-settings
