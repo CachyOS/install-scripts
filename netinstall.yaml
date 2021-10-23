@@ -279,8 +279,8 @@
     - plasma-wayland-protocols
     - plasma-wayland-session
     - kinfocenter
-    - cachyos-emerald-kde-git
-    - cachyos-nord-kde-git
+    - cachyos-emerald-kde-theme-git
+    - cachyos-nord-kde-theme-git
     - ark
     - audiocd-kio
     - breeze-gtk
