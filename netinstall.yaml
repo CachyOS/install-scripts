@@ -142,14 +142,14 @@
         description: "Audio handling tools apps and libs"
         selected: true
         packages:
-          - alsa-firmware
-          - alsa-plugins
-          - alsa-utils
-          - paprefs
-          - pavucontrol
-          - pulseaudio
-          - pulseaudio-alsa
-          - pulseaudio-jack
+          - pipewire-media-session
+          - pipewire
+          - pipewire-alsa
+          - pipewire-jack
+          - pipewire-pulse
+          - pipewire-zeroconf
+          - gst-plugin-pipewire
+          - easyeffects
       - name: "hardware"
         description: "Hardware support libs and firmware"
         selected: true
