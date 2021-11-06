@@ -220,7 +220,7 @@
   packages:
     - nvidia
     - nvidia-utils
-    - libb32-nvidia-utils
+    - lib32-nvidia-utils
     - nvidia-dkms
     - nvidia-settings
     - lib32-opencl-nvidia
